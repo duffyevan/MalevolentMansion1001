@@ -238,7 +238,7 @@ label talkToHarold(attacking):
                 h "M-My name is H-H-Harold. I-I am a historian from a-around here and I had h-heard some legends about this p-place."
                 h "B-but I've seen such h-horrible things here! I-I will go n-no further"
             "How do I escape?":
-                h "One of the l-legends I heard about t-this place told of a tunnel."
+                h "One of the l-legends I heard about t-this place told of a tunnel and a r-riddle."
                 h "I-If you can find it and s-solve the puzzle then you mi-might escape."
             "Do you know anything about other people in the mansion?" if metAvidem or metPhoebe or metArchie:
                 h "Y-yeah, I know Avidem, B-Basiltine, a-a-and Phoebe" 
@@ -246,9 +246,15 @@ label talkToHarold(attacking):
                 menu:
                     "Avidem" if metAvidem:
                         h "Hmm, the lady seems n-nice, but awfully c-calm."
+<<<<<<< HEAD
                     "Basiltine" if metArchie:
                         h "That man is a few cards short of a deck. I-I'd be careful around h-him."
                     "Phoebe" if metPhoebe:
+=======
+                    "Basiltine":
+                        h "That man is a few cards short of a d-deck. I-I'd be careful around h-him."
+                    "Phoebe":
+>>>>>>> origin/master
                         h "That young w-woman didn't h-have much to say to m-me. She just muttered about s-secrets."
     else:
         h "AHG MONSTER!"
@@ -264,17 +270,17 @@ label talkToAvidem(attacking):
             a "Hm? Ah hello, who are you? Do you need any advice?"
             $metAvidem = True
         else:
-            a "Hello again %(playerName)s, do you need any advice?"
+            a "Hello again %(playerName)s, what would you like advice on now?"
         menu:
             "Who are you?":
                 a "I'm Avidem"
                 a "I'm trapped in this place like many of it's occupants."
-                a "I was driving past one night when my car broke down and I was forced to take shelter here."
+                a "I was driving past one night when my vehicle broke down and I was forced to take shelter here."
                 a "It seems like I've been here forever..."
             "How do I get out of here?":
                 if PlainKey1 not in bag:
-                    a "I've heard of an escape route, but its a precious secret of mine. I'd tell you but you'd have to fetch me something even more valuable."
-                    a "I hid it away long ago to keep it safe, but now I year for it..."
+                    a "I've heard of an escape route, but its a precious secret of mine. If I tell you, you'll have to fetch me something even more valuable."
+                    a "I hid it away long ago to keep it safe, but now I yearn for it..."
                     a "Retrieve it and I'll tell you the secret. You'll need this to find it"
                     $bag.items.append(PlainKey1)
                     $lastPickup = PlainKey1
@@ -286,6 +292,7 @@ label talkToAvidem(attacking):
                             b "Really?"
                             call giveAvidemTheGem()
                         "No":
+<<<<<<< HEAD
                             b "Well hurry up and find it. I really need it"
             "Do you know anything about other people in the mansion?" if metHarold or metPhoebe or metArchie:
                 menu:
@@ -295,11 +302,14 @@ label talkToAvidem(attacking):
                         h "HEY JACK WRITE WHAT AVIDEM SAYS ABOUT ARCHIE HERE!"
                     "Phoebe" if metPhoebe:
                         h "HEY JACK WRITE WHAT AVIDEM SAYS ABOUT PHOEBE HERE!"
+=======
+                            b "Well hurry up and find it. I really need it back soon."
+>>>>>>> origin/master
 
 
     else:
         a "Fool, you would attack the master of this house?"
-        a "BE GONE!"
+        a "BEGONE!"
         #push out of room
         call updateSanity(-50)
         #orangeRoom.items.append(PlainKey1)
@@ -313,12 +323,12 @@ label giveAvidemTheGem():
                 "Ok":
                     $bag.items.remove(Gem)
                     a "Ah, my beauty! It's been much too long, my power has waned so. Courier, you may leave."
-                    a "For your service, if you aren't still sane..."
+                    a "For your service, if you are still sane..."
                     call updateSanity(-50)
                     "%(playerName)s's sanity fell by 50" #IDK 50 is a lot, we might want to lower this
                     #kicks out of the room
                     #door locks
-                "No Way!":
+                "No":
                     a "WHAT, HOW DARE YOU DEFY ME! Give me that gem!!!"
                     jump back
     else:

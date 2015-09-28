@@ -246,15 +246,9 @@ label talkToHarold(attacking):
                 menu:
                     "Avidem" if metAvidem:
                         h "Hmm, the lady seems n-nice, but awfully c-calm."
-<<<<<<< HEAD
                     "Basiltine" if metArchie:
-                        h "That man is a few cards short of a deck. I-I'd be careful around h-him."
-                    "Phoebe" if metPhoebe:
-=======
-                    "Basiltine":
                         h "That man is a few cards short of a d-deck. I-I'd be careful around h-him."
-                    "Phoebe":
->>>>>>> origin/master
+                    "Phoebe" if metPhoebe:
                         h "That young w-woman didn't h-have much to say to m-me. She just muttered about s-secrets."
     else:
         h "AHG MONSTER!"
@@ -292,8 +286,7 @@ label talkToAvidem(attacking):
                             b "Really?"
                             call giveAvidemTheGem()
                         "No":
-<<<<<<< HEAD
-                            b "Well hurry up and find it. I really need it"
+                            b "Well hurry up and find it. I really need it back soon."
             "Do you know anything about other people in the mansion?" if metHarold or metPhoebe or metArchie:
                 menu:
                     "Harold" if metHarold:
@@ -302,9 +295,6 @@ label talkToAvidem(attacking):
                         h "HEY JACK WRITE WHAT AVIDEM SAYS ABOUT ARCHIE HERE!"
                     "Phoebe" if metPhoebe:
                         h "HEY JACK WRITE WHAT AVIDEM SAYS ABOUT PHOEBE HERE!"
-=======
-                            b "Well hurry up and find it. I really need it back soon."
->>>>>>> origin/master
 
 
     else:

@@ -222,7 +222,7 @@ label goInsane:
     return
 
 label die:
-    "You've run out of medical supplies, and met you demise. Game Over."
+    "You've run out of medical supplies, and met your demise. Game Over."
     jump choice_end_game
     return
 
@@ -240,22 +240,22 @@ label talkToHarold(attacking):
             "How do I escape?":
                 h "One of the l-legends I heard about t-this place told of a tunnel."
                 h "I-If you can find it and s-solve the puzzle then you mi-might escape."
-            "Do you know anything about other people in the mansion?":
+            "Do you know anything about other people in the mansion?" if metAvidem or metPhoebe or metArchie:
                 h "Y-yeah, I know Avidem, B-Basiltine, a-a-and Phoebe" 
                 h "W-who do you w-want to h-hear about?"
                 menu:
-                    "Avidem":
+                    "Avidem" if metAvidem:
                         h "Hmm, the lady seems n-nice, but awfully c-calm."
-                    "Basiltine":
+                    "Basiltine" if metArchie:
                         h "That man is a few cards short of a deck. I-I'd be careful around h-him."
-                    "Phoebe":
+                    "Phoebe" if metPhoebe:
                         h "That young w-woman didn't h-have much to say to m-me. She just muttered about s-secrets."
     else:
         h "AHG MONSTER!"
         "Harold takes out a revolver from the pile of laundry and starts shooting"
-        "One of the bullets pierces your lung and you die..."                
-        "LUCKILY you have your first aid kit! Now you're alive again but you had to use some of your supplies"
+        "One of the bullets pierces your lung and you die..."    
         call updateLives(1)
+        "LUCKILY you have your first aid kit! Now you're alive again but you had to use some of your supplies"
     return
 
 label talkToAvidem(attacking):
@@ -287,6 +287,14 @@ label talkToAvidem(attacking):
                             call giveAvidemTheGem()
                         "No":
                             b "Well hurry up and find it. I really need it"
+            "Do you know anything about other people in the mansion?" if metHarold or metPhoebe or metArchie:
+                menu:
+                    "Harold" if metHarold:
+                        h "HEY JACK WRITE WHAT AVIDEM SAYS ABOUT HAROLD HERE!"
+                    "Basiltine" if metArchie:
+                        h "HEY JACK WRITE WHAT AVIDEM SAYS ABOUT ARCHIE HERE!"
+                    "Phoebe" if metPhoebe:
+                        h "HEY JACK WRITE WHAT AVIDEM SAYS ABOUT PHOEBE HERE!"
 
 
     else:
@@ -336,15 +344,15 @@ label talkToPhoebe(attacking):
             "How do I get out of here?":
                 p "If the storm is banished, escape is possible... Phoebe knows of a balcony exit"
                 p "Too dangerous in the storm..."
-            "Do you know anything about other people in the mansion?":
+            "Do you know anything about other people in the mansion?" if metArchie or metAvidem or metHarold:
                 p "Sure, Phoebe knows about Avidem, Basiltine, and Harold" 
                 p "Who would you like Phoebe to tell you about?"
                 menu:
-                    "Avidem":
+                    "Avidem" if metAvidem:
                         p "Unnerving, calm in the storm"
-                    "Basiltine":
+                    "Basiltine" if metArchie:
                         p "Funny man, lives in his own world. Phoebe wonders if hes foolish or fortunate..."
-                    "Harold":
+                    "Harold" if metHarold:
                         p "Does he hide from the world, or hide something from the world"
 
     else:
@@ -381,8 +389,14 @@ label talkToBasiltine:
                             jump giveBasiltineCrown
                         "No":
                             b "Well hurry up and find it. The emperor grows impatient!"
-
-            #Ask Some shit ill do this later lel
+            "Do you know anything about other people in the mansion?" if metHarold or metPhoebe or metAvidem:
+                menu:
+                    "Harold" if metHarold:
+                        h "HEY JACK WRITE WHAT ARCHIE SAYS ABOUT HAROLD HERE!"
+                    "Avidem" if metAvidem:
+                        h "HEY JACK WRITE WHAT ARCHIE SAYS ABOUT AVIDEM HERE!"
+                    "Phoebe" if metPhoebe:
+                        h "HEY JACK WRITE WHAT ARCHIE SAYS ABOUT PHOEBE HERE!"
 
     else:
         b "Who dares assault them emperor?!"

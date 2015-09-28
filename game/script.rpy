@@ -1,3 +1,4 @@
+HI EVAN!!!!!!!
 ﻿# You can place the script of your game in this file.
 # Declare characters used by this game.
 #get rid of menu options??? after weapon pickup, event happens, objective complete, enemy is killed, etc.

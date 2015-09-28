@@ -32,7 +32,7 @@ label start:
     play music "Private Reflection.mp3" fadein 1.0 loop
     scene road
     with fade
-    n "You're driving down the road in your old beat up Chevy. it's raining pretty heavily and you don't recognize your surroudings."
+    n "You're driving down the road in your old beat up Chevy. It's raining pretty heavily and you don't recognize your surroudings."
     
     stop sound fadeout 1.0
     play sound "tree_fall.mp3" fadeout 1.0 

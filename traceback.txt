@@ -1,0 +1,27 @@
+﻿I'm sorry, but an uncaught exception occurred.
+
+While running game code:
+  File "game/script.rpy", line 686, in script
+    jump search_locker
+  File "game/script.rpy", line 689, in <module>
+    "Search the table" if Flask not in bag:
+NameError: name 'BasementKey' is not defined
+
+-- Full Traceback ------------------------------------------------------------
+
+Full traceback:
+  File "game/script.rpy", line 686, in script
+    jump search_locker
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\ast.py", line 1428, in execute
+    choice = renpy.exports.menu(choices, self.set)
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\exports.py", line 714, in menu
+    if renpy.python.py_eval(condition) ]
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\python.py", line 1482, in py_eval
+    return eval(py_compile(source, 'eval'), globals, locals)
+  File "game/script.rpy", line 689, in <module>
+    "Search the table" if Flask not in bag:
+NameError: name 'BasementKey' is not defined
+
+Windows-7-6.1.7601-SP1
+Ren'Py 6.99.5.602
+Mansion Test 0.0

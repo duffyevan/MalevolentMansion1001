@@ -1,0 +1,9 @@
+﻿I'm sorry, but errors were detected in your script. Please correct the
+errors listed below, and try again.
+
+
+File "game/script.rpy", line 381: end of line expected.
+    jump giveBasiltineCrown()
+                           ^
+
+Ren'Py Version: Ren'Py 6.99.5.602

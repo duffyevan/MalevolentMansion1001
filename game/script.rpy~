@@ -1,0 +1,624 @@
+﻿# You can place the script of your game in this file.
+# Declare characters used by this game.
+#get rid of menu options??? after weapon pickup, event happens, objective complete, enemy is killed, etc.
+define j = Character('John Doe', color="#c8ffc8")
+define n = Character (' ', color = "#c8ffc8")
+image road = im.Scale("road1.jpg",900,600)
+image car = im.Scale("car2.png",150,80)
+image hallway = im.Scale("hallway2.png",900,600)
+image garage = im.Scale("garage.png",900,600)
+image ballroom = im.Scale("ballroom_reg.jpg",900,600)
+image mainhall = im.Scale("mainhall.png",900,600)
+image mansion = im.Scale("Mansion.jpg",900,600)
+image mechnest = im.Scale("mech-nest-filler.jpg",900,600)
+image Lab = im.Scale("lab-filler.jpg",900,600)
+image Dungeon = im.Scale("dungeon.png",900,600)
+image Library = im.Scale("library.png",900,600)
+image death = im.Scale("death.jpg",900,600)
+image tunnel = im.Scale("tunnel-filler.jpg",900,600)
+
+define diss = Dissolve(1.0)
+
+# The game starts here.
+label start:
+    play sound "rain.mp3" fadeout 1.0 fadein 1.0 loop
+    play music "Private Reflection.mp3" fadein 1.0 loop
+    scene road
+    with fade
+
+    n "You're driving down the road in your old beat up Chevy. it's raining pretty heavily and you don't recognize your surroudings."
+    
+    stop sound fadeout 1.0
+    play sound "tree_fall.mp3" fadeout 1.0 
+    play sound "screech_crash.mp3"
+    show car at Position(xpos=335, ypos=350, xanchor=0, yanchor=0)
+    with diss
+    with hpunch
+    
+    n "Out of nowhere a tree falls into the road causing you to crash."
+    
+    play sound "rain.mp3" fadein 2.0 loop
+    
+    n "It's raining hard and you need to find a place to go. You see a faint glow in the distance."
+    
+    menu: 
+        with dissolve
+        "Go towards the light...":
+            jump choice_start
+        
+        "Stay in the car":
+            jump choice_dead
+        
+            label choice_start:
+                $ menu_flag = True
+                stop sound fadeout 2.0
+                play sound "car_door_close.mp3"
+                hide car
+                hide road
+                play sound "woods_walking.mp3" fadein 1.0
+                show mansion
+                with dissolve
+                stop sound fadeout 2.0
+                play sound "rain.mp3" fadein 2.0 loop
+                
+                n "You see the source of the light, a large mansion at the end of the road."
+                menu:      
+                    with dissolve
+                    "Go to the mansion":
+                        jump choice_tothemansion
+                    
+                        label choice_tothemansion:
+                            $ menu_flag = True
+                            hide mansion
+                            stop sound fadeout 2.0
+                            play sound "door open.mp3" 
+                            show mainhall
+                            with fade
+                            stop sound fadeout 1.0
+                            
+                            stop music
+                            play sound "doorslam.mp3" 
+                            queue sound "evillaugh.mp3" 
+                    
+                            "you have now entered the Malevolent Mansion."
+                            
+                           
+                        
+                            jump entrance_hall
+                 
+                
+                label choice_dead:
+                $ menu_flag = True
+                hide car
+                hide road
+                stop sound 
+                stop music 
+                play sound "car_explosion.mp3"
+                
+                n "You died in a fiery explosion."
+                
+    
+                jump instant_death
+                
+label entrance_hall:
+menu:
+    "Go down the left hall":
+        jump to_garage
+        
+    "Go down the right hall":
+        jump to_basement_door_from_mainhall
+        
+label to_garage:
+    $ menu_flag = True
+    "you're at the garage door."
+    
+    jump garage_door_choices
+    
+label to_basement_door_from_mainhall:
+    $ menu_flag = True
+    "your're at the basement door"
+    
+    jump basement_door_choices
+    
+label garage_door_choices:
+    "You hear heavy breathing from somehwere within the garage..."
+menu:
+    "Keep Going":
+         jump into_the_garage
+   
+    "Turn Back":
+        jump entrance_hall
+        
+label basement_door_choices:
+    "You see a closed door in front of you."
+menu:
+    "Attempt to open the door":
+        jump missing_basement_key
+    
+    "Turn Back":
+                  jump entrance_hall
+    
+label into_the_garage:
+      $ menu_flag = True
+      "You step into the garage and see a crazed husk charging at you."
+      "It tackles you and you attempt to fight back,  but before you can gain control of the situation it hits you over the head with a wrench."
+      hide mainhall
+      with fade
+      show mechnest
+      with fade
+      "Everything fades to black."
+        
+      jump wake_up_basement
+     
+label wake_up_basement:
+     $  menu_flag = True
+     "You wake up in what looks to be some kind of mechanic's nest."
+     "There are wires strewn about and tools scattered on the floor."
+     "The husk that attacked you earlier is sleeping in the corner, there is a work-bench, toolbox and an old chest in the room." #can kill with certain weapon
+     menu:
+         "Attack the husk":
+             jump choice_injured
+         "Search the work-bench":
+             jump search_workbench
+         "Search the toolbox":
+             jump search_toolbox
+         "Search the old chest":
+             jump search_oldchest
+         "Leave the room":
+             jump lab_mainhall
+             
+#when player doesn't have the basement key in their bag (**this is for the first time entering the mansion on the main floor only**)
+label missing_basement_key:
+      $ menu_flag = True
+      "You attempt to open the door but it won't budge, it looks as if you may need a key to get in."  #only way to get to basement thorugh mechanic? (unlocked_basement jump after play has unlocked the door)   
+      jump basement_door_choices
+      #basement_door_unlocked
+      
+#player needs to lose health-pack here   
+label choice_injured:
+    $ menu_flag = True
+    "You have been injured and must retreat."
+  #change this so that the player goes back to the last room before they died or something
+    jump choice_end
+
+#Instant_death call    
+label instant_death:
+    $ menu_flag = True
+    show death
+    "You have died :(" #change this
+    jump choice_end
+
+ #Basement Mechanic's Nest room           
+label to_mech_nest:
+    $ menu_flag = True
+    show mechnest
+    "The husk that attacked you earlier is sleeping in the corner, there is a work-bench, toolbox and an old chest in the room." #can kill with certain weapon
+    menu:
+        "Attack the husk":
+            jump choice_injured #get rid of option if husk is killed
+        "Search the work-bench":
+            jump search_workbench
+        "Search the toolbox":
+            jump search_toolbox
+        "Search the old chest":
+            jump search_oldchest
+        "Leave the room":
+            jump lab_mainhall
+            
+#basement mechanic's nest take_item calls             
+label take_hammer:
+     $ menu_flag = True
+     "You take the hammer and put it in your bag."
+     jump to_mech_nest   
+label take_crowbar:
+     $ menu_flag = True
+     "You take the crowbar and put it in your bag."
+     jump to_mech_nest
+label take_spareparts:
+     $ menu_flag = True
+     "You take the spare parts and put them in your bag."
+     jump to_mech_nest
+     
+#search_locations for mechanic's nest 
+label search_workbench:
+     $ menu_flag = True   
+     "Inside the workbench you see a crowbar."
+     menu:
+         "Take the crowbar":
+             jump take_crowbar
+         "Leave the crowbar":
+             jump to_mech_nest
+             
+label search_toolbox:
+     $ menu_flag = True
+     "Inside the toolbox you see a hammer."
+     menu:
+         "Take the hammer":
+             jump take_hammer
+         "Leave the hammer":
+             jump to_mech_nest
+             
+label search_oldchest:
+     $ menu_flag = True
+     "Inside the old chest you see a bag of spare parts."
+     menu:
+         "Take the spare parts":
+             jump take_spareparts
+         "Leave the spare parts":
+             jump to_mech_nest
+             
+#hall between mechanic's nest and the lab
+label lab_mainhall:
+     $ menu_flag = True
+     hide mechnest
+     show hallway
+     with fade
+     "You've entered the main lab hallway."
+     menu:
+         "Go to the Mechanic's Nest":
+             jump to_mech_nest
+         "Go to the Lab":
+             jump to_Lab
+         "Go to basement landing":
+             jump to_basement
+             
+label to_basement:
+    $ menu_flag = True
+    show hallway
+    with fade
+    "At the bottom of the stairway you see three doorways."
+    menu:
+        "Go to the dungeon":
+            jump to_Dungeon
+        "Go to the library":
+            jump to_Library
+        "Go to the Lab and Mechanic's Nest":
+            jump lab_mainhall
+        "Go upstairs":
+            jump from_basement
+            
+#Basement Lab room
+label to_Lab:
+    hide hallway
+    hide Library
+    hide tunnel
+    show Lab
+    with fade
+    $ menu_flag = True
+    "You're now in the Lab, you see a locker, a desk and table."
+    menu:
+        "Search the locker":
+            jump search_locker
+        "Search the desk":
+            jump search_desk
+        "Search the table":
+            jump search_table
+             
+     
+#basement lab search_locations calls
+label search_locker:
+     $ menu_flag = True
+     "You approach the locker, and open it."
+     "To your suprise, on the other side you see a long cave-like passage."
+     show tunnel
+     with fade
+     hide Lab
+     menu:
+         "Go down the passage":
+             jump secret_pass_to_library
+         "Step away from the locker":
+             jump to_Lab
+             
+label search_desk:
+    "You see a key with the label 'Basement' on it"
+    menu:
+        "Take the key":
+            jump take_basement_key
+        "Leave the key":
+            jump to_Lab
+label search_table:
+    "You see a flask on the table with a mysterious glowing liquid inside."
+    menu:
+        "Chug the liquid":
+            jump instant_death
+        "Take the flask":
+            jump take_flask
+        "Leave the table":
+            jump to_Lab
+       
+#these calls add items to the player's bag
+label take_basement_key:
+     $ menu_flag = True
+     "You put the key into your backpack"
+     jump to_Lab
+label take_flask:
+     $ menu_flag = True
+     "You put the flask of glowing liquid into your backpack."
+     jump to_Lab
+            
+#this goes to the library        
+label secret_pass_to_library:
+     $ menu_flag = True
+     "You walk down the small cavern path and see a light at the end."
+     #maybe add a switch
+     "As you get closer to the light you see an opening at the end of the tunnel."
+     "The opening leads into what looks like a library."
+     menu:
+         "Continue into the library":
+             jump to_Library
+         "Go back to the lab":
+             jump to_Lab
+             
+#add a  way of entry exclusive for secret passage
+#to_Library_pass
+label to_Library:
+    $menu_flag = True
+    hide tunnel
+    hide hallway
+    show Library
+    with fade
+    "You enter the library and see five bookcases."
+    "The shelves  are labeled as follows: 'Mythology', 'Riddles', 'Self-Help', 'Medical' and 'Cooking'."
+    menu:
+        "Examine Mythology":
+            jump mythology_bookcase
+        "Examine Riddles":
+            jump riddles_bookcase
+        "Examine Self-Help":
+            jump selfhelp_bookcase
+        "Examine Medical":
+            jump medical_bookcase
+        "Examine Cooking":
+            jump cooking_bookcase
+            
+#library bookcases            
+label mythology_bookcase:
+     $ menu_flag = True
+     "You see a book with a title that's written in some unrecongnizable cryptic language."
+     menu:
+         "Examine the book":
+             jump read_mythology
+         "Back away from the shelf":
+#have a way to jump straight to the options
+             jump to_Library
+             
+label riddles_bookcase:
+    $ menu_flag = True
+    "You see a page poking out from a book on the shelf."
+    menu:
+        "Examine the book":
+            jump read_riddles
+        "Back away from the shelf":
+#have a way to jump straight to the options
+             jump to_Library
+             
+label selfhelp_bookcase:
+     $ menu_flag = True
+     "You see a book titled 'How to Die'."
+     menu:
+         "Examine the book":
+             jump read_selfhelp
+         "Back away from the shelf":
+#have a way to jump straight to the options
+             jump to_Library
+             
+label medical_bookcase:
+     $ menu_flag = True
+     "You see a book titled 'On Madness and Phobias'."
+     menu:
+         "Examine the book":
+             jump read_medical
+         "Back away from the shelf":
+#have a way to jump straight to the options
+             jump to_Library
+             
+label cooking_bookcase:
+     $ menu_flag = True
+     "You see a book titled '42 Comfort Foods'."
+     menu:
+         "Examine the book":
+             jump read_cooking
+         "Back away from the shelf":
+#have a way to jump straight to the options
+             jump to_Library
+
+#bookcase actions
+label read_mythology:
+    $ menu_flag = True
+    "You pick up the strange book and see that the contents of the book are written in the same cryptic language as the title."
+    "You put the book back into place and back away from the shelf."
+            
+label read_riddles:
+    $ menu_flag = True
+    "You grab the book with the protruding page and attempt to pull it of the shelf."
+    "To your suprise the book rotates about 45 degrees and then locks with a click."
+    "The bookshelf then begins to slide to the left to reveal a secret passage."
+    hide Library
+    show tunnel with fade
+    menu:
+        "Follow the passage.":
+            jump secret_pass_to_lab
+        "Push the book back into place and back away.":
+            jump to_Library#_return
+    
+label read_selfhelp:
+    $ menu_flag = True
+    "You pick up the book and hear a something approching quickly from the hallway."
+    "Before you know it a man in ragged clothing with a crazed look in his eyes bursts into the library weilding a shotgun."
+    "The man locks his gaze onto you and pumps the shotgun."
+    menu:
+        "Dive for cover":
+            jump instant_death #attempt to dive for cover but the crazed man shoots you before you can (self_help_death)
+        "Run for the secret passage":
+            jump  secret_pass_to_lab#_escape (if the player has previously discovered the passage this option should be available)
+        #possibly a shoot first or fight option depending on what weapon(s) the player has
+        #decrese sanity?
+    
+label read_medical:
+    $ menu_flag = True
+    "You pick up the book, and skim over a paragraph that reads:" 
+    " 'Near death experiences can cause great stress and decrease a person's sanity. Eating good food and conversing with other sane individuals, have been proven to help recover sanity...'"
+    "You put the book back into place and step away from the bookcase."
+    jump to_Library
+     
+label read_cooking:
+    $ menu_flag = True
+    "You pick up the book, and flip through all the images of delicious looking foods."
+    "You feel more relaxed and refreshed after viewing the book." # if sanity < 100 +10 sanity, else no change
+    "You put the book back into place and step away from the bookcase."
+
+#this goes to the lab        
+label secret_pass_to_lab:
+     $ menu_flag = True
+     hide Library
+     show tunnel with fade
+     "You walk down the small cavern path and see a light at the end."
+     #maybe add a switch
+     "As you get closer to the light you see an opening at the end of the tunnel."
+     "The opening leads into what looks like a laboratory."
+     menu:
+         "Continue into the lab":
+             jump to_Lab
+         "Go back to the library":
+             jump to_Library
+             
+label to_Dungeon:
+     $ menu_flag = True
+     hide hallway
+     show dungeon
+     with fade
+     "You enter a dark and dank dungeon."
+     menu:
+         "Go into room 1":
+             jump to_dungeon_1
+         "Go into room 2":
+             jump to_dungeon_2
+         "Go into room 3":
+             jump to_dungeon_3
+         "Go into room 4":
+             jump to_dungeon_4
+         "Return to the basement landing":
+             jump to_basement
+         
+label to_dungeon_1:
+     $ menu_flag = True
+     "You walk into the first dungeon cell to see a nest of sniveling and squeaking rats."
+     "As you step into the room all the rats rush by you in a frenzy."
+     "You suffer several minor scratches, but you are severly shaken by the experience."
+     #lose sanity -10
+     jump to_Dungeon
+     
+label to_dungeon_2:
+     $ menu_flag = True
+     "You walk into the second dungeon cell to see a skeleton on the floor."
+     menu:
+         "Examine the skull":
+             jump examine_skull
+         "Examine the ribs":
+             jump examine_ribs
+         "Examine the hands":
+             jump examine_hands
+         "Back out of the cell":
+             jump to_Dungeon
+             
+label examine_skull:
+     $ menu_flag = True
+     "You take a closer look at the skull and notice that it has become merged with the stone floor."
+     "You also notice that there is a strange gaping hole that looks vaugely key-shaped in the center of the skull."
+     jump to_dungeon_2#_options
+     
+label examine_ribs:
+     $ menu_flag = True
+     "You take a closer look at the ribs and notice a pair of eyes peering back at you."
+     "All of a sudden a rat leaps from inside the skeleton and bites your leg."
+     "You manage to shake it off and suffer no serious injuries, but you are shaken by the experience."
+     jump to_dungeon_2#_options
+label examine_hands:
+     $ menu_flag = True
+     "You take a closer look at the hands and notice that they're gripping a piece of bread."
+     menu:
+         "Eat the bread":
+             jump eat_bread_dungeon
+         "Back away from the skeleton":
+             jump to_dungeon_2#_options
+             
+label eat_bread_dungeon:
+     $ menu_flag = True
+     "You take the bread from the skeleton's hands and eat it."
+     "It's a bit dusty and stale but it helps settle your stomach calm your nerves."
+     jump to_dungeon_2#_options
+     #restore sanity +10 if sanity<100, else no change
+     
+label to_dungeon_3:
+     $ menu_flag = True
+     "You enter the third dungeon cell and immidiately stop when you hear the jingling of chains from within the cell."
+     menu:
+         "Investigate the noise":
+             jump chained_husk
+         "Back out of the cell":
+             jump to_Dungeon
+             
+label chained_husk:
+     $ menu_flag = True
+     "You step foward slowly and as you get closer you find the source of the rattling chains."
+     "Someone chained a husk up in this cell and you can see its sillhouette, as it struggles uselessly against the chains."
+     "You feel badly for the creature but you know that whoever it was their mind was lost long ago."
+     "You back out of the cell as the husk continues to struggle to break free."
+     jump to_Dungeon
+     
+label to_dungeon_4:
+     $ menu_flag = True
+     "There is a strange golden light eminating from the fourth cell as you approach it."
+     "As you walk into the cell you see a room filled with treasures of gold and silver."
+     "One particular piece catches your eye."
+     menu:
+         "Take a closer look":
+             jump examine_gold_band
+         "Back out of the room":
+             jump to_Dungeon
+         
+label examine_gold_band:
+     $ menu_flag = True
+     "The piece that caught you eye is a particularly exquisite golden band."
+     menu:
+         "Take the golden band":
+             jump take_golden_band
+         "Leave the golden band":
+             jump to_dungeon_4#_options
+             
+label take_golden_band:
+     $ menu_flag = True
+     "You pick up the golden band and put it into you bag."
+     "You then back out of the fourth dungeon cell."
+     jump to_Dungeon
+     
+label from_basement:
+     $ menu_flag = True
+     "You walk up the stairs towards the first floor."
+     jump basement_door_to_first_floor
+
+     label basement_door_to_first_floor:
+     "You see a closed door in front of you."
+menu:
+    "Attempt to open the door":
+        jump missing_basement_key_to_first_floor
+    
+    "Turn Back":
+                  jump to_basement
+                  
+#when player doesn't have the basement key in their bag   
+label missing_basement_key_to_first_floor:
+      $ menu_flag = True
+      "You attempt to open the door but it won't budge, it looks as if you may need a key to get in."  #only way to get to basement thorugh mechanic? (unlocked_basement jump after play has unlocked the door)   
+      jump basement_door_to_first_floor
+      #basement_door_unlocked
+     #jump basement_door_unlocked_to_first floor
+     #jump basement_door_unlocked_to_basement
+ #to_Library_return and to_Lab_return jump calls to only display options upon returning to already visited locations  
+
+label choice_end:  
+    
+        
+        
+
+

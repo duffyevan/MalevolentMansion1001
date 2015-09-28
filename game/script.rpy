@@ -41,7 +41,7 @@ label start:
     with diss
     with hpunch
     
-    n "Out of nowhere a tree falls into the road causing you to crash."
+    n "Out of nowhere a tree falls into the road, causing you to swerve and crash."
     
     play sound "rain.mp3" fadein 2.0 loop
     
@@ -86,7 +86,7 @@ label start:
                             play sound "doorslam.mp3" 
                             queue sound "evillaugh.mp3" 
                     
-                            "you have now entered the Malevolent Mansion."
+                            "You have now entered the Malevolent Mansion."
                             
                            
                         
@@ -217,12 +217,12 @@ label changeRoom (room):
         currentRoomObstacles = room.getObstacles()
 
 label goInsane:
-    "Uh oh! Looks like you lost all your sanity! You lose your mind and wander the halls of the Malevolent Mansion till the end of eternity! Game Over!"
+    "You've lost all your sanity. You lose your mind and wander the halls of the Malevolent Mansion till the end of eternity. Game Over"
     jump choice_end_game
     return
 
 label die:
-    "Oh no! You ran out of medical supplies! Unfortunately, it looks like the Malevolent Mansion will be your final resting place! Game Over!"
+    "You've run out of medical supplies, and met you demise. Game Over."
     jump choice_end_game
     return
 

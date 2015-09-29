@@ -285,19 +285,19 @@ label talkToAvidem(attacking):
                     a "Do you have what I sent you for?"
                     menu:
                         "Yes":
-                            b "Really?"#IS THIS SUPPOSED TO BE B OR A? -JACK
+                            a "Really?"
                             call giveAvidemTheGem()
                         "No":
-                            b "Well hurry up and find it. I really need it back soon."
+                            a "Well hurry up and find it. I really need it back soon."
             "Do you know anything about other people in the mansion?" if metHarold or metPhoebe or metArchie:#SHOULD THE IF GO BEFORE THE OPTION? -JACK
                 menu:
                     "Harold" if metHarold:
-                        h "The laundry-pile man?"#SAME HERE-JACK
-                        h "He may seem meek and harmless, but fear can make men do strange things."
+                        a "The laundry-pile man?" #YOU WERE RIGHT ABOUT THIS STUFF JACK, GOOD CATCH, ITS ALL FIXED NOW
+                        a "He may seem meek and harmless, but fear can make men do strange things."
                     "Basiltine" if metArchie:
-                        h "Poor soul, he's been here so long he had to create a whole other world to live in, to keep from becoming a gibbering Husk."
+                        a "Poor soul, he's been here so long he had to create a whole other world to live in, to keep from becoming a gibbering Husk."
                     "Phoebe" if metPhoebe:
-                        h "That girl was our latest addition before you. I don't think she's a fan of the weather."
+                        a "That girl was our latest addition before you. I don't think she's a fan of the weather."
 
 
     else:
@@ -395,14 +395,14 @@ label talkToBasiltine:
             "Do you know anything about other people in the mansion?" if metHarold or metPhoebe or metAvidem:
                 menu:
                     "Harold" if metHarold:
-                        h "The record keeper has intellect, but lacks backbone."
-                        h "I don't think I've ever seen him leave his Tower of Antiquity."
+                        b "The record keeper has intellect, but lacks backbone."
+                        b "I don't think I've ever seen him leave his Tower of Antiquity."
                     "Avidem" if metAvidem:
-                        h "Queen Avidem? She is a calm advisor, and a potent force."
-                        h "Sometimes I feel like she has more power than me..."
-                        h "But that is nonsense, I'm the Emperor!" 
+                        b "Queen Avidem? She is a calm advisor, and a potent force."
+                        b "Sometimes I feel like she has more power than me..."
+                        b "But that is nonsense, I'm the Emperor!" 
                     "Phoebe" if metPhoebe:
-                        h "Ahh, the soothsayer. She is useful, but sometimes gives ominous predictions."
+                        b "Ahh, the soothsayer. She is useful, but sometimes gives ominous predictions."
 
     else:
         b "Who dares assault them emperor?!"

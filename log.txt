@@ -1,4 +1,4 @@
-Mon Sep 28 00:24:59 2015
+Mon Sep 28 01:19:08 2015
 Windows-7-6.1.7601-SP1
 Ren'Py 6.99.6.739
  
@@ -6,8 +6,8 @@ Ren'Py 6.99.6.739
 Bootstrap to the start of init.init took 0.07s
 Early init took 0.01s
 Loader init took 0.01s
-Loading error handling took 0.01s
-Loading script took 0.26s
+Loading error handling took 0.02s
+Loading script took 0.24s
 Loading persistent took 0.01s
 Importing _renpysteam: ImportError('No module named _renpysteam',)
 Running init code took 0.06s
@@ -20,10 +20,10 @@ Cleaning cache took 0.00s
 Making clean stores took 0.00s
 Creating interface object took 0.02s
 Cleaning stores took 0.00s
-Init translation took 0.00s
+Init translation took 0.02s
 Build styles took 0.00s
 Load screen analysis took 0.00s
-Analyze screens took 0.02s
+Analyze screens took 0.01s
 Save screen analysis took 0.03s
 Prepare screens took 0.03s
 Save pyanalysis. took 0.00s
@@ -228,21 +228,11 @@ Texture testing:
 - 512px textures work.
 - 1024px textures work.
 - 2048px textures work.
-Total time until interface ready: 1.0s
+Total time until interface ready: 0.996999979019s
 - Target is 5 frames in 0.333333333333 seconds.
 - Frame drawn at 0.000000 seconds.
-- Frame drawn at 0.017000 seconds.
-- Frame drawn at 0.028000 seconds.
-- Frame drawn at 0.044000 seconds.
-- Frame drawn at 0.061000 seconds.
-- 0.061000 seconds to render 5 frames.
-The window was minimized.
-The window was restored.
-
-Fullscreen mode.
-Screen sizes: virtual=(800, 600) physical=(1920, 1080) drawable=(1920, 1080)
-The window was minimized.
-The window was restored.
-
-Fullscreen mode.
-Screen sizes: virtual=(800, 600) physical=(1920, 1080) drawable=(1920, 1080)
+- Frame drawn at 0.020000 seconds.
+- Frame drawn at 0.033000 seconds.
+- Frame drawn at 0.050000 seconds.
+- Frame drawn at 0.067000 seconds.
+- 0.067000 seconds to render 5 frames.

@@ -217,12 +217,14 @@ label changeRoom (room):
         currentRoomObstacles = room.getObstacles()
 
 label goInsane:
-    "You've lost all your sanity. You lose your mind and wander the halls of the Malevolent Mansion till the end of eternity. Game Over"
+    "You've lost all your sanity. You lose your mind and wander the halls of the Malevolent Mansion till the end of eternity."
+    "Game Over"
     jump choice_end_game
     return
 
 label die:
-    "You've run out of medical supplies, and met your demise. Game Over."
+    "You've run out of medical supplies, and met your demise."
+    "Game Over"
     jump choice_end_game
     return
 
@@ -283,18 +285,19 @@ label talkToAvidem(attacking):
                     a "Do you have what I sent you for?"
                     menu:
                         "Yes":
-                            b "Really?"
+                            b "Really?"#IS THIS SUPPOSED TO BE B OR A? -JACK
                             call giveAvidemTheGem()
                         "No":
                             b "Well hurry up and find it. I really need it back soon."
-            "Do you know anything about other people in the mansion?" if metHarold or metPhoebe or metArchie:
+            "Do you know anything about other people in the mansion?" if metHarold or metPhoebe or metArchie:#SHOULD THE IF GO BEFORE THE OPTION? -JACK
                 menu:
                     "Harold" if metHarold:
-                        h "HEY JACK WRITE WHAT AVIDEM SAYS ABOUT HAROLD HERE!"
+                        h "The laundry-pile man?"#SAME HERE-JACK
+                        h "He may seem meek and harmless, but fear can make men do strange things."
                     "Basiltine" if metArchie:
-                        h "HEY JACK WRITE WHAT AVIDEM SAYS ABOUT ARCHIE HERE!"
+                        h "Poor soul, he's been here so long he had to create a whole other world to live in, to keep from becoming a gibbering Husk."
                     "Phoebe" if metPhoebe:
-                        h "HEY JACK WRITE WHAT AVIDEM SAYS ABOUT PHOEBE HERE!"
+                        h "That girl was our latest addition before you. I don't think she's a fan of the weather."
 
 
     else:
@@ -342,8 +345,8 @@ label talkToPhoebe(attacking):
                 p "Such emotion... Such darkness..."
                 p"But now Phoebe is trapped, she does not like the storm"
             "How do I get out of here?":
-                p "If the storm is banished, escape is possible... Phoebe knows of a balcony exit"
-                p "Too dangerous in the storm..."
+                p "The storm of madness releases no-one."
+                p "Phoebe tried, and now Phoebe is dead."
             "Do you know anything about other people in the mansion?" if metArchie or metAvidem or metHarold:
                 p "Sure, Phoebe knows about Avidem, Basiltine, and Harold" 
                 p "Who would you like Phoebe to tell you about?"
@@ -392,11 +395,14 @@ label talkToBasiltine:
             "Do you know anything about other people in the mansion?" if metHarold or metPhoebe or metAvidem:
                 menu:
                     "Harold" if metHarold:
-                        h "HEY JACK WRITE WHAT ARCHIE SAYS ABOUT HAROLD HERE!"
+                        h "The record keeper has intellect, but lacks backbone."
+                        h "I don't think I've ever seen him leave his Tower of Antiquity."
                     "Avidem" if metAvidem:
-                        h "HEY JACK WRITE WHAT ARCHIE SAYS ABOUT AVIDEM HERE!"
+                        h "Queen Avidem? She is a calm advisor, and a potent force."
+                        h "Sometimes I feel like she has more power than me..."
+                        h "But that is nonsense, I'm the Emperor!" 
                     "Phoebe" if metPhoebe:
-                        h "HEY JACK WRITE WHAT ARCHIE SAYS ABOUT PHOEBE HERE!"
+                        h "Ahh, the soothsayer. She is useful, but sometimes gives ominous predictions."
 
     else:
         b "Who dares assault them emperor?!"
@@ -412,8 +418,8 @@ label giveBasiltineCrown():
         b "Do you bring me my crown?"
         menu:
             "Yes, here it is":
-                b "Ahh yes my precious. Thank you peasant, for your work you may have this"
-                "Archie gave you the keys to the front door"
+                b "Ahh yes, my precious. Thank you peasant, for your work you may have this"
+                "Archie gave you the keys to the front door" #SHOULD WE GET RID OF THIS, SINCE THE ALPHAS OVER? -JACK
                 "You make a b-line for the exit and you finally escape"
                 jump escape
                 #"%(playerName)s got a ring of keys"
@@ -484,17 +490,17 @@ label setupItemSystem:
         ###DEFINE ALL ITEMS HERE!!!###
         bag = Inventory()
         Chainsaw = Item("Chainsaw","You know whats good",True,True)
-        CrowBar = Item("Crow Bar", "Straight outta the garage, perfect for blunt force", True,True)
+        CrowBar = Item("Crow Bar", "Take Dr. Freidman's advice, use the vents.", True,True)
         Knife = Item("Knife", "An old bloody kitchen knife.", True,False)
         Idol = Item("Idol", "Some random idol that just happens to be here next to these weapons.", False, False)
-        Gem = Item("Gem", "A glittering red gem, it must be expensive. It has a mysterious aura about it. I wonder who it belonged to...",False,False)
+        Gem = Item("Gem", "A glittering red gem, it must be expensive. It has a mysterious aura about it...",False,False)
         GoldNugget = Item("Gold Nugget", "A small lump of shiny gold, it weighs about as much as you would expect the crown to weigh",False,False)
         Crown = Item("Crown", "A shiny gold crown, I wonder if its the real one or an impostor",False,False)
         FakeCrown = Item("Crown", "A shiny gold crown, I wonder if its the real one or an impostor ",False,False)
         PlainKey1 = Item("Plain Key", "A plain old key, I wonder what it goes to...",False, False)
-        Hammer = Item("Hammer", "A lightly rusted hammer with a wooden handle that looks like it has seen years of use",False,False)
+        Hammer = Item("Hammer", "A lightly rusted hammer with a wooden handle. It looks like it's seen years of use",False,False)
         SpareParts = Item("Spare Parts", "Some old parts that look like they go to an engine", False,False)
-        BasementKey = Item("Basement Key", "An old tarnished key, I wonder which door it goes to", False, False)
+        BasementKey = Item("Basement Key", "An old tarnished key.", False, False)
         Flask = Item("Flask", "", False, False)
         ###MAKE SURE YOU ALSO ADD A MENU STATEMENT FOR EACH ITEM YOU ADD HERE^^^### 
 
@@ -548,9 +554,9 @@ menu:
 label into_the_garage:
       $ menu_flag = True
       "You step into the garage and see a crazed husk charging at you."
-      "It tackles you and you attempt to fight back,  but before you can gain control of the situation it hits you over the head with a wrench."
+      "It tackles you and you attempt to fight back,  but before you can retaliate it hits you over the head with a wrench."
       hide mainhall
-      show mechnest
+      show mechnest #SHOULD THIS BE BLACK? -JACK
       with fade
       "Everything fades to black."
         
@@ -591,7 +597,7 @@ label choice_injured:
 label instant_death:
     $ menu_flag = True
     show death
-    "You have died :(" #change this
+    "You have died."
     jump choice_end_game
 
  #Basement Mechanic's Nest room           
@@ -604,8 +610,8 @@ label to_mech_nest:
         "The husk no longer needs to be worried about, there is a work-bench, toolbox and an old chest in the room. The other man seems to barely have noticed that you're there"
     menu:
         "Attack the husk" if garageHuskIsAlive:
-            "You attack the husk with everything you've got." #get rid of option if husk is killed
-            "After a bit of struggling the husk stops moving, you assume he's either dead or unconscious so you're safe, for now..."
+            "You attack the husk with desperate force." #get rid of option if husk is killed
+            "After a bit of struggling the husk stops moving. You're safe, for now..."
             $garageHuskIsAlive = False
             call updateSanity(-5)
         "Talk to other man":
@@ -759,7 +765,7 @@ label search_table:
     menu:
         "Chug the liquid":
             call updateLives(1)
-            "Oh no! Turns out the liquid is poisonous!!! Good thing you have your first aid kit!"
+            "Turns out the liquid is poisonous. Good thing you have your first aid kit."
             "You are still alive but you had to use some of your medical supplies"
         "Take the flask":
             jump take_flask
@@ -829,7 +835,7 @@ label mythology_bookcase:
              
 label riddles_bookcase:
     $ menu_flag = True
-    "You see a page poking out from a book on the shelf."
+    "You see a book titled 'See a Page's Crest'."
     menu:
         "Examine the book":
             jump read_riddles
@@ -871,12 +877,12 @@ label cooking_bookcase:
 label read_mythology:
     $ menu_flag = True
     "You pick up the strange book and see that the contents of the book are written in the same cryptic language as the title."
-    "You put the book back into place and back away from the shelf."
+    "You put the book back into place and back away from the shelf."#THE MYTHOLOGY BOOK IS WHAT YOU GIVE TO HAROLD, IT NEEDS TO GO INTO INVENTORY- JACK
     jump to_Library
             
 label read_riddles:
     $ menu_flag = True
-    "You grab the book with the protruding page and attempt to pull it of the shelf."
+    "You grab the book and attempt to pull it of the shelf."
     "To your surprise the book rotates about 45 degrees and then locks with a click."
 
     "The bookshelf then begins to slide to the left to reveal a secret passage."
@@ -893,13 +899,13 @@ label read_riddles:
 label read_selfhelp:
     $ menu_flag = True
     "You pick up the book and hear a something approaching quickly from the hallway."
-    "Before you know it a man in ragged clothing with a crazed look in his eyes bursts into the library wielding a shotgun."
+    "Before you know it a man in a ragged suit with a crazed look in his eyes bursts into the library wielding a shotgun."
     "The man locks his gaze onto you and pumps the shotgun."
     menu:
         "Dive for cover":
             "Sadly you don't get to cover in time. The man shoots you square in the chest"
             call updateLives(1) #attempt to dive for cover but the crazed man shoots you before you can (self_help_death)
-            "Thank the sweet lord above for your first aid kit! You save yourself using some of your medical supplies."
+            "Thankfully you have your first aid kit. You save yourself using some of your medical supplies."
             "In an adrenaline fueled rage you run to the man as hes reloading his shotgun, grab the gun and beat him upside the head with it."
             "He's dead, so you're safe again, for now..."
         "Run for the secret passage" if secretPassageActive:
@@ -910,7 +916,8 @@ label read_selfhelp:
 label read_medical:
     $ menu_flag = True
     "You pick up the book, and skim over a paragraph that reads:" 
-    "'Near death experiences can cause great stress and decrease a person's sanity. Eating good food and conversing with other sane individuals, have been proven to help recover sanity...'"
+    "'Near death experiences can cause great stress and decrease a person's sanity."
+    "Performing normal actions, like eating good food and conversing with other sane individuals, have been suspected to help recover one's nerves...'"
     "You put the book back into place and step away from the bookcase."
     jump to_Library
      
@@ -961,7 +968,7 @@ label to_dungeon_1:
      $ menu_flag = True
      "You walk into the first dungeon cell to see a nest of sniveling and squeaking rats."
      "As you step into the room all the rats rush by you in a frenzy."
-     "You suffer several minor scratches, but you are severely shaken by the experience."
+     "Physically, you suffer only minor scratches, but mentally you are wounded by the sight."
      call updateSanity(-10)
      jump to_Dungeon
      
@@ -987,8 +994,8 @@ label examine_skull:
 label examine_ribs:
      $ menu_flag = True
      "You take a closer look at the ribs and notice a pair of eyes peering back at you."
-     "All of a sudden a rat leaps from inside the skeleton and bites your leg."
-     "You manage to shake it off and suffer no serious injuries, but you are shaken by the experience."
+     "All of a sudden a rat leaps from inside the skeleton and bites your arm."
+     "You manage to bat it away and suffer no serious injuries, but you are shaken by the experience."
      jump to_dungeon_2#_options
 label examine_hands:
      $ menu_flag = True
@@ -1002,7 +1009,7 @@ label examine_hands:
 label eat_bread_dungeon:
      $ menu_flag = True
      "You take the bread from the skeleton's hands and eat it."
-     "It's a bit dusty and stale but it helps settle your stomach calm your nerves."
+     "It's a bit dusty and stale but it helps settle your stomach, and calm your nerves."
      if bag.sanity <= 90:
         call updateSanity(10)
      else:

@@ -217,7 +217,7 @@ label changeRoom (room):
         currentRoomObstacles = room.getObstacles()
 
 label goInsane:
-    "You've lost all your sanity. You lose your mind and wander the halls of the Malevolent Mansion till the end of eternity."
+    "You've lost all your sanity. You lose your mind and wander the halls of the Malevolent Mansion, forever."
     "Game Over"
     jump choice_end_game
     return
@@ -257,7 +257,7 @@ label talkToHarold(attacking):
         "Harold takes out a revolver from the pile of laundry and starts shooting"
         "One of the bullets pierces your lung and you die..."    
         call updateLives(1)
-        "LUCKILY you have your first aid kit! Now you're alive again but you had to use some of your supplies"
+        "Luckily you have your first aid kit. You've recovered, but you had to use some of your supplies"
     return
 
 label talkToAvidem(attacking):
@@ -292,7 +292,7 @@ label talkToAvidem(attacking):
             "Do you know anything about other people in the mansion?" if metHarold or metPhoebe or metArchie:#SHOULD THE IF GO BEFORE THE OPTION? -JACK
                 menu:
                     "Harold" if metHarold:
-                        a "The laundry-pile man?" #YOU WERE RIGHT ABOUT THIS STUFF JACK, GOOD CATCH, ITS ALL FIXED NOW
+                        a "The laundry-pile man?" 
                         a "He may seem meek and harmless, but fear can make men do strange things."
                     "Basiltine" if metArchie:
                         a "Poor soul, he's been here so long he had to create a whole other world to live in, to keep from becoming a gibbering Husk."
@@ -345,23 +345,24 @@ label talkToPhoebe(attacking):
                 p "Such emotion... Such darkness..."
                 p"But now Phoebe is trapped, she does not like the storm"
             "How do I get out of here?":
-                p "The storm of madness releases no-one."
-                p "Phoebe tried, and now Phoebe is dead."
+                p "Escape? Phoebe sees... four?... No, three exits."
+                p "Phoebe only knows they exist, not where they are."
+                p "Otherwise Phoebe would not be trapped."
             "Do you know anything about other people in the mansion?" if metArchie or metAvidem or metHarold:
-                p "Sure, Phoebe knows about Avidem, Basiltine, and Harold" 
+                p "Yes, Phoebe knows about Avidem, Basiltine, and Harold" 
                 p "Who would you like Phoebe to tell you about?"
                 menu:
                     "Avidem" if metAvidem:
                         p "Unnerving, calm in the storm"
                     "Basiltine" if metArchie:
-                        p "Funny man, lives in his own world. Phoebe wonders if hes foolish or fortunate..."
+                        p "Funny man, lives in his own world. Phoebe wonders if he is foolish or fortunate..."
                     "Harold" if metHarold:
-                        p "Does he hide from the world, or hide something from the world"
+                        p "Does he hide from the world, or hide something from the world?"
 
     else:
         p "That was unwise of you"
         "Phoebe has a knife! She stabs you right in the heart."
-        "LUCKILY you have your first aid kit! Now you're alive again but you had to use some of your supplies"
+        "Luckily you have your first aid kit. You've recovered, but you had to use some of your supplies."
         call updateLives(1)
     return
 
@@ -408,7 +409,7 @@ label talkToBasiltine:
         b "Who dares assault them emperor?!"
         "Basiltine takes a wrench from behind him and beats you over the head with it"
         "You black out"
-        "LUCKILY you have your first aid kit! Now you're alive again but you had to use some of your supplies"
+        "Luckily you have your first aid kit. You've recovered, but you had to use some of your supplies."
         call updateLives(1)
 
     jump to_mech_nest
@@ -438,7 +439,7 @@ label giveBasiltineCrown():
                 b "Well hurry up, the emperor is growing impatient"
     else:
         b "You don't have it! Come back when you have it"
-    jump to_mech_nest
+    jump to_mech_nest #TODO I think this is left over from the Alpha -Jack
 
 label inventory:
     $showInventory(playerName,bag)
@@ -556,7 +557,7 @@ label into_the_garage:
       "You step into the garage and see a crazed husk charging at you."
       "It tackles you and you attempt to fight back,  but before you can retaliate it hits you over the head with a wrench."
       hide mainhall
-      show mechnest #SHOULD THIS BE BLACK? -JACK
+      show mechnest #TODO should this be a black background? -Jack
       with fade
       "Everything fades to black."
         
@@ -877,7 +878,7 @@ label cooking_bookcase:
 label read_mythology:
     $ menu_flag = True
     "You pick up the strange book and see that the contents of the book are written in the same cryptic language as the title."
-    "You put the book back into place and back away from the shelf."#THE MYTHOLOGY BOOK IS WHAT YOU GIVE TO HAROLD, IT NEEDS TO GO INTO INVENTORY- JACK
+    "You put the book back into place and back away from the shelf."#TODO THE MYTHOLOGY BOOK IS WHAT YOU GIVE TO HAROLD, IT NEEDS TO GO INTO INVENTORY- JACK
     jump to_Library
             
 label read_riddles:

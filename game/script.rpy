@@ -491,7 +491,7 @@ label setupItemSystem:
         ###DEFINE ALL ITEMS HERE!!!###
         bag = Inventory()
         Chainsaw = Item("Chainsaw","You know whats good",True,True)
-        CrowBar = Item("Crow Bar", "Take Dr. Freidman's advice, use the vents.", True,True)
+        CrowBar = Item("Crow Bar", "Take Dr. Friedman's advice, use the vents.", True,True)
         Knife = Item("Knife", "An old bloody kitchen knife.", True,False)
         Idol = Item("Idol", "Some random idol that just happens to be here next to these weapons.", False, False)
         Gem = Item("Gem", "A glittering red gem, it must be expensive. It has a mysterious aura about it...",False,False)

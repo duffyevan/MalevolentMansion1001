@@ -32,7 +32,7 @@ label start:
     play music "Private Reflection.mp3" fadein 1.0 loop
     scene road
     with fade
-    n "You're driving down the road in your old beat up Chevy. It's raining pretty heavily and you don't recognize your surroudings."
+    n "You're driving down the road in your old beat up Chevy. It's raining pretty heavily and you don't recognize your surroundings."
     
     stop sound fadeout 1.0
     play sound "tree_fall.mp3" fadeout 1.0 
@@ -547,8 +547,13 @@ label basement_door_choices:
     "You see a closed door in front of you."
 menu:
     "Attempt to open the door":
-        jump missing_basement_key
-    
+        if BasementKey in bag:
+            "You insert your Basement Key and the door opens with little effort."
+            "There is a set of old wooden stairs that descend into a dark basement with dust and cobwebs floating in the air"
+            jump to_basement
+        else:    
+            jump missing_basement_key
+
     "Turn Back":
         jump entrance_hall
     
@@ -1016,7 +1021,7 @@ label eat_bread_dungeon:
      else:
         $bag.sanity = 100
      jump to_dungeon_2#_options
-     #restore sanity +10 if sanity<100, else no change
+     #restore sanity +10 if sanity < 100, else no change
      
 label to_dungeon_3:
      $ menu_flag = True

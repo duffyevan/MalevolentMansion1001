@@ -1,8 +1,14 @@
-# You can place the script of your game in this file.
-# Declare characters used by this game.
+## MALEVOLENT MANSION ##
+## A game where the player is dropped in a mansion after their car breaks down in a storm and must complete quests to escape ##
+## TEAM:
+## Story: Jack Riley
+## CODE: Bailey Schmidt and Evan Duffy
+## ART: Delores Jackson
+## Beta as of 10/6/15
+## Warning: Many froot loops were consumed in the making of this game
+
 #get rid of menu options??? after weapon pickup, event happens, objective complete, enemy is killed, etc.
 define j = Character('John Doe', color="#c8ffc8")
-define n = Character (' ', color = "#c8ffc8")
 image road = im.Scale("road1.jpg",900,600)
 image car = im.Scale("car2.png",150,80)
 image hallway = im.Scale("hallway2.png",900,600)
@@ -21,6 +27,7 @@ define diss = Dissolve(1.0)
 
 # The game starts here.
 label start:
+    jump escape
     play sound "rain.mp3" fadeout 1.0 fadein 1.0 loop
     scene road
     with fade
@@ -30,9 +37,12 @@ label start:
         secretPassageActive = False
         playerName = renpy.input("What is your name?") #Take the players name
     play music "Private Reflection.mp3" fadein 1.0 loop
+    if playerName == "John Cena":
+        play music "Cena.mp3" loop
+
     scene road
     with fade
-    n "You're driving down the road in your old beat up Chevy. It's raining pretty heavily and you don't recognize your surroundings."
+    "You're driving down the road in your old beat up Chevy. It's raining pretty heavily and you don't recognize your surroundings."
     
     stop sound fadeout 1.0
     play sound "tree_fall.mp3" fadeout 1.0 
@@ -41,11 +51,11 @@ label start:
     with diss
     with hpunch
     
-    n "Out of nowhere a tree falls into the road, causing you to swerve and crash."
+    "Out of nowhere a tree falls into the road, causing you to swerve and crash."
     
     play sound "rain.mp3" fadein 2.0 loop
     
-    n "It's raining hard and you need to find a place to go. You see a faint glow in the distance."
+    "It's raining hard and you need to find a place to go. You see a faint glow in the distance."
     
     menu: 
         with dissolve
@@ -67,7 +77,7 @@ label start:
                 stop sound fadeout 2.0
                 play sound "rain.mp3" fadein 2.0 loop
                 
-                n "You see the source of the light, a large mansion at the end of the road."
+                "You see the source of the light, a large mansion at the end of the road."
                 menu:      
                     with dissolve
                     "Go to the mansion":
@@ -101,7 +111,7 @@ label start:
                 stop music 
                 play sound "car_explosion.mp3"
                 
-                n "You died in a fiery explosion."
+                "You died in a fiery explosion."
                 
     
                 jump instant_death
@@ -122,6 +132,7 @@ init python:
     metHarold = False
     metPhoebe = False
     metArchie = False
+    atePie = False
     def showInventory(n, b): #Show the inventory in a ui.frame on top of the current frame
         ui.frame()
         c = "'s inventory: "
@@ -588,7 +599,7 @@ label into_the_garage:
 #when player doesn't have the basement key in their bag (**this is for the first time entering the mansion on the main floor only**)
 label missing_basement_key:
       $ menu_flag = True
-      "You attempt to open the door but it won't budge, it looks as if you may need a key to get in."  #only way to get to basement thorugh mechanic? (unlocked_basement jump after play has unlocked the door)   
+      "You attempt to open the door but it won't budge, it looks as if you may need a key to get in."  #only way to get to basement through mechanic? (unlocked_basement jump after play has unlocked the door)   
       jump basement_door_choices
       #basement_door_unlocked
       
@@ -662,6 +673,7 @@ label search_workbench:
 label escape:
     play sound "rain.mp3" fadeout 1.0 fadein 1.0 loop
     play music "Private Reflection.mp3" fadein 1.0 loop
+    play music "Spook.mp3" fadein 3.0 loop
     scene road
     with fade
     "After a long night in the Malevolent Mansion, you finally escape."
@@ -729,7 +741,7 @@ label to_Lab:
     menu:
         "Search the locker":
             jump search_locker
-        "Search the desk" if Crown not in bag:
+        "Search the desk" if BasementKey not in bag:
             jump search_desk
         "Search the table" if Flask not in bag:
             jump search_table
@@ -754,18 +766,13 @@ label search_locker:
              jump to_Lab
              
 label search_desk:
-    #"You see a key with the label 'Basement' on it"
-    "You see a golden band with carvings on it. Perhaps its a crown"
+    "You see a key with the label 'Basement' on it"
     menu:
         "Take the crown":
-            $bag.items.append(Crown)
+            $bag.items.append(BasementKey)
             jump to_Lab
         "Leave it":
             jump to_Lab
-        #"Take the key":
-            #jump take_basement_key
-        #"Leave the key":
-        #    jump to_Lab
 label search_table:
     "You see a flask on the table with a mysterious glowing liquid inside."
     menu:
@@ -791,6 +798,43 @@ label take_flask:
      $bag.items.append(Flask)
      jump to_Lab
             
+
+label kitchen:
+    #show kitchen but i don't have the assets for kitchen yet...
+    "What do you want to do?"
+    menu:
+        "Check sink":
+            if Nugget in bag and Crown in bag and FakeCrown in bag:
+                "Would you like to check to see which one of the crowns is Basiltine's real crown?"
+                menu:
+                    "Yeah":
+                        $bag.items.remove(FakeCrown)
+                        "Using the principles of displacement and density, you find which crown is made of real gold, and you toss the other in the garbage."
+
+                    "No": 
+                        jump kitchen
+            else:
+                "There's nothing but water here..."
+                jump kitchen
+        "Check fridge":
+            if not atePie:    
+                "In the fridge there is nothing but a single pie. Do you want to eat it or leave it?"
+                menu:
+                    "Eat it":
+                        "Believe it or not the pie is delicious, and it makes you feel a lot better."
+                        "Your sanity was restored to 100%"
+                        $bag.sanity = 100
+                        jump kitchen
+                    "Leave it":
+                        "You close the fridge and back away"
+                        jump kitchen
+            else:
+                "There's nothing in here"
+                "You close the fridge and back away"
+                jump kitchen
+        #"Leave":
+            #go back to where you were before
+
 #this goes to the library        
 label secret_pass_to_library:
      $ menu_flag = True

@@ -133,6 +133,7 @@ init python:
     metPhoebe = False
     metArchie = False
     atePie = False
+    huskInRedBed = True
     ballroomLightsOff = True
     attacking = False # This breaks the attacking option for all NPCs, we can deal with that feature later
     def showInventory(n, b): #Show the inventory in a ui.frame on top of the current frame
@@ -517,6 +518,8 @@ label setupItemSystem:
         SpareParts = Item("Spare Parts", "Some old parts that look like they go to an engine", False,False)
         BasementKey = Item("Basement Key", "An old tarnished key.", False, False)
         Flask = Item("Flask", "", False, False)
+        Flashlight = Item("Flashlight", "", False, False)
+        OrangeKey = Item("Orange Key", "", False, False)
         ###MAKE SURE YOU ALSO ADD A MENU STATEMENT FOR EACH ITEM YOU ADD HERE^^^### 
 
         lastPickup = Item("Backpack","Your old Backpack that you've had for many years",False,False) #Lets define all the items we need for this alpha
@@ -543,6 +546,9 @@ label entrance_hall:
             
         "Go into the laundry room":
             jump laundryRoom
+
+        "Go up the stairs":
+            jump up_level_2
 
         "Go into the ballroom":
             "You enter a large ballroom"
@@ -1200,14 +1206,12 @@ label missing_basement_key_to_first_floor:
      #jump basement_door_unlocked_to_basement
  #to_Library_return and to_Lab_return jump calls to only display options upon returning to already visited locations  
 
-label choice_end_game:  
-    return
-    
-    #***NEEDS TO BE IMPLEMENTED***#
+
+#***NEEDS TO BE IMPLEMENTED***#
 label up_level_2:
     $ menu_flag = True
     "You go up the stairs to find yourself on the second floor."
-    "Before you there is a stairway going up and  several labled rooms: 'Green Room', 'Orange Room', 'Red Room', 'Purple Room' and 'Master Bedroom'."
+    "Before you there is a stairway going up and  several labeled rooms: 'Green Room', 'Orange Room', 'Red Room', 'Purple Room' and 'Master Bedroom'."
     menu:
         "Go to the Green Room":
             jump green_room
@@ -1226,7 +1230,7 @@ label up_level_2:
             
 label return_level_2:
     $ menu_flag = True
-    "Before you there is a stairway going up and  several labled rooms: 'Green Room', 'Orange Room', 'Red Room', 'Purple Room' and 'Master Bedroom'."
+    "Before you there is a stairway going up and  several labeled rooms: 'Green Room', 'Orange Room', 'Red Room', 'Purple Room' and 'Master Bedroom'."
     menu:
         "Go to the Green Room":
             jump green_room
@@ -1278,18 +1282,17 @@ label search_green_closet:
              jump talk_phoebe
          
 label talk_phoebe:
-$ menu_flag = True #add dialouge
-"You attempt to speak with the woman but she stares blankly forward, unaware of your presence."
-"You gingerly back away from the closet."
-jump green_room
+    $ menu_flag = True #add dialouge
+    call talkToPhoebe
+    jump green_room
 
 label orange_room:
     $ menu_flag = True
     "In the Orange Room you see a bed, a desk and a closet."
     menu:
-        "Search the bed":
+        "Search the bed" if Flashlight not in bag:
             jump search_orange_bed
-        "Search the desk":
+        "Search the desk" if OrangeKey not in bag:
             jump search_orange_desk
         "Search the closet":
             jump search_orange_closet
@@ -1316,22 +1319,29 @@ label test_flashlight:
 label take_flashlight: #add flashlight to bag
     $ menu_flag = True
     "You take the flashlight and put it into your bag."
+    $bag.items.append(Flashlight)
     "You back away from the bed."
     jump orange_room
 
 label search_orange_desk:
      $ menu_flag = True
-     "In the desk you see a strange key." #what is this and what does it have to do w/ Avidem
-     menu:
-         "Take the key":
-             jump take_orange_key
-         "Leave the key":
-             "You back away from the desk"
-             jump orange_room
+     if metAvidem:
+         "In the desk you see a strange key." #what is this and what does it have to do w/ Avidem
+         menu:
+             "Take the key":
+                 jump take_orange_key
+             "Leave the key":
+                 "You back away from the desk"
+                 jump orange_room
+     else: 
+        "There seems to be nothing on or in the desk"
+        "You back away from the desk"
+        jump orange_room
 
 label take_orange_key: #add key to bag, or whatever happens with this specific key
     $ menu_flag = True
-    "You take the flashlight and put it into your bag."
+    "You take the key and put it into your bag."
+    $bag.items.append(OrangeKey)
     "You back away from the desk."
     jump orange_room
     
@@ -1346,7 +1356,11 @@ label red_room:
     "In the Red Room you see a bed, a desk and a closet."
     menu:
         "Search the bed":
-            jump search_red_bed
+            if huskInRedBed:
+                jump search_red_bed
+            else: 
+                "There's nothing here, just the bed where the husk had been"
+                jump red_room
         "Search the desk":
             jump search_red_desk
         "Search the closet":
@@ -1366,16 +1380,20 @@ label search_red_bed:
 
 label red_husk_attack:
     $ menu_flag = True
+    $huskInRedBed = False
     "You lean in to get a closer look at the husk and it springs from the bed."
     "Before you know it you're being scratched and clawed by the rampaging husk."
-    #***lose health here?***
-    jump return_level_2
+    "He beats you brutally and then runs away"
+    call updateLives(-1)
+    "Luckily you have your first aid kit. You're alive but you had to use some of your supplies"
+    jump red_room
     
 label search_red_desk:
      $ menu_flag = True
      "In the desk you find notes with illegible scribbles on them."
      "You attempt to decipher anything useful but there is nothing to be learned here."
-     #if sanity is low enough maybe contain lore or information???
+     #if sanity is low enough maybe contain lore or information??? 
+     #TODO THIS IS A JOB FOR ANOTHER DAY :)
      "You back away from the desk."
      jump red_room
      
@@ -1384,7 +1402,7 @@ label search_red_closet:
      "You open the door and see a rotting corpse inside."
      "The stench is horrible and the sight disturbs you."
      "You close the closet door and back away shaking."
-     #***lose sanity???***
+     $bag.updateSanity(10)
      jump red_room
      
 label purple_room:
@@ -1394,7 +1412,11 @@ label purple_room:
         "Search the bed":
             jump search_purple_bed
         "Search the desk":
-            jump search_purple_desk
+            if Crown not in bag:
+                jump search_purple_desk
+            else:
+                "There's nothing here..."
+                jump purple_room
         "Search the closet":
             jump search_purple_closet
         "Leave the room":
@@ -1403,7 +1425,7 @@ label purple_room:
 label search_purple_bed:
      $ menu_flag = True
      "On the bed you find a mechanic's jacket."
-     "The nametag on the jacket reads 'Archie'."
+     "The name tag on the jacket reads 'Archie'."
      "You back away from the bed."
      jump purple_room
      
@@ -1420,6 +1442,7 @@ label search_purple_desk:
              
 label take_crown_purple:
     "You dust off the crown and put it into your bag."
+    $bag.items.append(Crown)
     "You back away from the desk."
     jump purple_room
 
@@ -1438,7 +1461,8 @@ label master_bedroom:
         "Search the nightstand":
             jump search_nightstand_avidem
         "Speak to the woman":
-            jump talk_avidem
+            call talkToAvidem
+            jump master_bedroom
         "Leave the room":
             jump return_level_2
             
@@ -1454,7 +1478,7 @@ label bedroom_laundry_chute:
             
 label chute_to_laundry_room:
     $ menu_flag = True
-    "You squeeze into the chute and find it to be suprisingly roomy."
+    "You squeeze into the chute and find it to be surprisingly roomy."
     "You let gravity take you and you slide down the metal chute."
     "You are thrown out of the shoot and  onto the floor of the laundry room."
     jump laundryRoom
@@ -1474,20 +1498,18 @@ label avidem_alive_nightstand:
     "You turn your head to look at the woman and her gaze bring you to your knees."
     "She gets up and approaches you. She leans over and whispers into your ear 'Get out'."
     "You scramble to your feet and sprint out of the room terrified."
-    #***lose sanity?***
+    $bag.updateSanity(10)
     jump return_level_2
-    
-label talk_avidem:
-    $ menu_flag = True
-    "You approach the woman on the bed and she stares at you coldly."
-    "You say hello and she ignores you."
-    "You then slowly back away."
-    #change this to Avidem dialouge???
-    jump master_bedroom
     
 label level_3:
     $ menu_flag = True
     "You attempt to go up the stairs but you feel a strong urge of dread as you begin ascending."
     "You try to ignore it but it's too strong and you turn around and go back down to the second floor."
     jump return_level_2
+    
+
+label choice_end_game:  
+    return
+    
+## DONT PUT ANY CODE PAST HERE OR YOU WILL DIE!!!!! ##
     

@@ -1202,3 +1202,292 @@ label missing_basement_key_to_first_floor:
 
 label choice_end_game:  
     return
+    
+    #***NEEDS TO BE IMPLEMENTED***#
+label up_level_2:
+    $ menu_flag = True
+    "You go up the stairs to find yourself on the second floor."
+    "Before you there is a stairway going up and  several labled rooms: 'Green Room', 'Orange Room', 'Red Room', 'Purple Room' and 'Master Bedroom'."
+    menu:
+        "Go to the Green Room":
+            jump green_room
+        "Go to the Orange Room":
+            jump orange_room
+        "Go to the Red Room":
+            jump red_room
+        "Go to the Purple Room":
+            jump purple_room
+        "Go to the Master Bedroom":
+            jump master_bedroom
+        "Go up the stairs in front of you":
+            jump level_3 #to the thrid floor
+        "Go back down the stairs to the main hall":
+            jump entrance_hall #to the mainhalll on level 1
+            
+label return_level_2:
+    $ menu_flag = True
+    "Before you there is a stairway going up and  several labled rooms: 'Green Room', 'Orange Room', 'Red Room', 'Purple Room' and 'Master Bedroom'."
+    menu:
+        "Go to the Green Room":
+            jump green_room
+        "Go to the Orange Room":
+            jump orange_room
+        "Go to the Red Room":
+            jump red_room
+        "Go to the Purple Room":
+            jump purple_room
+        "Go to the Master Bedroom":
+            jump master_bedroom
+        "Go up the stairs in front of you":
+            jump level_3 #to the thrid floor
+        "Go back down the stairs to the main hall":
+            jump entrance_hall #to the mainhalll on level 1
+            
+label green_room:
+    $ menu_flag = True
+    "In the Green Room you see a bed, a desk and a closet."
+    menu:
+        "Search the bed":
+            jump search_green_bed
+        "Search the desk":
+            jump search_green_desk
+        "Search the closet":
+            jump search_green_closet
+        "Leave the room":
+            jump return_level_2
+            
+label search_green_bed:
+     $ menu_flag = True
+     "You find a nest of blankets on the bed."
+     "It looks as if some has recently slept here."
+     jump green_room
+     
+label search_green_desk:
+     $ menu_flag = True
+     "In the desk you find a crystal ball."
+     "You stare into the ball, but notice nothing special about it."
+     jump green_room
+     
+label search_green_closet:
+     $ menu_flag = True
+     "You open the closet to find a woman dressed in colorful rags murmuring to herself."
+     menu:
+         "Back away from the closet":
+             jump green_room
+         "Talk to the woman":
+             jump talk_phoebe
+         
+label talk_phoebe:
+$ menu_flag = True #add dialouge
+"You attempt to speak with the woman but she stares blankly forward, unaware of your presence."
+"You gingerly back away from the closet."
+jump green_room
+
+label orange_room:
+    $ menu_flag = True
+    "In the Orange Room you see a bed, a desk and a closet."
+    menu:
+        "Search the bed":
+            jump search_orange_bed
+        "Search the desk":
+            jump search_orange_desk
+        "Search the closet":
+            jump search_orange_closet
+        "Leave the room":
+            jump return_level_2
+            
+label search_orange_bed:
+     $ menu_flag = True
+     "On the bed you find a flashlight."
+     menu:
+         "Test flashlight":
+             jump test_flashlight
+         "Take flashlight":
+             jump take_flashlight
+         "Back away":
+             "You back away from the bed."
+             jump orange_room
+             
+label test_flashlight:
+    $ menu_flag = True
+    "You pick up the flashlight and flip the switch, the batteries seem to be dead."#change if you want it to work and be used for something
+    jump search_orange_bed
+
+label take_flashlight: #add flashlight to bag
+    $ menu_flag = True
+    "You take the flashlight and put it into your bag."
+    "You back away from the bed."
+    jump orange_room
+
+label search_orange_desk:
+     $ menu_flag = True
+     "In the desk you see a strange key." #what is this and what does it have to do w/ Avidem
+     menu:
+         "Take the key":
+             jump take_orange_key
+         "Leave the key":
+             "You back away from the desk"
+             jump orange_room
+
+label take_orange_key: #add key to bag, or whatever happens with this specific key
+    $ menu_flag = True
+    "You take the flashlight and put it into your bag."
+    "You back away from the desk."
+    jump orange_room
+    
+label search_orange_closet:
+     $ menu_flag = True
+     "You open the closet to find nothing but dust."
+     "You back away from the closet."
+     jump orange_room
+     
+label red_room:
+    $ menu_flag = True
+    "In the Red Room you see a bed, a desk and a closet."
+    menu:
+        "Search the bed":
+            jump search_red_bed
+        "Search the desk":
+            jump search_red_desk
+        "Search the closet":
+            jump search_red_closet
+        "Leave the room":
+            jump return_level_2
+
+label search_red_bed:
+     $ menu_flag = True
+     "On the bed you see a motionless husk."
+     menu:
+         "Take a closer look":
+             jump red_husk_attack
+         "Back away":
+             "You back away from the bed."
+             jump red_room
+
+label red_husk_attack:
+    $ menu_flag = True
+    "You lean in to get a closer look at the husk and it springs from the bed."
+    "Before you know it you're being scratched and clawed by the rampaging husk."
+    #***lose health here?***
+    jump return_level_2
+    
+label search_red_desk:
+     $ menu_flag = True
+     "In the desk you find notes with illegible scribbles on them."
+     "You attempt to decipher anything useful but there is nothing to be learned here."
+     #if sanity is low enough maybe contain lore or information???
+     "You back away from the desk."
+     jump red_room
+     
+label search_red_closet:
+     $ menu_flag = True
+     "You open the door and see a rotting corpse inside."
+     "The stench is horrible and the sight disturbs you."
+     "You close the closet door and back away shaking."
+     #***lose sanity???***
+     jump red_room
+     
+label purple_room:
+    $ menu_flag = True
+    "In the Purple Room you see a bed, a desk and a closet."
+    menu:
+        "Search the bed":
+            jump search_purple_bed
+        "Search the desk":
+            jump search_purple_desk
+        "Search the closet":
+            jump search_purple_closet
+        "Leave the room":
+            jump return_level_2
+
+label search_purple_bed:
+     $ menu_flag = True
+     "On the bed you find a mechanic's jacket."
+     "The nametag on the jacket reads 'Archie'."
+     "You back away from the bed."
+     jump purple_room
+     
+label search_purple_desk:
+     $ menu_flag = True
+     "In the desk you find a dusty crown."
+     "It is encrusted with several very expensive looking gems."
+     menu:
+         "Take the crown":
+             jump take_crown_purple
+         "Leave the crown":
+             "You leave the crown where it is and back away from the desk." #test the crown with nugget???
+             jump purple_room
+             
+label take_crown_purple:
+    "You dust off the crown and put it into your bag."
+    "You back away from the desk."
+    jump purple_room
+
+label search_purple_closet:
+     $ menu_flag = True
+     "In the closet you find an fine old room that looks like it's fit for royalty."
+     "You close the closet door and back away."
+     jump purple_room
+    
+label master_bedroom:
+    $ menu_flag = True
+    "In the Master Bedroom you see a woman sitting on the bed, a nightstand and a laundry chute."
+    menu:
+        "Investigate the laundry chute":
+            jump bedroom_laundry_chute
+        "Search the nightstand":
+            jump search_nightstand_avidem
+        "Speak to the woman":
+            jump talk_avidem
+        "Leave the room":
+            jump return_level_2
+            
+label bedroom_laundry_chute:
+    $ menu_flag = True
+    "You approach what looks to be a laundry chute."
+    "You look down the chute and notice that it's fairly wide and might be able to fit a person."
+    menu:
+        "Climb into the chute":
+            jump chute_to_laundry_room
+        "Back away":
+            jump master_bedroom
+            
+label chute_to_laundry_room:
+    $ menu_flag = True
+    "You squeeze into the chute and find it to be suprisingly roomy."
+    "You let gravity take you and you slide down the metal chute."
+    "You are thrown out of the shoot and  onto the floor of the laundry room."
+    jump laundryRoom
+
+label search_nightstand_avidem:
+    $menu_flag = True
+    "You see several photos on the nightstand."
+    menu:
+        "Get a closer look":
+            jump avidem_alive_nightstand
+        "Back away":
+            jump master_bedroom
+
+label avidem_alive_nightstand:
+    "As you move in to get a better look at the pictures you notice the woman on the bed staring at you intensely."
+    "All of a sudden a wave of fear overcomes you and you freeze in place."
+    "You turn your head to look at the woman and her gaze bring you to your knees."
+    "She gets up and approaches you. She leans over and whispers into your ear 'Get out'."
+    "You scramble to your feet and sprint out of the room terrified."
+    #***lose sanity?***
+    jump return_level_2
+    
+label talk_avidem:
+    $ menu_flag = True
+    "You approach the woman on the bed and she stares at you coldly."
+    "You say hello and she ignores you."
+    "You then slowly back away."
+    #change this to Avidem dialouge???
+    jump master_bedroom
+    
+label level_3:
+    $ menu_flag = True
+    "You attempt to go up the stairs but you feel a strong urge of dread as you begin ascending."
+    "You try to ignore it but it's too strong and you turn around and go back down to the second floor."
+    jump return_level_2
+    

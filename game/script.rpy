@@ -1488,7 +1488,7 @@ label search_purple_desk:
              
 label take_crown_purple:
     "You dust off the crown and put it into your bag."
-    $bag.items.append(Crown)
+    $bag.items.append(FakeCrown)
     "You back away from the desk."
     jump purple_room
 

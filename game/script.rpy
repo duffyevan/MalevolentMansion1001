@@ -13,7 +13,7 @@ image road = im.Scale("road1.jpg",900,600)
 image car = im.Scale("car2.png",150,80)
 image hallway = im.Scale("hallway2.png",900,600)
 image garage = im.Scale("garage.png",900,600)
-image ballroom = im.Scale("ballroom_reg.jpg",900,600)
+image ballroom = im.Scale("ballroom_reg.bmp",900,600)
 image mainhall = im.Scale("mainhall.png",900,600)
 image mansion = im.Scale("Mansion.jpg",900,600)
 image mechnest = im.Scale("mech-nest-filler.jpg",900,600)
@@ -22,12 +22,12 @@ image Dungeon = im.Scale("dungeon.png",900,600)
 image Library = im.Scale("library.png",900,600)
 image death = im.Scale("death.jpg",900,600)
 image tunnel = im.Scale("tunnel-filler.jpg",900,600)
+image kitchen = im.Scale("Kitchen Sane.png", 900, 600)
 
 define diss = Dissolve(1.0)
 
 # The game starts here.
 label start:
-    jump escape
     play sound "rain.mp3" fadeout 1.0 fadein 1.0 loop
     scene road
     with fade
@@ -133,6 +133,7 @@ init python:
     metPhoebe = False
     metArchie = False
     atePie = False
+    ballroomLightsOff = True
     def showInventory(n, b): #Show the inventory in a ui.frame on top of the current frame
         ui.frame()
         c = "'s inventory: "
@@ -526,12 +527,25 @@ label setupItemSystem:
 #BAILEY'S STUFF#
 
 label entrance_hall:
-menu:
-    "Go down the left hall":
-        jump to_garage
-        
-    "Go down the right hall":
-        jump to_basement_door_from_mainhall
+    # hide kitchen
+    scene mainhall
+    "You're in the entrance hall of the mansion"
+    "Where do you want to go?"
+    menu:
+        "Go down the left hall":
+            jump to_garage
+
+        "Go into the kitchen":
+            "You enter a small, dark kitchen"
+            jump kitchen
+            
+
+        "Go into the ballroom":
+            "You enter a large ballroom"
+            jump ballroom
+
+        "Go down the right hall":
+            jump to_basement_door_from_mainhall    
         
 label to_garage:
     $ menu_flag = True
@@ -787,7 +801,7 @@ label search_table:
        
 #these calls add items to the player's bag
 label take_basement_key:
-     $ menu_flag = True
+     $menu_flag = True
      "You put the key into your backpack"
      $bag.items.append(BasementKey)
      jump to_Lab
@@ -801,10 +815,14 @@ label take_flask:
 
 label kitchen:
     #show kitchen but i don't have the assets for kitchen yet...
+    # hide mainhall
+    scene kitchen
+    with fade
+    label back:
     "What do you want to do?"
     menu:
         "Check sink":
-            if Nugget in bag and Crown in bag and FakeCrown in bag:
+            if GoldNugget in bag and Crown in bag and FakeCrown in bag:
                 "Would you like to check to see which one of the crowns is Basiltine's real crown?"
                 menu:
                     "Yeah":
@@ -812,28 +830,49 @@ label kitchen:
                         "Using the principles of displacement and density, you find which crown is made of real gold, and you toss the other in the garbage."
 
                     "No": 
-                        jump kitchen
+                        jump back
             else:
                 "There's nothing but water here..."
-                jump kitchen
+                jump back
         "Check fridge":
             if not atePie:    
                 "In the fridge there is nothing but a single pie. Do you want to eat it or leave it?"
                 menu:
                     "Eat it":
                         "Believe it or not the pie is delicious, and it makes you feel a lot better."
-                        "Your sanity was restored to 100%"
+                        "Your sanity was completely restored"
                         $bag.sanity = 100
-                        jump kitchen
+                        $atePie = True
+                        jump back
                     "Leave it":
                         "You close the fridge and back away"
-                        jump kitchen
+                        jump back
             else:
                 "There's nothing in here"
                 "You close the fridge and back away"
-                jump kitchen
-        #"Leave":
-            #go back to where you were before
+                jump back
+        "Leave":
+            jump entrance_hall
+
+label ballroom:
+    scene ballroom
+    with fade
+    label back:
+    if ballroomLightsOff:
+        "The room is dark, too dark to see"
+        "Theres a light switch on the wall, do you want to flip it?"
+    else:
+        "The bodies still hang from the ceiling, but they seem to have finished kicking"
+    menu:
+        "Flip the switch" if ballroomLightsOff:
+            $ballroomLightsOff = False
+            "You turn on the lights to the sight of many bodies hung from the ceiling, some of them still kicking."
+            "Your sanity is lowered by 15"
+            $bag.updateSanity(-15)
+            jump back
+
+        "Leave":
+            jump entrance_hall
 
 #this goes to the library        
 label secret_pass_to_library:

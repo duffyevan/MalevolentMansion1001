@@ -2,8 +2,8 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 831: choice menuitem expects a non-empty block.
-    "Leave":
-            ^
+File "game/script.rpy", line 870: expected statement.
+    bag.updateSanity(-15)
+                         ^
 
 Ren'Py Version: Ren'Py 6.99.6.739

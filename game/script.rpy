@@ -9,26 +9,32 @@
 
 #get rid of menu options??? after weapon pickup, event happens, objective complete, enemy is killed, etc.
 define j = Character('John Doe', color="#c8ffc8")
-image road = im.Scale("road1.jpg",900,600)
-image car = im.Scale("car2.png",150,80)
-image hallway = im.Scale("hallway2.png",900,600)
-image garage = im.Scale("garage.png",900,600)
-image ballroom = im.Scale("ballroom_reg.bmp",900,600)
-image mainhall = im.Scale("mainhall.png",900,600)
-image mansion = im.Scale("Mansion.jpg",900,600)
-image mechnest = im.Scale("mech-nest-filler.jpg",900,600)
-image Lab = im.Scale("lab-filler.jpg",900,600)
-image Dungeon = im.Scale("dungeon.png",900,600)
-image Library = im.Scale("library.png",900,600)
-image death = im.Scale("death.jpg",900,600)
-image tunnel = im.Scale("tunnel-filler.jpg",900,600)
-image kitchen = im.Scale("Kitchen Sane.png", 900, 600)
+image road = im.Scale("images/road1.jpg",900,600)
+image car = im.Scale("images/car2.png",150,80)
+image hallway = im.Scale("images/hallway2.png",900,600)
+image garage = im.Scale("images/garage.png",900,600)
+image ballroom = im.Scale("images/ballroom_reg.bmp",900,600)
+image mainhall = im.Scale("images/mainhall.png",900,600)
+image mansion = im.Scale("images/Mansion.jpg",900,600)
+image mechnest = im.Scale("images/garage.jpg",900,600)
+image Lab = im.Scale("images/lab-filler.jpg",900,600)
+image Dungeon = im.Scale("images/dungeon.png",900,600)
+image Library = im.Scale("images/library.png",900,600)
+image death = im.Scale("images/death.jpg",900,600)
+image tunnel = im.Scale("images/tunnel-filler.jpg",900,600)
+image kitchen = im.Scale("images/Kitchen Sane.png", 900, 600)
+image laundryRoom = im.Scale("images/laundry sane.png", 900, 600)
+image redRoom = im.Scale("images/Floor 2/Blue Beds.png", 900, 600)
+image greenRoom = im.Scale("images/Floor 2/Green Beds.png", 900, 600)
+image orangeRoom = im.Scale("images/Floor 2/Blue Beds Tentative Sanity.png", 900, 600)
+image purpleRoom = im.Scale("images/Floor 2/Purple Beds.png", 900, 600)
+image masterBedroom = im.Scale("images/Floor 2/2nd Floor Master Bedroom.png", 900, 600)
 
 define diss = Dissolve(1.0)
 
 # The game starts here.
 label start:
-    play sound "rain.mp3" fadeout 1.0 fadein 1.0 loop
+    play sound "audio/rain.mp3" fadeout 1.0 fadein 1.0 loop
     scene road
     with fade
     call setupItemSystem
@@ -36,24 +42,24 @@ label start:
         garageHuskIsAlive = True
         secretPassageActive = False
         playerName = renpy.input("What is your name?") #Take the players name
-    play music "Private Reflection.mp3" fadein 1.0 loop
+    play music "audio/Private Reflection.mp3" fadein 1.0 loop
     if playerName == "John Cena":
-        play music "Cena.mp3" loop
+        play music "audio/Cena.mp3" loop
 
     scene road
     with fade
     "You're driving down the road in your old beat up Chevy. It's raining pretty heavily and you don't recognize your surroundings."
     
     stop sound fadeout 1.0
-    play sound "tree_fall.mp3" fadeout 1.0 
-    play sound "screech_crash.mp3"
+    play sound "audio/tree_fall.mp3" fadeout 1.0 
+    play sound "audio/screech_crash.mp3"
     show car at Position(xpos=335, ypos=350, xanchor=0, yanchor=0)
     with diss
     with hpunch
     
     "Out of nowhere a tree falls into the road, causing you to swerve and crash."
     
-    play sound "rain.mp3" fadein 2.0 loop
+    play sound "audio/rain.mp3" fadein 2.0 loop
     
     "It's raining hard and you need to find a place to go. You see a faint glow in the distance."
     
@@ -68,14 +74,14 @@ label start:
             label choice_start:
                 $ menu_flag = True
                 stop sound fadeout 2.0
-                play sound "car_door_close.mp3"
+                play sound "audio/car_door_close.mp3"
                 hide car
                 hide road
-                play sound "woods_walking.mp3" fadein 1.0
+                play sound "audio/woods_walking.mp3" fadein 1.0
                 show mansion
                 with dissolve
                 stop sound fadeout 2.0
-                play sound "rain.mp3" fadein 2.0 loop
+                play sound "audio/rain.mp3" fadein 2.0 loop
                 
                 "You see the source of the light, a large mansion at the end of the road."
                 menu:      
@@ -87,14 +93,14 @@ label start:
                             $ menu_flag = True
                             hide mansion
                             stop sound fadeout 2.0
-                            play sound "door open.mp3" 
+                            play sound "audio/door open.mp3" 
                             show mainhall
                             with fade
                             stop sound fadeout 1.0
                             
                             stop music
-                            play sound "doorslam.mp3" 
-                            queue sound "evillaugh.mp3" 
+                            play sound "audio/doorslam.mp3" 
+                            queue sound "audio/evillaugh.mp3" 
                     
                             "You have now entered the Malevolent Mansion."
                             
@@ -109,7 +115,7 @@ label start:
                 #hide road
                 stop sound 
                 stop music 
-                play sound "car_explosion.mp3"
+                play sound "audio/car_explosion.mp3"
                 
                 "You died in a fiery explosion."
                 
@@ -695,9 +701,9 @@ label search_workbench:
              jump to_mech_nest
              
 label escape:
-    play sound "rain.mp3" fadeout 1.0 fadein 1.0 loop
-    play music "Private Reflection.mp3" fadein 1.0 loop
-    play music "Spook.mp3" fadein 3.0 loop
+    play sound "audio/rain.mp3" fadeout 1.0 fadein 1.0 loop
+    play music "audio/Private Reflection.mp3" fadein 1.0 loop
+    play music "audio/Spook.mp3" fadein 3.0 loop
     scene road
     with fade
     "After a long night in the Malevolent Mansion, you finally escape."
@@ -1210,18 +1216,29 @@ label missing_basement_key_to_first_floor:
 #***NEEDS TO BE IMPLEMENTED***#
 label up_level_2:
     $ menu_flag = True
+
     "You go up the stairs to find yourself on the second floor."
     "Before you there is a stairway going up and  several labeled rooms: 'Green Room', 'Orange Room', 'Red Room', 'Purple Room' and 'Master Bedroom'."
     menu:
         "Go to the Green Room":
+            scene greenRoom
+            with fade
             jump green_room
         "Go to the Orange Room":
+            scene orangeRoom
+            with fade
             jump orange_room
         "Go to the Red Room":
+            scene redRoom
+            with fade
             jump red_room
         "Go to the Purple Room":
+            scene purpleRoom
+            with fade
             jump purple_room
         "Go to the Master Bedroom":
+            scene masterBedroom
+            with fade
             jump master_bedroom
         "Go up the stairs in front of you":
             jump level_3 #to the thrid floor
@@ -1229,18 +1246,30 @@ label up_level_2:
             jump entrance_hall #to the mainhalll on level 1
             
 label return_level_2:
+    scene mainhall
+    with fade
     $ menu_flag = True
     "Before you there is a stairway going up and  several labeled rooms: 'Green Room', 'Orange Room', 'Red Room', 'Purple Room' and 'Master Bedroom'."
     menu:
         "Go to the Green Room":
+            scene greenRoom
+            with fade
             jump green_room
         "Go to the Orange Room":
+            scene orangeRoom
+            with fade
             jump orange_room
         "Go to the Red Room":
+            scene redRoom
+            with fade
             jump red_room
         "Go to the Purple Room":
+            scene purpleRoom
+            with fade
             jump purple_room
         "Go to the Master Bedroom":
+            scene masterBedroom
+            with fade
             jump master_bedroom
         "Go up the stairs in front of you":
             jump level_3 #to the thrid floor

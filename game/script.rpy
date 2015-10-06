@@ -29,6 +29,11 @@ image greenRoom = im.Scale("images/Floor 2/Green Beds.png", 900, 600)
 image orangeRoom = im.Scale("images/Floor 2/Blue Beds Tentative Sanity.png", 900, 600)
 image purpleRoom = im.Scale("images/Floor 2/Purple Beds.png", 900, 600)
 image masterBedroom = im.Scale("images/Floor 2/2nd Floor Master Bedroom.png", 900, 600)
+image Avidem = im.Scale("images/NPCs/Avidem.png", 900,600)
+image Phoebe = im.Scale("images/NPCs/Phoebe.png", 900,600)
+image Harold = im.Scale("images/NPCs/Harold.png", 900,600)
+
+
 
 define diss = Dissolve(1.0)
 
@@ -249,6 +254,8 @@ label die:
     return
 
 label talkToHarold:
+    show Harold
+    with fade
     if not attacking:
         if not metHarold:
             h "W-what? W-w-who's there? W-what do you want?"
@@ -264,7 +271,7 @@ label talkToHarold:
                 h "I-If you can find it and s-solve the puzzle then you mi-might escape."
             "What is this place?":
                 h "You mean you d-don't know about the M-M-Malevolent Mansion?!? I suppose you're n-not from around h-here."
-                h "*Ahem* Originally owned by the Cupido family, this mansion had stayed in the possesion of the wealthy banking family for generations."
+                h "*Ahem* Originally owned by the Cupido family, this mansion had stayed in the possession of the wealthy banking family for generations."
                 h "However, approximately 60 years ago the then owner of the house, Gerald Cupido, vanished along with his wife and the entire staff."
                 h "When police, suspecting foul play, attempted to enter the mansion they encountered something so horrific they've banned any mention of the Mansion in public records."
                 h "As an avid historian, I feel it is my duty to explore this place and restore the public record! However..."
@@ -285,10 +292,13 @@ label talkToHarold:
         "One of the bullets pierces your lung and you are grievously wounded..."    
         call updateLives(1)
         "Luckily you have your first aid kit. You've recovered, but you had to use some of your supplies"
+    hide Harold
     jump back1
 
 
 label talkToAvidem:
+    show Avidem
+    with fade
     if not attacking:
         if not metAvidem:
             a "Hm? Ah hello, who are you? Do you need any advice?"
@@ -336,6 +346,7 @@ label talkToAvidem:
         #push out of room
         call updateSanity(-50)
         #orangeRoom.items.append(PlainKey1)
+    hide Avidem
     return
 
 label giveAvidemTheGem():
@@ -363,6 +374,8 @@ label giveAvidemTheGem():
     return
 
 label talkToPhoebe:
+    show Phoebe
+    with fade
     if not attacking:
         if not metPhoebe:
             p "You have arrived. Phoebe thinks you are late."
@@ -398,6 +411,7 @@ label talkToPhoebe:
         "Phoebe has a knife! She stabs you right in the heart."
         "Luckily you have your first aid kit. You've recovered, but you had to use some of your supplies."
         call updateLives(1)
+    hide Phoebe
     return
 
 label talkToBasiltine:
@@ -474,6 +488,8 @@ label giveBasiltineCrown():
                 #Kick out of room
             "No":
                 b "Well hurry up, the emperor is growing impatient"
+    elif FakeCrown in bag and Crown in bag:
+        b "You have two! Which one is the real one! Come back when you've found out"
     else:
         b "You don't have it! Come back when you have it"
     jump to_mech_nest #TODO I think this is left over from the Alpha -Jack
@@ -814,7 +830,7 @@ label search_locker:
 label search_desk:
     "You see a key with the label 'Basement' on it"
     menu:
-        "Take the crown":
+        "Take the key":
             $bag.items.append(BasementKey)
             jump to_Lab
         "Leave it":
@@ -854,7 +870,7 @@ label kitchen:
     "What do you want to do?"
     menu:
         "Check sink":
-            if GoldNugget in bag and Crown in bag and FakeCrown in bag:
+            if ((GoldNugget in bag) and (Crown in bag) and (FakeCrown in bag)):
                 "Would you like to check to see which one of the crowns is Basiltine's real crown?"
                 menu:
                     "Yeah":
@@ -965,6 +981,8 @@ label to_Library:
                 jump medical_bookcase
             "Examine Cooking":
                 jump cooking_bookcase
+            "Enter Main Hall":
+                jump entrance_hall
             
 #library bookcases            
 label mythology_bookcase:
@@ -1052,10 +1070,11 @@ label read_selfhelp:
             "Thankfully you have your first aid kit. You save yourself using some of your medical supplies."
             "In an adrenaline fueled rage you run to the man as hes reloading his shotgun, grab the gun and beat him upside the head with it."
             "He's dead, so you're safe again, for now..."
+            jump bookChoices
         "Run for the secret passage" if secretPassageActive:
-            jump  secret_pass_to_lab#_escape (if the player has previously discovered the passage this option should be available)
+            jump secret_pass_to_lab#_escape (if the player has previously discovered the passage this option should be available)
         #possibly a shoot first or fight option depending on what weapon(s) the player has
-        #decrese sanity?
+        #decrease sanity?
     
 label read_medical:
     $ menu_flag = True
@@ -1074,6 +1093,7 @@ label read_cooking:
     else:
         $bag.sanity = 100
     "You put the book back into place and step away from the bookcase."
+    jump bookChoices
 
 #this goes to the lab        
 label secret_pass_to_lab:
@@ -1221,7 +1241,7 @@ menu:
 #when player doesn't have the basement key in their bag   
 label missing_basement_key_to_first_floor:
       $ menu_flag = True
-      "You attempt to open the door but it won't budge, it looks as if you may need a key to get in."  #only way to get to basement thorugh mechanic? (unlocked_basement jump after play has unlocked the door)   
+      "You attempt to open the door but it won't budge, it looks as if you may need a key to get in."  #only way to get to basement through mechanic? (unlocked_basement jump after play has unlocked the door)   
       jump basement_door_to_first_floor
       #basement_door_unlocked
      #jump basement_door_unlocked_to_first floor
@@ -1257,9 +1277,9 @@ label up_level_2:
             with fade
             jump master_bedroom
         "Go up the stairs in front of you":
-            jump level_3 #to the thrid floor
+            jump level_3 #to the third floor
         "Go back down the stairs to the main hall":
-            jump entrance_hall #to the mainhalll on level 1
+            jump entrance_hall #to the mainhall on level 1
             
 label return_level_2:
     scene mainhall
@@ -1288,9 +1308,9 @@ label return_level_2:
             with fade
             jump master_bedroom
         "Go up the stairs in front of you":
-            jump level_3 #to the thrid floor
+            jump level_3 #to the third floor
         "Go back down the stairs to the main hall":
-            jump entrance_hall #to the mainhalll on level 1
+            jump entrance_hall #to the mainhall on level 1
             
 label green_room:
     $ menu_flag = True
@@ -1328,7 +1348,7 @@ label search_green_closet:
              jump talk_phoebe
          
 label talk_phoebe:
-    $ menu_flag = True #add dialouge
+    $ menu_flag = True #add dialog
     call talkToPhoebe
     jump green_room
 

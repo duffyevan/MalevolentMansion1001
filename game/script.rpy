@@ -262,6 +262,13 @@ label talkToHarold:
             "How do I escape?":
                 h "One of the l-legends I heard about t-this place told of a tunnel and a r-riddle."
                 h "I-If you can find it and s-solve the puzzle then you mi-might escape."
+            "What is this place?":
+                h "You mean you d-don't know about the M-M-Malevolent Mansion?!? I suppose you're n-not from around h-here."
+                h "*Ahem* Originally owned by the Cupido family, this mansion had stayed in the possesion of the wealthy banking family for generations."
+                h "However, approximately 60 years ago the then owner of the house, Gerald Cupido, vanished along with his wife and the entire staff."
+                h "When police, suspecting foul play, attempted to enter the mansion they encountered something so horrific they've banned any mention of the Mansion in public records."
+                h "As an avid historian, I feel it is my duty to explore this place and restore the public record! However..."
+                h "I... I-I'm afraid I c-c-cannot delve f-further..."
             "Do you know anything about other people in the mansion?" if metAvidem or metPhoebe or metArchie:
                 h "Y-yeah, I know Avidem, B-Basiltine, a-a-and Phoebe" 
                 h "W-who do you w-want to h-hear about?"
@@ -275,7 +282,7 @@ label talkToHarold:
     else:
         h "AHG MONSTER!"
         "Harold takes out a revolver from the pile of laundry and starts shooting"
-        "One of the bullets pierces your lung and you die..."    
+        "One of the bullets pierces your lung and you are grievously wounded..."    
         call updateLives(1)
         "Luckily you have your first aid kit. You've recovered, but you had to use some of your supplies"
     jump back1
@@ -310,6 +317,8 @@ label talkToAvidem:
                             call giveAvidemTheGem()
                         "No":
                             a "Well hurry up and find it. I really need it back soon."
+            "What is this place?"
+                a "Hm? Well, it's a mansion. Besides that I cannot really say."
             "Do you know anything about other people in the mansion?" if metHarold or metPhoebe or metArchie:#SHOULD THE IF GO BEFORE THE OPTION? -JACK
                 menu:
                     "Harold" if metHarold:
@@ -369,6 +378,10 @@ label talkToPhoebe:
                 p "Escape? Phoebe sees... four?... No, three exits."
                 p "Phoebe only knows they exist, not where they are."
                 p "Otherwise Phoebe would not be trapped."
+            "What is this place?"
+                p "Tainted..." 
+                p "Always corrupted? No, Phoebe feels an event, an explosion of emotion."
+                p "Everywhere reeks of hate and greed and madness. Whatever it was before, now it is only a nest of darkness."
             "Do you know anything about other people in the mansion?" if metArchie or metAvidem or metHarold:
                 p "Yes, Phoebe knows about Avidem, Basiltine, and Harold" 
                 p "Who would you like Phoebe to tell you about?"
@@ -414,6 +427,9 @@ label talkToBasiltine:
                             jump giveBasiltineCrown
                         "No":
                             b "Well hurry up and find it. The emperor grows impatient!"
+            "What is this place?"
+                b "Why my Empire, of course! I am surprised you are unaware of it."
+                b "Although... perhaps its beauty so dazzled you, you momentarily lost memory of all else? Yes, that must be it!" 
             "Do you know anything about other people in the mansion?" if metHarold or metPhoebe or metAvidem:
                 menu:
                     "Harold" if metHarold:
@@ -1218,7 +1234,7 @@ label up_level_2:
     $ menu_flag = True
 
     "You go up the stairs to find yourself on the second floor."
-    "Before you there is a stairway going up and  several labeled rooms: 'Green Room', 'Orange Room', 'Red Room', 'Purple Room' and 'Master Bedroom'."
+    "Before you there is a stairway going up and  several labeled doors: 'Green Room', 'Orange Room', 'Red Room', 'Purple Room' and 'Master Bedroom'."
     menu:
         "Go to the Green Room":
             scene greenRoom
@@ -1249,7 +1265,7 @@ label return_level_2:
     scene mainhall
     with fade
     $ menu_flag = True
-    "Before you there is a stairway going up and  several labeled rooms: 'Green Room', 'Orange Room', 'Red Room', 'Purple Room' and 'Master Bedroom'."
+    "Before you there is a stairway going up and  several labeled doors: 'Green Room', 'Orange Room', 'Red Room', 'Purple Room' and 'Master Bedroom'."
     menu:
         "Go to the Green Room":
             scene greenRoom
@@ -1291,14 +1307,15 @@ label green_room:
             
 label search_green_bed:
      $ menu_flag = True
-     "You find a nest of blankets on the bed."
+     "You find a nest of blankets under the bed."
      "It looks as if some has recently slept here."
      jump green_room
      
 label search_green_desk:
      $ menu_flag = True
      "In the desk you find a crystal ball."
-     "You stare into the ball, but notice nothing special about it."
+     "You stare into the ball, and see..."
+     "A small crack in the crystal."
      jump green_room
      
 label search_green_closet:

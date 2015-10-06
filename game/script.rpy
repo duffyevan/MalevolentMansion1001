@@ -134,6 +134,7 @@ init python:
     metArchie = False
     atePie = False
     ballroomLightsOff = True
+    attacking = False # This breaks the attacking option for all NPCs, we can deal with that feature later
     def showInventory(n, b): #Show the inventory in a ui.frame on top of the current frame
         ui.frame()
         c = "'s inventory: "
@@ -240,7 +241,7 @@ label die:
     jump choice_end_game
     return
 
-label talkToHarold(attacking):
+label talkToHarold:
     if not attacking:
         if not metHarold:
             h "W-what? W-w-who's there? W-what do you want?"
@@ -270,9 +271,10 @@ label talkToHarold(attacking):
         "One of the bullets pierces your lung and you die..."    
         call updateLives(1)
         "Luckily you have your first aid kit. You've recovered, but you had to use some of your supplies"
-    return
+    jump back1
 
-label talkToAvidem(attacking):
+
+label talkToAvidem:
     if not attacking:
         if not metAvidem:
             a "Hm? Ah hello, who are you? Do you need any advice?"
@@ -344,7 +346,7 @@ label giveAvidemTheGem():
                 a "Well go find it!"
     return
 
-label talkToPhoebe(attacking):
+label talkToPhoebe:
     if not attacking:
         if not metPhoebe:
             p "You have arrived. Phoebe thinks you are late."
@@ -539,6 +541,8 @@ label entrance_hall:
             "You enter a small, dark kitchen"
             jump kitchen
             
+        "Go into the laundry room":
+            jump laundryRoom
 
         "Go into the ballroom":
             "You enter a large ballroom"
@@ -857,7 +861,7 @@ label kitchen:
 label ballroom:
     scene ballroom
     with fade
-    label back:
+    label back2:
     if ballroomLightsOff:
         "The room is dark, too dark to see"
         "Theres a light switch on the wall, do you want to flip it?"
@@ -869,10 +873,33 @@ label ballroom:
             "You turn on the lights to the sight of many bodies hung from the ceiling, some of them still kicking."
             "Your sanity is lowered by 15"
             $bag.updateSanity(-15)
-            jump back
+            jump back2
 
         "Leave":
             jump entrance_hall
+    jump back2
+
+label laundryRoom:
+    scene laundryRoom
+    with fade
+    label back1:
+    "What would you like to do?"
+    menu:
+        "Inspect the pile of cloths" if not metHarold:
+            "After a bit of digging you feel something solid."
+            "Removing some cloths reveals a small man huddled under the cloths."
+            jump talkToHarold
+        "Talk to Harold" if metHarold:
+            jump talkToHarold
+        "Check the laundry chute":
+            "There is a metal laundry chute in the wall."
+            "It only goes up and is too small and slippery to climb up"
+            jump back1
+        "Leave":
+            "You back out into the main hall"
+            jump entrance_hall
+    jump back1
+
 
 #this goes to the library        
 label secret_pass_to_library:

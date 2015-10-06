@@ -317,7 +317,7 @@ label talkToAvidem:
                             call giveAvidemTheGem()
                         "No":
                             a "Well hurry up and find it. I really need it back soon."
-            "What is this place?"
+            "What is this place?":
                 a "Hm? Well, it's a mansion. Besides that I cannot really say."
             "Do you know anything about other people in the mansion?" if metHarold or metPhoebe or metArchie:#SHOULD THE IF GO BEFORE THE OPTION? -JACK
                 menu:
@@ -378,7 +378,7 @@ label talkToPhoebe:
                 p "Escape? Phoebe sees... four?... No, three exits."
                 p "Phoebe only knows they exist, not where they are."
                 p "Otherwise Phoebe would not be trapped."
-            "What is this place?"
+            "What is this place?":
                 p "Tainted..." 
                 p "Always corrupted? No, Phoebe feels an event, an explosion of emotion."
                 p "Everywhere reeks of hate and greed and madness. Whatever it was before, now it is only a nest of darkness."
@@ -427,7 +427,7 @@ label talkToBasiltine:
                             jump giveBasiltineCrown
                         "No":
                             b "Well hurry up and find it. The emperor grows impatient!"
-            "What is this place?"
+            "What is this place?":
                 b "Why my Empire, of course! I am surprised you are unaware of it."
                 b "Although... perhaps its beauty so dazzled you, you momentarily lost memory of all else? Yes, that must be it!" 
             "Do you know anything about other people in the mansion?" if metHarold or metPhoebe or metAvidem:

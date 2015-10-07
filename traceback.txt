@@ -1,36 +1,28 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/script.rpy", line 33, in script
-    with fade
-IOError: Couldn't find file 'rain.mp3'.
+  File "game/script.rpy", line 265, in script
+    menu:
+  File "game/script.rpy", line 289, in <module>
+    "Can you tell me about this Mythology Book?" if MythologyBook in bag:
+NameError: name 'MythologyBook' is not defined
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/script.rpy", line 33, in script
-    with fade
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\ast.py", line 1250, in execute
-    renpy.exports.with_statement(trans, paired)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\exports.py", line 1267, in with_statement
-    return renpy.game.interface.do_with(trans, paired, clear=clear)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\core.py", line 1925, in do_with
-    clear=clear)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\core.py", line 2346, in interact
-    repeat, rv = self.interact_core(preloads=preloads, **kwargs)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\core.py", line 2633, in interact_core
-    renpy.audio.audio.interact()
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\audio\audio.py", line 790, in interact
-    periodic()
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\audio\audio.py", line 724, in periodic
-    c.periodic()
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\audio\audio.py", line 340, in periodic
-    topf = load(self.file_prefix + topq.filename + self.file_suffix)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\audio\audio.py", line 74, in load
-    rv = renpy.loader.load(fn)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\loader.py", line 517, in load
-    raise IOError("Couldn't find file '%s'." % name)
-IOError: Couldn't find file 'rain.mp3'.
+  File "game/script.rpy", line 265, in script
+    menu:
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\ast.py", line 1428, in execute
+    choice = renpy.exports.menu(choices, self.set)
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\exports.py", line 725, in menu
+    if renpy.python.py_eval(condition) ]
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\python.py", line 1477, in py_eval
+    return py_eval_bytecode(code, globals, locals)
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\python.py", line 1472, in py_eval_bytecode
+    return eval(bytecode, globals, locals)
+  File "game/script.rpy", line 289, in <module>
+    "Can you tell me about this Mythology Book?" if MythologyBook in bag:
+NameError: name 'MythologyBook' is not defined
 
 Windows-7-6.1.7601-SP1
 Ren'Py 6.99.6.739

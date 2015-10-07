@@ -2,8 +2,8 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 1438: expected statement.
-    bag.items.append(Crown)
-                           ^
+File "game/script.rpy", line 1580: end of line expected.
+    call renpy.full_restart()
+              ^
 
 Ren'Py Version: Ren'Py 6.99.6.739

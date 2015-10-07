@@ -170,7 +170,7 @@ init python:
     class Inventory:
         def __init__(self):
             self.items = [Item("Backpack","Your old Backpack that you've had for many years",False,False)] #Adds a backpack to your inventory, you cant toss it. Might get rid of this code tho we don't really need to have the backpack in your inventory its just neat to have
-            self.sanity = 100
+            self.sanity = 10
             self.lives = 1
 
         def __contains__(self, item):
@@ -286,6 +286,8 @@ label talkToHarold:
                         h "That man is a few cards short of a d-deck. I-I'd be careful around h-him."
                     "Phoebe" if metPhoebe:
                         h "That young w-woman didn't h-have much to say to m-me. She just muttered about s-secrets."
+            "Can you tell me about this Mythology Book?" if MythologyBook in bag:
+                h "Oi oi thats a dank book u got there m9 xDdddddddd" ## HI JACK! THIS IS WHERE HAROLD TELLS THE PLAYER ABOUTTHE CRYPTIC MYTHOLOGY BOOK! CAN YOU INSERT THE DIALOG FOR THAT? THANKS!
     else:
         h "AHG MONSTER!"
         "Harold takes out a revolver from the pile of laundry and starts shooting"
@@ -503,6 +505,8 @@ label updateSanity(num):
     $bag.updateSanity(num)
     if bag.sanity <= 0:
         jump goInsane
+    if bag.sanity > 100:
+        $bag.sanity = 100
     return
 
 label updateLives(num):
@@ -558,6 +562,7 @@ label setupItemSystem:
         Flask = Item("Flask", "", False, False)
         Flashlight = Item("Flashlight", "", False, False)
         OrangeKey = Item("Orange Key", "", False, False)
+        MythologyBook = Item("Mythology Book","",False,False)
         ###MAKE SURE YOU ALSO ADD A MENU STATEMENT FOR EACH ITEM YOU ADD HERE^^^### 
 
         lastPickup = Item("Backpack","Your old Backpack that you've had for many years",False,False) #Lets define all the items we need for this alpha
@@ -664,13 +669,6 @@ label missing_basement_key:
       "You attempt to open the door but it won't budge, it looks as if you may need a key to get in."  #only way to get to basement through mechanic? (unlocked_basement jump after play has unlocked the door)   
       jump basement_door_choices
       #basement_door_unlocked
-      
-#player needs to lose health-pack here   
-label choice_injured:
-    $ menu_flag = True
-    "You have been injured and must retreat."
-  #change this so that the player goes back to the last room before they died or something
-    jump choice_end_game
 
 #Instant_death call    
 label instant_death:
@@ -870,6 +868,7 @@ label kitchen:
     "What do you want to do?"
     menu:
         "Check sink":
+            $showInventory()
             if ((GoldNugget in bag) and (Crown in bag) and (FakeCrown in bag)):
                 "Would you like to check to see which one of the crowns is Basiltine's real crown?"
                 menu:
@@ -916,7 +915,7 @@ label ballroom:
             $ballroomLightsOff = False
             "You turn on the lights to the sight of many bodies hung from the ceiling, some of them still kicking."
             "Your sanity is lowered by 15"
-            $bag.updateSanity(-15)
+            call updateSanity(-15)
             jump back2
 
         "Leave":
@@ -1039,7 +1038,13 @@ label cooking_bookcase:
 label read_mythology:
     $ menu_flag = True
     "You pick up the strange book and see that the contents of the book are written in the same cryptic language as the title."
-    "You put the book back into place and back away from the shelf."#TODO THE MYTHOLOGY BOOK IS WHAT YOU GIVE TO HAROLD, IT NEEDS TO GO INTO INVENTORY- JACK
+    "You're pretty curious about this book, do you want to take it or put it back"#FIXED: THE MYTHOLOGY BOOK IS WHAT YOU GIVE TO HAROLD, IT NEEDS TO GO INTO INVENTORY- JACK
+    menu:
+        "Take it":
+            "%(playerName)s put the mythology book in his bag."
+            $bag.items.append(MythologyBook)
+        "Leave it":
+            "You put the book back on it's shelf and back away."
     jump to_Library
             
 label read_riddles:
@@ -1087,11 +1092,8 @@ label read_medical:
 label read_cooking:
     $ menu_flag = True
     "You pick up the book, and flip through all the images of delicious looking foods."
-    "You feel more relaxed and refreshed after viewing the book." # if sanity < 100 +10 sanity, else no change
-    if bag.sanity <= 90:
-        call updateSanity(10)
-    else:
-        $bag.sanity = 100
+    "You feel more relaxed and refreshed after viewing the book." # if sanity < 100 +20 sanity, else no change
+    call updateSanity(20)
     "You put the book back into place and step away from the bookcase."
     jump bookChoices
 
@@ -1111,84 +1113,81 @@ label secret_pass_to_lab:
              jump to_Library
              
 label to_Dungeon:
-     $ menu_flag = True
-     hide hallway
-     show dungeon
-     with fade
-     "You enter a dark and dank dungeon."
-     menu:
-         "Go into room 1":
-             jump to_dungeon_1
-         "Go into room 2":
-             jump to_dungeon_2
-         "Go into room 3":
-             jump to_dungeon_3
-         "Go into room 4":
-             jump to_dungeon_4
-         "Return to the basement landing":
-             jump to_basement
-         
+    $ menu_flag = True
+    hide hallway
+    show dungeon
+    with fade
+    "You enter a dark and dank dungeon."
+    menu:
+        "Go into room 1":
+            jump to_dungeon_1
+        "Go into room 2":
+            jump to_dungeon_2
+        "Go into room 3":
+           jump to_dungeon_3
+        "Go into room 4":
+            jump to_dungeon_4
+        "Return to the basement landing":
+            jump to_basement
+        
 label to_dungeon_1:
-     $ menu_flag = True
-     "You walk into the first dungeon cell to see a nest of sniveling and squeaking rats."
-     "As you step into the room all the rats rush by you in a frenzy."
-     "Physically, you suffer only minor scratches, but mentally you are wounded by the sight."
-     call updateSanity(-10)
-     jump to_Dungeon
+    $ menu_flag = True
+    "You walk into the first dungeon cell to see a nest of sniveling and squeaking rats."
+    "As you step into the room all the rats rush by you in a frenzy."
+    "Physically, you suffer only minor scratches, but mentally you are wounded by the sight."
+    call updateSanity(-10)
+    jump to_Dungeon
      
 label to_dungeon_2:
-     $ menu_flag = True
-     "You walk into the second dungeon cell to see a skeleton on the floor."
-     menu:
-         "Examine the skull":
-             jump examine_skull
-         "Examine the ribs":
+    $ menu_flag = True
+    "You walk into the second dungeon cell to see a skeleton on the floor."
+    menu:
+        "Examine the skull":
+            jump examine_skull
+        "Examine the ribs":
              jump examine_ribs
-         "Examine the hands":
-             jump examine_hands
-         "Back out of the cell":
-             jump to_Dungeon
+        "Examine the hands":
+            jump examine_hands
+        "Back out of the cell":
+            jump to_Dungeon
              
 label examine_skull:
-     $ menu_flag = True
-     "You take a closer look at the skull and notice that it has become merged with the stone floor."
-     "You also notice that there is a strange gaping hole that looks vaguely key-shaped in the center of the skull."
-     jump to_dungeon_2#_options
-     
+    $ menu_flag = True
+    "You take a closer look at the skull and notice that it has become merged with the stone floor."
+    "You also notice that there is a strange gaping hole that looks vaguely key-shaped in the center of the skull."
+    jump to_dungeon_2#_options
+    
 label examine_ribs:
-     $ menu_flag = True
-     "You take a closer look at the ribs and notice a pair of eyes peering back at you."
-     "All of a sudden a rat leaps from inside the skeleton and bites your arm."
-     "You manage to bat it away and suffer no serious injuries, but you are shaken by the experience."
-     jump to_dungeon_2#_options
+    $ menu_flag = True
+    "You take a closer look at the ribs and notice a pair of eyes peering back at you."
+    "All of a sudden a rat leaps from inside the skeleton and bites your arm."
+    "You manage to bat it away and suffer no serious injuries, but you are shaken by the experience."
+    jump to_dungeon_2#_options
 label examine_hands:
-     $ menu_flag = True
-     "You take a closer look at the hands and notice that they're gripping a piece of bread."
-     menu:
-         "Eat the bread":
-             jump eat_bread_dungeon
-         "Back away from the skeleton":
-             jump to_dungeon_2#_options
+    $ menu_flag = True
+    "You take a closer look at the hands and notice that they're gripping a piece of bread."
+    menu:
+        "Eat the bread":
+            jump eat_bread_dungeon
+        "Back away from the skeleton":
+            jump to_dungeon_2#_options
              
 label eat_bread_dungeon:
-     $ menu_flag = True
-     "You take the bread from the skeleton's hands and eat it."
-     "It's a bit dusty and stale but it helps settle your stomach, and calm your nerves."
-     if bag.sanity <= 90:
-        call updateSanity(10)
-     else:
-        $bag.sanity = 100
-     jump to_dungeon_2#_options
-     #restore sanity +10 if sanity < 100, else no change
+    $ menu_flag = True
+    "You take the bread from the skeleton's hands and eat it."
+    "It's a bit dusty and stale but it helps settle your stomach, and calm your nerves."
+    call updateSanity(20)
+    jump to_dungeon_2#_options
+    #restore sanity +10 if sanity < 100, else no change
      
 label to_dungeon_3:
-     $ menu_flag = True
-     "You enter the third dungeon cell and immediately stop when you hear the jingling of chains from within the cell."
-     menu:
-         "Investigate the noise":
-             jump chained_husk
-         "Back out of the cell":
-             jump to_Dungeon
+    $ menu_flag = True
+    "You enter the third dungeon cell and immediately stop when you hear the jingling of chains from within the cell."
+    menu:
+        "Investigate the noise":
+            jump chained_husk
+        "Back out of the cell":
+            jump to_Dungeon
              
 label chained_husk:
      $ menu_flag = True
@@ -1455,21 +1454,25 @@ label red_husk_attack:
     jump red_room
     
 label search_red_desk:
-     $ menu_flag = True
-     "In the desk you find notes with illegible scribbles on them."
-     "You attempt to decipher anything useful but there is nothing to be learned here."
-     #if sanity is low enough maybe contain lore or information??? 
-     #TODO THIS IS A JOB FOR ANOTHER DAY :)
-     "You back away from the desk."
-     jump red_room
+    $ menu_flag = True
+    "In the desk you find notes with illegible scribbles on them."
+    #if sanity is low enough maybe contain lore or information??? 
+    #FIXED THIS IS A JOB FOR ANOTHER DAY :)
+    #And that day is today :)))))
+    if bag.sanity < 50: # The number here is percent, this can be changed to whatever you want under 100
+        "Insert dank lore here" ## HI JACK! SO THIS IS WHERE YOU CAN PUT LORE 
+    else:
+        "You attempt to decipher anything useful but there is nothing to be learned here."
+    "You back away from the desk."
+    jump red_room
      
 label search_red_closet:
-     $ menu_flag = True
-     "You open the door and see a rotting corpse inside."
-     "The stench is horrible and the sight disturbs you."
-     "You close the closet door and back away shaking."
-     $bag.updateSanity(10)
-     jump red_room
+    $ menu_flag = True
+    "You open the door and see a rotting corpse inside."
+    "The stench is horrible and the sight disturbs you."
+    "You close the closet door and back away shaking."
+    call updateSanity(10)
+    jump red_room
      
 label purple_room:
     $ menu_flag = True
@@ -1564,7 +1567,7 @@ label avidem_alive_nightstand:
     "You turn your head to look at the woman and her gaze bring you to your knees."
     "She gets up and approaches you. She leans over and whispers into your ear 'Get out'."
     "You scramble to your feet and sprint out of the room terrified."
-    $bag.updateSanity(10)
+    call updateSanity(10)
     jump return_level_2
     
 label level_3:
@@ -1575,6 +1578,7 @@ label level_3:
     
 
 label choice_end_game:  
+    $renpy.full_restart()
     return
     
 ## DONT PUT ANY CODE PAST HERE OR YOU WILL DIE!!!!! ##

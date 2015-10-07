@@ -146,7 +146,8 @@ init python:
     atePie = False
     huskInRedBed = True
     ballroomLightsOff = True
-    attacking = False # This breaks the attacking option for all NPCs, we can deal with that feature later
+    attacking = False # TODO This breaks the attacking option for all NPCs, we can deal with that feature later
+    firstTimeInGarage = True
     def showInventory(n, b): #Show the inventory in a ui.frame on top of the current frame
         ui.frame()
         c = "'s inventory: "
@@ -439,7 +440,7 @@ label talkToBasiltine:
                     b "However, impostor crowns lurk about. Use this to determine the true crown"
                     "%(playerName)s got a gold nugget"
                     $bag.items.append(GoldNugget)
-                else:
+                elif SpareParts not in:
                     b "Have you found my crown yet?"
                     menu:
                         "Yes":
@@ -447,6 +448,9 @@ label talkToBasiltine:
                             jump giveBasiltineCrown
                         "No":
                             b "Well hurry up and find it. The emperor grows impatient!"
+                else:
+                    "You must figure out how to use those spare parts, peasant!"
+                    jump to_mech_nest
             "What is this place?":
                 b "Why my Empire, of course! I am surprised you are unaware of it."
                 b "Although... perhaps its beauty so dazzled you, you momentarily lost memory of all else? Yes, that must be it!" 
@@ -477,14 +481,13 @@ label giveBasiltineCrown():
         menu:
             "Yes, here it is":
                 b "Ahh yes, my precious. Thank you peasant, for your work you may have this"
-                "Archie gave you the keys to the front door" #SHOULD WE GET RID OF THIS, SINCE THE ALPHAS OVER? -JACK
-                "You make a b-line for the exit and you finally escape"
-                jump escape
-                #"%(playerName)s got a ring of keys"
-                #$bag.items.append(Item("Ring of Keys", "A ring of assorted keys that look like they most likely belong to some old cars", False, False))
+                $bag.items.append(SpareParts)
+                "Archie hands you a small burlap bag with a few spare parts that seem like they come from an old car in it"
+                b "If you use these well, peasant, you just may be able to escape"
+                jump to_mech_nest
             "No":
                 b "Well hurry up, the emperor is growing impatient"
-    elif FakeCrown in bag:
+    elif FakeCrown in bag and Crown not in bag:
         b "Do you bring me my crown?"
         menu:
             "Yes, here it is":
@@ -556,8 +559,8 @@ label setupItemSystem:
         Knife = Item("Knife", "An old bloody kitchen knife.", True,False)
         Gem = Item("Gem", "A glittering red gem, it must be expensive. It has a mysterious aura about it...",False,False)
         GoldNugget = Item("Gold Nugget", "A small lump of shiny gold, it weighs about as much as you would expect the crown to weigh",False,False)
-        Crown = Item("Crown", "A shiny gold crown, I wonder if its the real one or an impostor",False,False)
-        FakeCrown = Item("Crown", "A shiny gold crown, I wonder if its the real one or an impostor ",False,False)
+        Crown = Item("Crown (Real)", "A shiny gold crown, I wonder if its the real one or an impostor",False,False)
+        FakeCrown = Item("Crown (FakeCrown)", "A shiny gold crown, I wonder if its the real one or an impostor ",False,False)
         PlainKey1 = Item("Plain Key", "A plain old key, I wonder what it goes to...",False, False)
         Hammer = Item("Hammer", "A lightly rusted hammer with a wooden handle. It looks like it's seen years of use",False,False)
         SpareParts = Item("Spare Parts", "Some old parts that look like they go to an engine", False,False)
@@ -567,8 +570,7 @@ label setupItemSystem:
         OrangeKey = Item("Orange Key", "", False, False)
         MythologyBook = Item("Mythology Book","",False,False)
         ###MAKE SURE YOU ALSO ADD A MENU STATEMENT FOR EACH ITEM YOU ADD HERE^^^### 
-
-        lastPickup = Item("Backpack","Your old Backpack that you've had for many years",False,False) #Lets define all the items we need for this alpha
+        #lastPickup = Item("Backpack","Your old Backpack that you've had for many years",False,False) #Lets define all the items we need for this alpha
     return
 
 
@@ -601,6 +603,7 @@ label entrance_hall:
             jump ballroom
 
         "Go down the right hall":
+            $bag.items.append(BasementKey) #For ease of debugging
             jump to_basement_door_from_mainhall    
         
 label to_garage:
@@ -639,32 +642,43 @@ menu:
         jump entrance_hall
     
 label into_the_garage:
-      $ menu_flag = True
-      "You step into the garage and see a crazed husk charging at you."
-      "It tackles you and you attempt to fight back,  but before you can retaliate it hits you over the head with a wrench."
-      hide mainhall
-      show mechnest #TODO should this be a black background? -Jack
-      with fade
-      "Everything fades to black."
-        
-      jump to_mech_nest
+    if firstTimeInGarage:
+        $ menu_flag = True
+        $ firstTimeInGarage = False
+        "You step into the garage and see a crazed husk charging at you."
+        "It tackles you and you attempt to fight back,  but before you can retaliate it hits you over the head with a wrench."
+        hide mainhall
+        show mechnest #TODO should this be a black background? -Jack
+        with fade
+        "Everything fades to black."
+        jump to_mech_nest
+    else:
+        jump garageScene
      
-# label wake_up_basement:
-#      $  menu_flag = True
-#      "You wake up in what looks to be some kind of mechanic's nest."
-#      "There are wires strewn about and tools scattered on the floor."
-#      "The husk that attacked you earlier is sleeping in the corner, there is a work-bench, toolbox and an old chest in the room." #can kill with certain weapon
-#      menu:
-#          #"Attack the husk":
-#         # jump choice_injured
-#          "Search the work-bench":
-#              jump search_workbench
-#          "Search the toolbox":
-#              jump search_toolbox
-#          "Search the old chest":
-#              jump search_oldchest
-#          "Leave the room":
-#              jump lab_mainhall
+label garageScene:
+    scene garageBackground
+    with fade
+    "You're in the garage, theres an old car and a few old dusty parts lying around"
+    "What would you like to do?"
+    menu:
+        "Inspect car":
+            if SpareParts not in bag:
+                "Maybe you could fix it with some spare parts, but where could you find them?"
+                jump garageScene
+            else:
+                "Upon closer examination, the car seems to be missing a few parts"
+                "The spare parts in your bag could help, would you like to try and fix the car?"
+                menu:
+                    "Sure":
+                        "You spend a few minutes fiddling with the spare parts that you put in the car"
+                        "Using your special set of skills you hot wire the car and it roars to life"
+                        "You back the car up right through the garage door and out into the storm"
+                        jump escape
+                    "No":
+                        "You back away from the car"
+                        jump garageScene
+        "Go Back":
+            jump entrance_hall
              
 #when player doesn't have the basement key in their bag (**this is for the first time entering the mansion on the main floor only**)
 label missing_basement_key:
@@ -871,13 +885,13 @@ label kitchen:
     "What do you want to do?"
     menu:
         "Check sink":
-            $showInventory()
             if ((GoldNugget in bag) and (Crown in bag) and (FakeCrown in bag)):
                 "Would you like to check to see which one of the crowns is Basiltine's real crown?"
                 menu:
                     "Yeah":
                         $bag.items.remove(FakeCrown)
                         "Using the principles of displacement and density, you find which crown is made of real gold, and you toss the other in the garbage."
+                        jump back
 
                     "No": 
                         jump back
@@ -983,8 +997,8 @@ label to_Library:
                 jump medical_bookcase
             "Examine Cooking":
                 jump cooking_bookcase
-            "Enter Main Hall":
-                jump entrance_hall
+            "Leave to hallway":
+                jump 
             
 #library bookcases            
 label mythology_bookcase:
@@ -1223,6 +1237,7 @@ label examine_gold_band:
 label take_golden_band:
      $ menu_flag = True
      "You pick up the golden band and put it into you bag."
+     $bag.items.append(Crown)
      "You then back out of the fourth dungeon cell."
      jump to_Dungeon
      
@@ -1235,18 +1250,21 @@ label from_basement:
      "You see a closed door in front of you."
 menu:
     "Attempt to open the door":
-        jump missing_basement_key_to_first_floor
+        jump attemptToOpenBasementDoorToFirstFloor
     
     "Turn Back":
                   jump to_basement
                   
 #when player doesn't have the basement key in their bag   
-label missing_basement_key_to_first_floor:
-      $ menu_flag = True
-      "You attempt to open the door but it won't budge, it looks as if you may need a key to get in."  #only way to get to basement through mechanic? (unlocked_basement jump after play has unlocked the door)   
-      jump basement_door_to_first_floor
-      #basement_door_unlocked
-     #jump basement_door_unlocked_to_first floor
+label attemptToOpenBasementDoorToFirstFloor:
+    $ menu_flag = True
+    if BasementKey not in bag:
+        "You attempt to open the door but it won't budge, it looks as if you may need a key to get in."  #only way to get to basement through mechanic? (unlocked_basement jump after play has unlocked the door)   
+        jump basement_door_to_first_floor
+    #basement_door_unlocked
+    else:
+        "You insert the basement key and the door opens effortlessly"
+        jump entrance_hall
      #jump basement_door_unlocked_to_basement
  #to_Library_return and to_Lab_return jump calls to only display options upon returning to already visited locations  
 

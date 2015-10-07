@@ -2,8 +2,8 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 1580: end of line expected.
-    call renpy.full_restart()
-              ^
+File "game/script.rpy", line 644: expected statement.
+    firstTimeInGarage = False
+                      ^
 
 Ren'Py Version: Ren'Py 6.99.6.739

@@ -1,28 +1,36 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/script.rpy", line 265, in script
-    menu:
-  File "game/script.rpy", line 289, in <module>
-    "Can you tell me about this Mythology Book?" if MythologyBook in bag:
-NameError: name 'MythologyBook' is not defined
+  File "game/script.rpy", line 45, in script call
+    call setupItemSystem
+  File "game/script.rpy", line 547, in script
+    python:
+  File "game/script.rpy", line 550, in <module>
+    bag.items.append(BasementKey)
+NameError: name 'BasementKey' is not defined
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/script.rpy", line 265, in script
-    menu:
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\ast.py", line 1428, in execute
-    choice = renpy.exports.menu(choices, self.set)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\exports.py", line 725, in menu
-    if renpy.python.py_eval(condition) ]
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\python.py", line 1477, in py_eval
-    return py_eval_bytecode(code, globals, locals)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\python.py", line 1472, in py_eval_bytecode
-    return eval(bytecode, globals, locals)
-  File "game/script.rpy", line 289, in <module>
-    "Can you tell me about this Mythology Book?" if MythologyBook in bag:
-NameError: name 'MythologyBook' is not defined
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\bootstrap.py", line 281, in bootstrap
+    renpy.main.main()
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\main.py", line 468, in main
+    run(restart)
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\main.py", line 142, in run
+    renpy.execution.run_context(True)
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\execution.py", line 700, in run_context
+    context.run()
+  File "game/script.rpy", line 45, in script call
+    call setupItemSystem
+  File "game/script.rpy", line 547, in script
+    python:
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\ast.py", line 797, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\python.py", line 1448, in py_exec_bytecode
+    exec bytecode in globals, locals
+  File "game/script.rpy", line 550, in <module>
+    bag.items.append(BasementKey)
+NameError: name 'BasementKey' is not defined
 
 Windows-7-6.1.7601-SP1
 Ren'Py 6.99.6.739

@@ -970,7 +970,7 @@ label to_Library:
     "The shelves  are labeled as follows: 'Mythology', 'Riddles', 'Self-Help', 'Medical' and 'Cooking'."
     label bookChoices:
         menu:
-            "Examine Mythology":
+            "Examine Mythology" if MythologyBook not in bag:
                 jump mythology_bookcase
             "Examine Riddles":
                 jump riddles_bookcase

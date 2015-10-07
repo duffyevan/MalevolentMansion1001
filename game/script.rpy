@@ -998,7 +998,7 @@ label to_Library:
             "Examine Cooking":
                 jump cooking_bookcase
             "Leave to hallway":
-                jump 
+                jump to_basement
             
 #library bookcases            
 label mythology_bookcase:

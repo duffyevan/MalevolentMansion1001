@@ -1,21 +1,21 @@
-Wed Oct 07 18:24:47 2015
+Wed Oct 07 19:37:20 2015
 Windows-7-6.1.7601-SP1
 Ren'Py 6.99.6.739
  
 
-Bootstrap to the start of init.init took 0.07s
+Bootstrap to the start of init.init took 0.06s
 Early init took 0.01s
 Loader init took 0.03s
-Loading error handling took 0.01s
-Loading script took 0.32s
+Loading error handling took 0.02s
+Loading script took 0.33s
 Loading persistent took 0.01s
 Importing _renpysteam: ImportError('No module named _renpysteam',)
-Running init code took 0.08s
+Running init code took 0.07s
 Loading analysis data took 0.01s
 Analyze and compile ATL took 0.00s
 Index archives took 0.00s
 Backing up script files to u'C:\\Users\\Evan\\AppData\\Roaming/RenPy/backups\\MalevolentMansion':
-Dump and make backups. took 0.04s
+Dump and make backups. took 0.03s
 Cleaning cache took 0.00s
 Making clean stores took 0.00s
 Creating interface object took 0.02s
@@ -228,11 +228,11 @@ Texture testing:
 - 512px textures work.
 - 1024px textures work.
 - 2048px textures work.
-Total time until interface ready: 1.1740000248s
+Total time until interface ready: 1.19400000572s
 - Target is 5 frames in 0.333333333333 seconds.
 - Frame drawn at 0.000000 seconds.
-- Frame drawn at 0.010000 seconds.
-- Frame drawn at 0.020000 seconds.
-- Frame drawn at 0.036000 seconds.
-- Frame drawn at 0.062000 seconds.
-- 0.062000 seconds to render 5 frames.
+- Frame drawn at 0.008000 seconds.
+- Frame drawn at 0.021000 seconds.
+- Frame drawn at 0.056000 seconds.
+- Frame drawn at 0.112000 seconds.
+- 0.112000 seconds to render 5 frames.

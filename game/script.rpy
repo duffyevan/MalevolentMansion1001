@@ -287,7 +287,11 @@ label talkToHarold:
                     "Phoebe" if metPhoebe:
                         h "That young w-woman didn't h-have much to say to m-me. She just muttered about s-secrets."
             "Can you tell me about this Mythology Book?" if MythologyBook in bag:
-                h "Oi oi thats a dank book u got there m9 xDdddddddd" ## HI JACK! THIS IS WHERE HAROLD TELLS THE PLAYER ABOUTTHE CRYPTIC MYTHOLOGY BOOK! CAN YOU INSERT THE DIALOG FOR THAT? THANKS!
+                h "Hmmm... Th-These symbols... They resemble a dialect of ancient Sumerian."
+                h "Now that I think of if, Lord Cupido did entertain a fascination with Sumerian artifacts a little while before his disappearence."
+                h "It's been a while, but I think... I... can...."
+                h "Got it! I've deciphered the text. It reads: 'Swim through the clouds, crawl along the ocean depths, fly silently through the grass.'"
+                h "I'm not sure what that means, but it m-might be a clue to that underground escape t-tunnel."
     else:
         h "AHG MONSTER!"
         "Harold takes out a revolver from the pile of laundry and starts shooting"
@@ -550,7 +554,6 @@ label setupItemSystem:
         Chainsaw = Item("Chainsaw","You know whats good",True,True)
         CrowBar = Item("Crow Bar", "Take Dr. Friedman's advice, use the vents.", True,True)
         Knife = Item("Knife", "An old bloody kitchen knife.", True,False)
-        Idol = Item("Idol", "Some random idol that just happens to be here next to these weapons.", False, False)
         Gem = Item("Gem", "A glittering red gem, it must be expensive. It has a mysterious aura about it...",False,False)
         GoldNugget = Item("Gold Nugget", "A small lump of shiny gold, it weighs about as much as you would expect the crown to weigh",False,False)
         Crown = Item("Crown", "A shiny gold crown, I wonder if its the real one or an impostor",False,False)
@@ -1399,8 +1402,8 @@ label search_orange_desk:
                  "You back away from the desk"
                  jump orange_room
      else: 
-        "There seems to be nothing on or in the desk"
-        "You back away from the desk"
+        "There seems to be nothing on or in the desk."
+        "You back away from the desk."
         jump orange_room
 
 label take_orange_key: #add key to bag, or whatever happens with this specific key
@@ -1460,7 +1463,9 @@ label search_red_desk:
     #FIXED THIS IS A JOB FOR ANOTHER DAY :)
     #And that day is today :)))))
     if bag.sanity < 50: # The number here is percent, this can be changed to whatever you want under 100
-        "Insert dank lore here" ## HI JACK! SO THIS IS WHERE YOU CAN PUT LORE 
+        "Riches... He had Riches but was not Contented...." ##ONLY THE DANKEST OF LORE
+        "Gleaming.... Gleam of Jewel.... Gleam of Madness and Greed...."
+        "Crimson.... Crimson Gem... Crimson Blood as he is Betrayed in his Sleep... Crimson Fog of Madness spreads forever and ever and ever"
     else:
         "You attempt to decipher anything useful but there is nothing to be learned here."
     "You back away from the desk."
@@ -1493,7 +1498,7 @@ label purple_room:
 
 label search_purple_bed:
      $ menu_flag = True
-     "On the bed you find a mechanic's jacket."
+     "Under the bed you find a mechanic's jacket."
      "The name tag on the jacket reads 'Archie'."
      "You back away from the bed."
      jump purple_room
@@ -1517,7 +1522,7 @@ label take_crown_purple:
 
 label search_purple_closet:
      $ menu_flag = True
-     "In the closet you find an fine old room that looks like it's fit for royalty."
+     "In the closet you find an fine old robe that looks like it's fit for royalty."
      "You close the closet door and back away."
      jump purple_room
     

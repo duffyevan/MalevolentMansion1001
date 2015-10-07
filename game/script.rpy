@@ -1399,7 +1399,7 @@ label search_orange_bed:
              
 label test_flashlight:
     $ menu_flag = True
-    "You pick up the flashlight and flip the switch, the batteries seem to be dead."#change if you want it to work and be used for something
+    "You pick up the flashlight and flip the switch, and a strong beam of light bursts forth."
     jump search_orange_bed
 
 label take_flashlight: #add flashlight to bag
@@ -1499,18 +1499,15 @@ label search_red_closet:
      
 label purple_room:
     $ menu_flag = True
-    "In the Purple Room you see a bed, a desk and a closet."
+    "In the Purple Room you see a bed, a closet, and a man sitting at a desk."
     menu:
         "Search the bed":
             jump search_purple_bed
-        "Search the desk":
-            if Crown not in bag:
-                jump search_purple_desk
-            else:
-                "There's nothing here..."
-                jump purple_room
         "Search the closet":
             jump search_purple_closet
+        "Talk to the man"
+            "You approach the man, who seems to be writing on a pad of paper"
+            #TODO do the things of talking
         "Leave the room":
             jump return_level_2
 
@@ -1521,28 +1518,6 @@ label search_purple_bed:
      "You back away from the bed."
      jump purple_room
      
-label search_purple_desk:
-     $ menu_flag = True
-     "In the desk you find a dusty crown."
-     "It is encrusted with several very expensive looking gems."
-     menu:
-         "Take the crown":
-             jump take_crown_purple
-         "Leave the crown":
-             "You leave the crown where it is and back away from the desk." #test the crown with nugget???
-             jump purple_room
-             
-label take_crown_purple:
-    "You dust off the crown and put it into your bag."
-    $bag.items.append(FakeCrown)
-    "You back away from the desk."
-    jump purple_room
-
-label search_purple_closet:
-     $ menu_flag = True
-     "In the closet you find an fine old robe that looks like it's fit for royalty."
-     "You close the closet door and back away."
-     jump purple_room
     
 label master_bedroom:
     $ menu_flag = True

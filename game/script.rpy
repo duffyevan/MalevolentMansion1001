@@ -1505,7 +1505,7 @@ label purple_room:
             jump search_purple_bed
         "Search the closet":
             jump search_purple_closet
-        "Talk to the man"
+        "Talk to the man":
             "You approach the man, who seems to be writing on a pad of paper"
             #TODO do the things of talking
         "Leave the room":

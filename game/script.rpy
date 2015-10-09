@@ -619,7 +619,8 @@ label to_basement_door_from_mainhall:
     jump basement_door_choices
     
 label garage_door_choices:
-    "You hear heavy breathing from somewhere within the garage..."
+    if firstTimeInGarage:
+        "You hear heavy breathing from somewhere within the garage..."
 menu:
     "Keep Going":
          jump into_the_garage
@@ -750,7 +751,8 @@ label search_workbench:
 label escape:
     play sound "audio/rain.mp3" fadeout 1.0 fadein 1.0 loop
     play music "audio/Private Reflection.mp3" fadein 1.0 loop
-    play music "audio/Spook.mp3" fadein 3.0 loop
+    if playerName == "John Cena":
+        play music "audio/Spook.mp3" fadein 3.0 loop
     scene road
     with fade
     "After a long night in the Malevolent Mansion, you finally escape."
@@ -915,6 +917,18 @@ label kitchen:
                 "There's nothing in here"
                 "You close the fridge and back away"
                 jump back
+        "Check Counter" if Knife not in bag:
+            "There is an old bloody kitchen knife on the counter, do you want to take it or leave it":
+            menu:
+                "Take it":
+                    "You put the knife in your bag"
+                    $bag.items.append(Knife)
+                    jump back
+
+                "Leave it":
+                    "You back away"
+                    jump back
+
         "Leave":
             jump entrance_hall
 

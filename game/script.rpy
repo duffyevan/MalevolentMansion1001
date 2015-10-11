@@ -92,6 +92,7 @@ label start:
                 stop sound fadeout 2.0
                 play sound "audio/rain.mp3" fadein 2.0 loop
                 
+                "You run out of the car, grabbing the emergency first-aid aid in the glove compartment just before you leave."
                 "You see the source of the light, a large mansion at the end of the road."
                 menu:      
                     with dissolve
@@ -247,7 +248,7 @@ label changeRoom (room):
         currentRoomObstacles = room.getObstacles()
 
 label goInsane:
-    "You've lost all your sanity. You lose your mind and wander the halls of the Malevolent Mansion, forever."
+    "You've lost all of your sanity. You lose your mind and wander the halls of the Malevolent Mansion, forever."
     "Game Over"
     jump choice_end_game
     return
@@ -266,7 +267,7 @@ label talkToHarold:
             h "W-what? W-w-who's there? W-what do you want?"
             $metHarold = True
         else:
-            h "W-what? W-w-who's there? Oh it's you a-again, what do you w-want?"
+            h "W-what? W-w-who's there? Oh it's you a-again. %(playerName)s, what do you w-want?"
         menu:
             "Who are you?":
                 h "M-My name is H-H-Harold. I-I am a historian from a-around here and I had h-heard some legends about this p-place."
@@ -295,7 +296,8 @@ label talkToHarold:
                 h "Hmmm... Th-These symbols... They resemble a dialect of ancient Sumerian."
                 h "Now that I think of if, Lord Cupido did entertain a fascination with Sumerian artifacts a little while before his disappearence."
                 h "It's been a while, but I think... I... can...."
-                h "Got it! I've deciphered the text. It reads: 'Swim through the clouds, crawl along the ocean depths, fly silently through the grass.'"
+                h "Got it! I've deciphered the text. There's one passage in particular that might aid your escape, titled 'Riddle for Passage of Bone.'"
+                h "It reads: 'Swim through the clouds, crawl along the ocean depths, fly silently through the grass.'"
                 h "I'm not sure what that means, but it m-might be a clue to that underground escape t-tunnel."
     else:
         h "AHG MONSTER!"
@@ -392,12 +394,12 @@ label talkToPhoebe:
             p "You have arrived. Phoebe thinks you are late."
             $metPhoebe = True
         else:
-            p "You return, what do you want from Phoebe?"
+            p "You return, what does %(playerName)s want from Phoebe?"
         menu:
             "Who are you?":
-                p "Phoebe's name is Phoebe. She was drawn here by its aura."
+                p "Phoebe's name is Phoebe. She was drawn here by this place's aura."
                 p "Such emotion... Such darkness..."
-                p"But now Phoebe is trapped, she does not like the storm"
+                p"But now Phoebe is trapped, she does not like the storm."
             "How do I get out of here?":
                 p "Escape? Phoebe sees... four?... No, three exits."
                 p "Phoebe only knows they exist, not where they are."
@@ -407,18 +409,16 @@ label talkToPhoebe:
                 p "Always corrupted? No, Phoebe feels an event, an explosion of emotion."
                 p "Everywhere reeks of hate and greed and madness. Whatever it was before, now it is only a nest of darkness."
             "Do you know anything about other people in the mansion?" if metArchie or metAvidem or metHarold:
-                p "Yes, Phoebe knows about Avidem, Basiltine, and Harold" 
-                p "Who would you like Phoebe to tell you about?"
                 menu:
                     "Avidem" if metAvidem:
-                        p "Unnerving, calm in the storm"
+                        p "Unnerving, calm in the storm."
                     "Basiltine" if metArchie:
                         p "Funny man, lives in his own world. Phoebe wonders if he is foolish or fortunate..."
                     "Harold" if metHarold:
                         p "Does he hide from the world, or hide something from the world?"
 
     else:
-        p "That was unwise of you"
+        p "That was unwise of you."
         "Phoebe has a knife! She stabs you right in the heart."
         "Luckily you have your first aid kit. You've recovered, but you had to use some of your supplies."
         call updateLives(1)
@@ -432,16 +432,16 @@ label talkToBasiltine:
             b "You desire an audience with the emperor? Very well, ask away"
             $metArchie = True
         else:
-            b "You return to the emperor, what do you wish from him now"
+            b "%(playerName)s! You return to the emperor, what do you wish from him now?"
         menu:
             "Who are you?":
-                b "You don't know who I am?!? But I am his Glorious Highness Basiltine von Ludwig XIII, appointed by the Heavens, Long May He Reign!"
-                b "But you may call me Archie"
+                b "You don't know who I am?!? But I am his Glorious Highness Basiltine von Ludwig XIII, Appointed by the Heavens, Long May He Reign etc. etc.!"
+                b "But you may call me Archie."
             "How do I get out of here?":
                 if GoldNugget not in bag:
-                    b "I can not see why you would wish to leave my Empire, but if that is truly so I can help you if you help me"
-                    b "I have misplaced my crown, find it and I will grant you the keys to the empire"
-                    b "However, impostor crowns lurk about. Use this to determine the true crown"
+                    b "I can not see why you would wish to leave my Empire, but if that is truly so I can help you. If you help me..."
+                    b "I have misplaced my crown, find it and I will grant you the keys to the empire."
+                    b "However, impostor crowns lurk about. Use this to determine the true crown:"
                     "%(playerName)s got a gold nugget"
                     $bag.items.append(GoldNugget)
                 elif SpareParts not in:
@@ -472,25 +472,25 @@ label talkToBasiltine:
 
     else:
         b "Who dares assault them emperor?!"
-        "Basiltine takes a wrench from behind him and beats you over the head with it"
-        "You black out"
+        "Basiltine takes a wrench from behind him and beats you over the head with it."
+        "You black out..."
         "Luckily you have your first aid kit. You've recovered, but you had to use some of your supplies."
         call updateLives(1)
 
     jump to_mech_nest
 
 label giveBasiltineCrown():
-    if Crown in bag:
+    if Crown in bag: #TODO should this also have if fakecrown not in bag?
         b "Do you bring me my crown?"
         menu:
             "Yes, here it is":
-                b "Ahh yes, my precious. Thank you peasant, for your work you may have this"
+                b "Ahh yes, my precious. Thank you peasant, for your work you may have this:"
                 $bag.items.append(SpareParts)
                 "Archie hands you a small burlap bag with a few spare parts that seem like they come from an old car in it"
-                b "If you use these well, peasant, you just may be able to escape"
+                b "If you use these well, you just may be able to escape."
                 jump to_mech_nest
             "No":
-                b "Well hurry up, the emperor is growing impatient"
+                b "Well hurry up, the emperor is growing impatient."
     elif FakeCrown in bag and Crown not in bag:
         b "Do you bring me my crown?"
         menu:
@@ -502,9 +502,9 @@ label giveBasiltineCrown():
             "No":
                 b "Well hurry up, the emperor is growing impatient"
     elif FakeCrown in bag and Crown in bag:
-        b "You have two! Which one is the real one! Come back when you've found out"
+        b "You have two! Which one is the real one? Come back when you've discovered the real one."
     else:
-        b "You don't have it! Come back when you have it"
+        b "You don't have it! Come back when you have it."
     jump to_mech_nest #TODO I think this is left over from the Alpha -Jack
 
 label inventory:
@@ -558,23 +558,23 @@ label setupItemSystem:
     python:
         ###DEFINE ALL ITEMS HERE!!!###
         bag = Inventory()
-        Chainsaw = Item("Chainsaw","You know whats good",True,True)
+        Chainsaw = Item("Chainsaw","You know what's good.",True,True)
         CrowBar = Item("Crow Bar", "Take Dr. Friedman's advice, use the vents.", True,True)
         Knife = Item("Knife", "An old bloody kitchen knife.", True,False)
         Gem = Item("Gem", "A glittering red gem, it must be expensive. It has a mysterious aura about it...",False,False)
-        GoldNugget = Item("Gold Nugget", "A small lump of shiny gold, it weighs about as much as you would expect the crown to weigh",False,False)
-        Crown = Item("Crown (Real)", "A shiny gold crown, I wonder if its the real one or an impostor",False,False)
-        FakeCrown = Item("Crown (FakeCrown)", "A shiny gold crown, I wonder if its the real one or an impostor ",False,False)
-        PlainKey1 = Item("Plain Key", "A plain old key, I wonder what it goes to...",False, False)
-        Hammer = Item("Hammer", "A lightly rusted hammer with a wooden handle. It looks like it's seen years of use",False,False)
-        SpareParts = Item("Spare Parts", "Some old parts that look like they go to an engine", False,False)
+        GoldNugget = Item("Gold Nugget", "A small lump of shiny gold, it weighs about as much as you would expect the crown to weigh.",False,False)
+        Crown = Item("Crown (Real)", "A shiny gold band, I wonder if its real?",False,False)
+        FakeCrown = Item("Crown (FakeCrown)", "A glittering gold crown, I wonder if its real?",False,False)
+        PlainKey1 = Item("Plain Key", "A plain old key.",False, False)
+        Hammer = Item("Hammer", "A lightly rusted hammer with a wooden handle. It looks like it's seen years of use.",False,False)
+        SpareParts = Item("Spare Parts", "Some old parts that look like they go to an engine.", False,False)
         BasementKey = Item("Basement Key", "An old tarnished key.", False, False)
         Flask = Item("Flask", "", False, False)
         Flashlight = Item("Flashlight", "", False, False)
         OrangeKey = Item("Orange Key", "", False, False)
         MythologyBook = Item("Mythology Book","",False,False)
         ###MAKE SURE YOU ALSO ADD A MENU STATEMENT FOR EACH ITEM YOU ADD HERE^^^### 
-        #lastPickup = Item("Backpack","Your old Backpack that you've had for many years",False,False) #Lets define all the items we need for this alpha
+        #lastPickup = Item("Backpack","Your old Backpack that you've had for many years.",False,False) #Lets define all the items we need for this alpha
     return
 
 
@@ -638,7 +638,7 @@ menu:
     "Attempt to open the door":
         if BasementKey in bag:
             "You insert your Basement Key and the door opens with little effort."
-            "There is a set of old wooden stairs that descend into a dark basement with dust and cobwebs floating in the air"
+            "There is a set of old wooden stairs that descend into a dark basement with dust and cobwebs floating in the air."
             jump to_basement
         else:    
             jump missing_basement_key
@@ -663,7 +663,7 @@ label into_the_garage:
 label garageScene:
     scene garageBackground
     with fade
-    "You're in the garage, theres an old car and a few old dusty parts lying around"
+    "You're in the garage, theres nothing but dust and an old car."
     "What would you like to do?"
     menu:
         "Inspect car":
@@ -671,16 +671,16 @@ label garageScene:
                 "Maybe you could fix it with some spare parts, but where could you find them?"
                 jump garageScene
             else:
-                "Upon closer examination, the car seems to be missing a few parts"
+                "Upon closer examination, the car seems to be missing a few parts."
                 "The spare parts in your bag could help, would you like to try and fix the car?"
                 menu:
                     "Sure":
-                        "You spend a few minutes fiddling with the spare parts that you put in the car"
-                        "Using your special set of skills you hot wire the car and it roars to life"
-                        "You back the car up right through the garage door and out into the storm"
+                        "You spend a few minutes fiddling with the spare parts that you put in the car."
+                        "Using your special set of skills you hot wire the car and it roars to life."
+                        "You back the car up right through the rusted garage door and out into the storm!"
                         jump escape
                     "No":
-                        "You back away from the car"
+                        "You back away from the car."
                         jump garageScene
         "Go Back":
             jump entrance_hall
@@ -703,13 +703,13 @@ label instant_death:
 label to_mech_nest:
     $ menu_flag = True
     show mechnest
-    if garageHuskIsAlive:
+    if garageHuskIsAlive: #TODO is there any way to change this if you haven't gone to the garage yet?
         "The husk that attacked you earlier is sleeping in the corner, there is a work-bench, toolbox and an old chest in the room. There is also another man in in the back of the room behind a car who seems to be awake" #can kill with certain weapon
     else:
         "The husk no longer needs to be worried about, there is a work-bench, toolbox and an old chest in the room. The other man seems to barely have noticed that you're there"
     menu:
         "Attack the husk" if garageHuskIsAlive:
-            "You attack the husk with desperate force." #get rid of option if husk is killed
+            "You attack the husk with desperate force!" #get rid of option if husk is killed
             "After a bit of struggling the husk stops moving. You're safe, for now..."
             $garageHuskIsAlive = False
             call updateSanity(-5)
@@ -761,7 +761,7 @@ label escape:
     with fade
     "After a long night in the Malevolent Mansion, you finally escape."
     "What happens next..."
-    "Is up to you"
+    "Is up to you."
     jump choice_end_game
 
 label search_toolbox:
@@ -849,7 +849,7 @@ label search_locker:
              jump to_Lab
              
 label search_desk:
-    "You see a key with the label 'Basement' on it"
+    "You see a key with the label 'Basement' on it."
     menu:
         "Take the key":
             $bag.items.append(BasementKey)
@@ -862,7 +862,7 @@ label search_table:
         "Chug the liquid":
             call updateLives(1)
             "Turns out the liquid is poisonous. Good thing you have your first aid kit."
-            "You are still alive but you had to use some of your medical supplies"
+            "You are still alive but you had to use some of your medical supplies."
         "Take the flask":
             jump take_flask
         "Leave the table":
@@ -892,7 +892,7 @@ label kitchen:
     menu:
         "Check sink":
             if ((GoldNugget in bag) and (Crown in bag) and (FakeCrown in bag)):
-                "Would you like to check to see which one of the crowns is Basiltine's real crown?"
+                "Would you like to check to see which one of the crowns is Archie's real crown?"
                 menu:
                     "Yeah":
                         $bag.items.remove(FakeCrown)
@@ -909,7 +909,7 @@ label kitchen:
                 "In the fridge there is nothing but a single pie. Do you want to eat it or leave it?"
                 menu:
                     "Eat it":
-                        "Believe it or not the pie is delicious, and it makes you feel a lot better."
+                        "The pie is delicious! It makes you feel a lot better."
                         "Your sanity was completely restored"
                         $bag.sanity = 100
                         $atePie = True
@@ -918,19 +918,19 @@ label kitchen:
                         "You close the fridge and back away"
                         jump back
             else:
-                "There's nothing in here"
-                "You close the fridge and back away"
+                "There's nothing in here."
+                "You close the fridge and back away."
                 jump back
         "Check Counter" if Knife not in bag:
-            "There is an old bloody kitchen knife on the counter, do you want to take it or leave it"
+            "There is an old bloody kitchen knife on the counter, do you want to take it or leave it?"
             menu:
                 "Take it":
-                    "You put the knife in your bag"
+                    "You put the knife in your bag."
                     $bag.items.append(Knife)
                     jump back
 
                 "Leave it":
-                    "You back away"
+                    "You back away."
                     jump back
 
         "Leave":
@@ -941,15 +941,15 @@ label ballroom:
     with fade
     label back2:
     if ballroomLightsOff:
-        "The room is dark, too dark to see"
+        "The room is dark, too dark to see."
         "Theres a light switch on the wall, do you want to flip it?"
     else:
-        "The bodies still hang from the ceiling, but they seem to have finished kicking"
+        "The bodies still hang from the ceiling, but they seem to have finished kicking."
     menu:
         "Flip the switch" if ballroomLightsOff:
             $ballroomLightsOff = False
             "You turn on the lights to the sight of many bodies hung from the ceiling, some of them still kicking."
-            "Your sanity is lowered by 15"
+            "The grisly sight disturbs you."
             call updateSanity(-15)
             jump back2
 
@@ -963,18 +963,18 @@ label laundryRoom:
     label back1:
     "What would you like to do?"
     menu:
-        "Inspect the pile of cloths" if not metHarold:
+        "Inspect the pile of clothes" if not metHarold:
             "After a bit of digging you feel something solid."
-            "Removing some cloths reveals a small man huddled under the cloths."
+            "Removing some clothes reveals a small man huddled under the cloths."
             jump talkToHarold
         "Talk to Harold" if metHarold:
             jump talkToHarold
         "Check the laundry chute":
             "There is a metal laundry chute in the wall."
-            "It only goes up and is too small and slippery to climb up"
+            "It is too small and slippery to climb up."
             jump back1
         "Leave":
-            "You back out into the main hall"
+            "You back out into the main hall."
             jump entrance_hall
     jump back1
 
@@ -1021,7 +1021,7 @@ label to_Library:
 #library bookcases            
 label mythology_bookcase:
      $ menu_flag = True
-     "You see a book with a title that's written in some unrecognizable cryptic language."
+     "You see a book with a title that's written in some unrecognizable, cryptic language."
      menu:
          "Examine the book":
              jump read_mythology
@@ -1073,13 +1073,13 @@ label cooking_bookcase:
 label read_mythology:
     $ menu_flag = True
     "You pick up the strange book and see that the contents of the book are written in the same cryptic language as the title."
-    "You're pretty curious about this book, do you want to take it or put it back"#FIXED: THE MYTHOLOGY BOOK IS WHAT YOU GIVE TO HAROLD, IT NEEDS TO GO INTO INVENTORY- JACK
+    "You're pretty curious about this book, do you want to take it or put it back?"
     menu:
         "Take it":
-            "%(playerName)s put the mythology book in his bag."
+            "%(playerName)s put the mythology book in their bag."
             $bag.items.append(MythologyBook)
         "Leave it":
-            "You put the book back on it's shelf and back away."
+            "You return the book to its shelf and back away."
     jump to_Library
             
 label read_riddles:
@@ -1087,9 +1087,9 @@ label read_riddles:
     "You grab the book and attempt to pull it of the shelf."
     "To your surprise the book rotates about 45 degrees and then locks with a click."
 
-    "The bookshelf then begins to slide to the left to reveal a secret passage."
+    "The bookshelf then begins to slide to the left, revealing a secret passage."
     if secretPassageActive:
-        "This must be the passage back to the lab that was covered by the bookshelf when you entered"
+        "This must be the secret passage to the lab."
     hide Library
     show tunnel with fade
     menu:
@@ -1105,7 +1105,7 @@ label read_selfhelp:
     "The man locks his gaze onto you and pumps the shotgun."
     menu:
         "Dive for cover":
-            "Sadly you don't get to cover in time. The man shoots you square in the chest"
+            "Sadly you don't get to cover in time. The man shoots you square in the chest."
             call updateLives(1) #attempt to dive for cover but the crazed man shoots you before you can (self_help_death)
             "Thankfully you have your first aid kit. You save yourself using some of your medical supplies."
             "In an adrenaline fueled rage you run to the man as hes reloading his shotgun, grab the gun and beat him upside the head with it."
@@ -1152,7 +1152,7 @@ label to_Dungeon:
     hide hallway
     show dungeon
     with fade
-    "You enter a dark and dank dungeon."
+    "You enter a dark, dank dungeon."
     menu:
         "Go into room 1":
             jump to_dungeon_1
@@ -1167,7 +1167,7 @@ label to_Dungeon:
         
 label to_dungeon_1:
     $ menu_flag = True
-    "You walk into the first dungeon cell to see a nest of sniveling and squeaking rats."
+    "You walk into the first dungeon cell to see a nest of sniveling, squeaking rats."
     "As you step into the room all the rats rush by you in a frenzy."
     "Physically, you suffer only minor scratches, but mentally you are wounded by the sight."
     call updateSanity(-10)
@@ -1227,9 +1227,9 @@ label to_dungeon_3:
 label chained_husk:
      $ menu_flag = True
      "You step forward slowly and as you get closer you find the source of the rattling chains."
-     "Someone chained a husk up in this cell and you can see its silhouette, as it struggles uselessly against the chains."
-     "You feel badly for the creature but you know that whoever it was their mind was lost long ago."
-     "You back out of the cell as the husk continues to struggle to break free."
+     "Someone chained a husk up in this cell, and you can see its silhouette as it struggles uselessly against the chains."
+     "You feel badly for the creature but you know that whoever it waslost their mind long ago."
+     "You back out of the cell as the husk continues its struggle to break free."
      jump to_Dungeon
      
 label to_dungeon_4:
@@ -1281,7 +1281,7 @@ label attemptToOpenBasementDoorToFirstFloor:
         jump basement_door_to_first_floor
     #basement_door_unlocked
     else:
-        "You insert the basement key and the door opens effortlessly"
+        "You insert the basement key and the door opens effortlessly."
         jump entrance_hall
      #jump basement_door_unlocked_to_basement
  #to_Library_return and to_Lab_return jump calls to only display options upon returning to already visited locations  
@@ -1373,7 +1373,7 @@ label search_green_desk:
      $ menu_flag = True
      "In the desk you find a crystal ball."
      "You stare into the ball, and see..."
-     "A small crack in the crystal."
+     "Your own reflection."
      jump green_room
      
 label search_green_closet:
@@ -1486,8 +1486,8 @@ label red_husk_attack:
     $ menu_flag = True
     $huskInRedBed = False
     "You lean in to get a closer look at the husk and it springs from the bed."
-    "Before you know it you're being scratched and clawed by the rampaging husk."
-    "He beats you brutally and then runs away"
+    "Before you know it you're being scratched and clawed by the rampaging husk!"
+    "He beats you brutally and then runs away."
     call updateLives(-1)
     "Luckily you have your first aid kit. You're alive but you had to use some of your supplies"
     jump red_room
@@ -1553,7 +1553,7 @@ label master_bedroom:
             
 label bedroom_laundry_chute:
     $ menu_flag = True
-    "You approach what looks to be a laundry chute."
+    "You approach the laundry chute."
     "You look down the chute and notice that it's fairly wide and might be able to fit a person."
     menu:
         "Climb into the chute":
@@ -1579,10 +1579,10 @@ label search_nightstand_avidem:
 
 label avidem_alive_nightstand:
     "As you move in to get a better look at the pictures you notice the woman on the bed staring at you intensely."
-    "All of a sudden a wave of fear overcomes you and you freeze in place."
+    "All of a sudden a wave of fear overcomes you, and you freeze in place."
     "You turn your head to look at the woman and her gaze bring you to your knees."
-    "She gets up and approaches you. She leans over and whispers into your ear 'Get out'."
-    "You scramble to your feet and sprint out of the room terrified."
+    "She gets up and approaches you, then leans over and whispers into your ear 'Get out'."
+    "You scramble to your feet and sprint out of the room, terrified."
     call updateSanity(10)
     jump return_level_2
     

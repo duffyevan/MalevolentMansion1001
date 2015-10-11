@@ -10,6 +10,16 @@
 #
 # Screen that's used to display adv-mode dialogue.
 # http://www.renpy.org/doc/html/screen_special.html#say
+
+# screen InventoryScreen():
+
+#     frame:
+#         xalign .98
+#         yalign .98
+
+#         has vbox
+#         textbutton _("Return") action Return()
+
 screen say(who, what, side_image=None, two_window=False):
 
     # Decide if we want to use the one-window or two-window variant.
@@ -54,7 +64,14 @@ screen say(who, what, side_image=None, two_window=False):
     else:
         add SideImage() xalign 0.0 yalign 1.0
     #bar ("Sanity", 100,bag.sanity)
+    frame:
+        style_group "gm_nav"
+        xalign .98
+        yalign .02
 
+        has vbox
+
+        textbutton _("Inventory") action InventoryScreen()
     # Use the quick menu.
     use quick_menu
 
@@ -205,7 +222,6 @@ init -2:
         size_group "mm"
 
 
-
 ##############################################################################
 # Navigation
 #
@@ -240,18 +256,7 @@ init -2:
     style gm_nav_button:
         size_group "gm_nav"
 
-screen Inventory():
-    window:
-        style "gm_root"
 
-    # The various buttons.
-    frame:
-        style_group "gm_nav"
-        xalign .98
-        yalign .98
-
-        has vbox
-        textbutton _("Return") action Return()
 
 ##############################################################################
 # Save, Load
@@ -327,7 +332,6 @@ screen save():
 
     # This ensures that any other menu screen is replaced.
     tag menu
-    use Inventory
     use navigation
     use file_picker
 

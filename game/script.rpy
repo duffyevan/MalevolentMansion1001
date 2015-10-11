@@ -34,9 +34,14 @@ image Phoebe = im.Scale("images/NPCs/Phoebe.png", 900,600)
 image Harold = im.Scale("images/NPCs/Harold.png", 900,600)
 
 
-screen keybindings():
-    key 'k' action inventory
+screen InventoryScreen():
+    # The various buttons.
+    frame:
+        xalign .98
+        yalign .98
 
+        has vbox
+        textbutton _("Return") action Return()
 
 define diss = Dissolve(1.0)
 

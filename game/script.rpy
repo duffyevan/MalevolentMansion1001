@@ -34,11 +34,15 @@ image Phoebe = im.Scale("images/NPCs/Phoebe.png", 900,600)
 image Harold = im.Scale("images/NPCs/Harold.png", 900,600)
 
 
+screen keybindings():
+    key 'k' action inventory
+
 
 define diss = Dissolve(1.0)
 
 # The game starts here.
 label start:
+    screen keybindings()
     play sound "audio/rain.mp3" fadeout 1.0 fadein 1.0 loop
     scene road
     with fade
@@ -918,7 +922,7 @@ label kitchen:
                 "You close the fridge and back away"
                 jump back
         "Check Counter" if Knife not in bag:
-            "There is an old bloody kitchen knife on the counter, do you want to take it or leave it":
+            "There is an old bloody kitchen knife on the counter, do you want to take it or leave it"
             menu:
                 "Take it":
                     "You put the knife in your bag"

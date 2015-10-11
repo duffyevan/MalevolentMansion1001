@@ -2,8 +2,8 @@
 errors listed below, and try again.
 
 
-File "game/screens.rpy", line 15: u'self' is not a keyword argument or valid child for the screen statement.
-    self.__call__():        
-        ^
+File "game/screens.rpy", line 579: u'InventoryScreen' is not a keyword argument or valid child for the screen statement.
+    screen modal InventoryScreen():
+                                ^
 
 Ren'Py Version: Ren'Py 6.99.6.739

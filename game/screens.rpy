@@ -64,14 +64,14 @@ screen say(who, what, side_image=None, two_window=False):
     else:
         add SideImage() xalign 0.0 yalign 1.0
     #bar ("Sanity", 100,bag.sanity)
-    frame:
-        style_group "gm_nav"
-        xalign .98
-        yalign .02
+    # frame:
+    #     style_group "gm_nav"
+    #     xalign .98
+    #     yalign .02
 
-        has vbox
+    #     has vbox
 
-        textbutton _("Inventory") action InventoryScreen()
+        # textbutton _("Inventory") action InventoryScreen()
     # Use the quick menu.
     use quick_menu
 
@@ -553,6 +553,7 @@ screen quick_menu():
         yalign 1.0
 
         textbutton _("Back") action Rollback()
+        #textbutton _("Inventory") action InventoryScreen()
         textbutton _("Save") action ShowMenu('save')
         textbutton _("Q.Save") action QuickSave()
         textbutton _("Q.Load") action QuickLoad()
@@ -576,3 +577,11 @@ init -2:
         selected_hover_color "#cc0"
         insensitive_color "#4448"
 
+screen InventoryScreen():
+    # The various buttons.
+    frame:
+        xalign .98
+        yalign .98
+
+        has vbox
+        textbutton _("Return") action Return()

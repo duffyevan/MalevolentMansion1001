@@ -1,58 +1,72 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/script.rpy", line 65, in script
-    "You're driving down the road in your old beat up Chevy. It's raining pretty heavily and you don't recognize your surroundings."
-  File "game/screens.rpy", line 23, in execute
-    screen say(who, what, side_image=None, two_window=False):
-  File "game/screens.rpy", line 23, in execute
-    screen say(who, what, side_image=None, two_window=False):
-  File "game/screens.rpy", line 67, in execute
-    frame:
-  File "game/screens.rpy", line 72, in execute
-    has vbox
-  File "game/screens.rpy", line 74, in execute
+  File "game/script.rpy", line 48, in script
+    python:
+  File "game/script.rpy", line 51, in <module>
+    playerName = renpy.input("What is your name?") #Take the players name
+  File "game/screens.rpy", line 128, in execute
+    screen input(prompt):
+  File "game/screens.rpy", line 128, in execute
+    screen input(prompt):
+  File "game/screens.rpy", line 136, in execute
+    use quick_menu
+  File "game/screens.rpy", line 546, in execute
+    screen quick_menu():
+  File "game/screens.rpy", line 546, in execute
+    screen quick_menu():
+  File "game/screens.rpy", line 549, in execute
+    hbox:
+  File "game/screens.rpy", line 556, in execute
     textbutton _("Inventory") action InventoryScreen()
-  File "game/screens.rpy", line 74, in keywords
+  File "game/screens.rpy", line 556, in keywords
     textbutton _("Inventory") action InventoryScreen()
 NameError: name 'InventoryScreen' is not defined
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/script.rpy", line 65, in script
-    "You're driving down the road in your old beat up Chevy. It's raining pretty heavily and you don't recognize your surroundings."
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\ast.py", line 594, in execute
-    renpy.exports.say(who, what, interact=self.interact)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\exports.py", line 1032, in say
-    who(what, interact=interact)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\character.py", line 826, in __call__
-    self.do_display(who, what, cb_args=self.cb_args, **display_args)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\character.py", line 688, in do_display
-    **display_args)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\character.py", line 465, in display_say
-    what_text = show_function(who, what_string)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\character.py", line 672, in do_show
-    **self.show_args)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\character.py", line 275, in show_display_say
-    return renpy.display.screen.get_widget(screen, "what", layer)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\screen.py", line 1122, in get_widget
-    screen.update()
+  File "game/script.rpy", line 48, in script
+    python:
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\ast.py", line 797, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\python.py", line 1448, in py_exec_bytecode
+    exec bytecode in globals, locals
+  File "game/script.rpy", line 51, in <module>
+    playerName = renpy.input("What is your name?") #Take the players name
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\exports.py", line 693, in input
+    rv = renpy.ui.interact(mouse='prompt', type="input", roll_forward=roll_forward)
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\ui.py", line 277, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\core.py", line 2357, in interact
+    scene_lists.replace_transient()
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\core.py", line 725, in replace_transient
+    self.remove(layer, tag)
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\core.py", line 1012, in remove
+    self.hide_or_replace(layer, remove_index, "hide")
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\core.py", line 936, in hide_or_replace
+    d = oldsle.displayable._hide(now - st, now - at, prefix)
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\screen.py", line 430, in _hide
+    self.update()
   File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\screen.py", line 565, in update
     self.screen.function(**self.scope)
-  File "game/screens.rpy", line 23, in execute
-    screen say(who, what, side_image=None, two_window=False):
-  File "game/screens.rpy", line 23, in execute
-    screen say(who, what, side_image=None, two_window=False):
-  File "game/screens.rpy", line 67, in execute
-    frame:
-  File "game/screens.rpy", line 72, in execute
-    has vbox
-  File "game/screens.rpy", line 74, in execute
+  File "game/screens.rpy", line 128, in execute
+    screen input(prompt):
+  File "game/screens.rpy", line 128, in execute
+    screen input(prompt):
+  File "game/screens.rpy", line 136, in execute
+    use quick_menu
+  File "game/screens.rpy", line 546, in execute
+    screen quick_menu():
+  File "game/screens.rpy", line 546, in execute
+    screen quick_menu():
+  File "game/screens.rpy", line 549, in execute
+    hbox:
+  File "game/screens.rpy", line 556, in execute
     textbutton _("Inventory") action InventoryScreen()
-  File "game/screens.rpy", line 74, in keywords
+  File "game/screens.rpy", line 556, in keywords
     textbutton _("Inventory") action InventoryScreen()
-  File "<screen language>", line 74, in <module>
+  File "<screen language>", line 556, in <module>
 NameError: name 'InventoryScreen' is not defined
 
 Windows-7-6.1.7601-SP1

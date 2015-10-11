@@ -1,35 +1,36 @@
-Sun Oct 11 16:18:51 2015
+Sun Oct 11 17:05:07 2015
 Windows-7-6.1.7601-SP1
 Ren'Py 6.99.6.739
  
 
 Bootstrap to the start of init.init took 0.07s
 Early init took 0.01s
-Loader init took 0.04s
+Loader init took 0.03s
 Loading error handling took 0.02s
-Loading script took 0.06s
+Loading script took 0.13s
 Loading persistent took 0.01s
 Importing _renpysteam: ImportError('No module named _renpysteam',)
 Running init code took 0.06s
-Loading analysis data took 0.05s
+Loading analysis data took 0.04s
 Analyze and compile ATL took 0.00s
 Index archives took 0.00s
-Dump and make backups. took 0.03s
+Backing up script files to u'C:\\Users\\Evan\\AppData\\Roaming/RenPy/backups\\MalevolentMansion':
+Dump and make backups. took 0.04s
 Cleaning cache took 0.00s
 Making clean stores took 0.00s
 Creating interface object took 0.02s
 Cleaning stores took 0.00s
 Init translation took 0.00s
 Build styles took 0.00s
-Load screen analysis took 0.01s
-Analyze screens took 0.00s
-Save screen analysis took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.01s
+Save screen analysis took 0.04s
 Prepare screens took 0.03s
 Save pyanalysis. took 0.00s
-Save bytecode. took 0.00s
+Save bytecode. took 0.03s
 Running _start took 0.00s
 Performance test:
-Interface start took 0.01s
+Interface start took 0.00s
 
 Windowed mode.
 Screen sizes: virtual=(800, 600) physical=(584, 438) drawable=(584, 438)
@@ -227,85 +228,11 @@ Texture testing:
 - 512px textures work.
 - 1024px textures work.
 - 2048px textures work.
-Total time until interface ready: 0.842000007629s
+Total time until interface ready: 0.948000192642s
 - Target is 5 frames in 0.333333333333 seconds.
 - Frame drawn at 0.000000 seconds.
-- Frame drawn at 0.019000 seconds.
-- Frame drawn at 0.032000 seconds.
-- Frame drawn at 0.049000 seconds.
-- Frame drawn at 0.066000 seconds.
-- 0.066000 seconds to render 5 frames.
-Traceback (most recent call last):
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\execution.py", line 374, in run
-    node.execute()
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\ast.py", line 594, in execute
-    renpy.exports.say(who, what, interact=self.interact)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\exports.py", line 1032, in say
-    who(what, interact=interact)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\character.py", line 826, in __call__
-    self.do_display(who, what, cb_args=self.cb_args, **display_args)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\character.py", line 688, in do_display
-    **display_args)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\character.py", line 465, in display_say
-    what_text = show_function(who, what_string)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\character.py", line 672, in do_show
-    **self.show_args)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\character.py", line 275, in show_display_say
-    return renpy.display.screen.get_widget(screen, "what", layer)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\screen.py", line 1122, in get_widget
-    screen.update()
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\screen.py", line 565, in update
-    self.screen.function(**self.scope)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\sl2\slast.py", line 1944, in __call__
-    self.const_ast.execute(context)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\sl2\slast.py", line 1899, in execute
-    SLBlock.execute(self, context)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\sl2\slast.py", line 387, in execute
-    i.execute(context)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\sl2\slast.py", line 838, in execute
-    i.execute(ctx)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\sl2\slast.py", line 838, in execute
-    i.execute(ctx)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\sl2\slast.py", line 716, in execute
-    SLBlock.keywords(self, ctx)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\sl2\slast.py", line 402, in keywords
-    context.keywords.update(eval(keyword_exprs, context.globals, context.scope))
-  File "<screen language>", line 74, in <module>
-NameError: name 'InventoryScreen' is not defined
-Traceback (most recent call last):
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\execution.py", line 374, in run
-    node.execute()
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\ast.py", line 594, in execute
-    renpy.exports.say(who, what, interact=self.interact)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\exports.py", line 1032, in say
-    who(what, interact=interact)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\character.py", line 826, in __call__
-    self.do_display(who, what, cb_args=self.cb_args, **display_args)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\character.py", line 688, in do_display
-    **display_args)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\character.py", line 465, in display_say
-    what_text = show_function(who, what_string)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\character.py", line 672, in do_show
-    **self.show_args)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\character.py", line 275, in show_display_say
-    return renpy.display.screen.get_widget(screen, "what", layer)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\screen.py", line 1122, in get_widget
-    screen.update()
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\screen.py", line 565, in update
-    self.screen.function(**self.scope)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\sl2\slast.py", line 1944, in __call__
-    self.const_ast.execute(context)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\sl2\slast.py", line 1899, in execute
-    SLBlock.execute(self, context)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\sl2\slast.py", line 387, in execute
-    i.execute(context)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\sl2\slast.py", line 838, in execute
-    i.execute(ctx)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\sl2\slast.py", line 838, in execute
-    i.execute(ctx)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\sl2\slast.py", line 716, in execute
-    SLBlock.keywords(self, ctx)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\sl2\slast.py", line 402, in keywords
-    context.keywords.update(eval(keyword_exprs, context.globals, context.scope))
-  File "<screen language>", line 74, in <module>
-NameError: name 'InventoryScreen' is not defined
+- Frame drawn at 0.029000 seconds.
+- Frame drawn at 0.042000 seconds.
+- Frame drawn at 0.059000 seconds.
+- Frame drawn at 0.075000 seconds.
+- 0.075000 seconds to render 5 frames.

@@ -90,7 +90,7 @@ label start:
                 stop sound fadeout 2.0
                 play sound "audio/rain.mp3" fadein 2.0 loop
                 
-                "You run out of the car, grabbing the emergency first-aid aid in the glove compartment just before you leave."
+                "You run out of the car, grabbing the emergency first-aid kit in the glove compartment just before you leave."
                 "You see the source of the light, a large mansion at the end of the road."
                 menu:      
                     with dissolve
@@ -319,14 +319,14 @@ label talkToAvidem:
         menu:
             "Who are you?":
                 a "I'm Avidem"
-                a "I'm trapped in this place like many of it's occupants."
-                a "I was driving past one night when my vehicle broke down and I was forced to take shelter here."
+                a "I'm trapped in this place like many of its occupants."
+                a "I was driving past one night when my vehicle broke down, and I was forced to take shelter here."
                 a "It seems like I've been here forever..."
             "How do I get out of here?":
                 if PlainKey1 not in bag:
-                    a "I've heard of an escape route, but its a precious secret of mine. If I tell you, you'll have to fetch me something even more valuable."
+                    a "I've heard of an escape route, but it's a precious secret of mine. If I tell you, you'll have to fetch me something even more valuable."
                     a "I hid it away long ago to keep it safe, but now I yearn for it..."
-                    a "Retrieve it and I'll tell you the secret. You'll need this to find it"
+                    a "Retrieve it and I'll tell you the secret. You'll need this to find it:"
                     $bag.items.append(PlainKey1)
                     $lastPickup = PlainKey1
                     "%(playerName)s got a Plain Key!"
@@ -367,14 +367,14 @@ label giveAvidemTheGem():
             menu: 
                 "Ok":
                     $bag.items.remove(Gem)
-                    a "Ah, my beauty! It's been much too long, my power has waned so. Courier, you may leave."
-                    a "For your service, if you are still sane..."
+                    a "Ah, my beauty! It's been much too long, my power has waned so. Courier, for your service you may leave."
+                    a "If you are still sane..."
                     call updateSanity(-50)
                     "%(playerName)s's sanity fell by 50" #IDK 50 is a lot, we might want to lower this
                     #kicks out of the room
                     #door locks
                 "No":
-                    a "WHAT, HOW DARE YOU DEFY ME! Give me that gem!!!"
+                    a "WHAT?? HOW DARE YOU DEFY ME! Give me that gem!!!"
                     jump back
     else:
         menu:

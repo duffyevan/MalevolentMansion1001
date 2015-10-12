@@ -290,7 +290,7 @@ label talkToHarold:
                         h "That young w-woman didn't h-have much to say to m-me. She just muttered about s-secrets."
             "Can you tell me about this Mythology Book?" if MythologyBook in bag:
                 h "Hmmm... Th-These symbols... They resemble a dialect of ancient Sumerian."
-                h "Now that I think of if, Lord Cupido did entertain a fascination with Sumerian artifacts a little while before his disappearence."
+                h "Now that I think of if, Lord Cupido did entertain a fascination with Sumerian artifacts a little while before his disappearance."
                 h "It's been a while, but I think... I... can...."
                 h "Got it! I've deciphered the text. There's one passage in particular that might aid your escape, titled 'Riddle for Passage of Bone.'"
                 h "It reads: 'Swim through the clouds, crawl along the ocean depths, fly silently through the grass.'"
@@ -719,7 +719,7 @@ label instant_death:
 label to_mech_nest:
     $ menu_flag = True
     show mechnest
-    if garageHuskIsAlive: #is there any way to change this if you haven't gone to the garage yet? The only way to get to the mech nest before 
+    if garageHuskIsAlive: #is there any way to change this if you haven't gone to the garage yet? The only way to get to the mech_nest before 
         "The husk that attacked you earlier is sleeping in the corner, there is a work-bench, toolbox and an old chest in the room." #can kill with certain weapon
     else:
         "The husk no longer needs to be worried about, there is a work-bench, toolbox and an old chest in the room."
@@ -1148,18 +1148,18 @@ label read_cooking:
 
 #this goes to the lab        
 label secret_pass_to_lab:
-     $ menu_flag = True
-     hide Library
-     show tunnel with fade
-     "You walk down the small cavern path and see a light at the end."
-     #maybe add a switch
-     "As you get closer to the light you see an opening at the end of the tunnel."
-     "The opening leads into what looks like a laboratory."
-     menu:
-         "Continue into the lab":
-             jump to_Lab
-         "Go back to the library":
-             jump to_Library
+    $ menu_flag = True
+    hide Library
+    show tunnel with fade
+    "You walk down the small cavern path and see a light at the end."
+    #maybe add a switch
+    "As you get closer to the light you see an opening at the end of the tunnel."
+    "The opening leads into what looks like a laboratory."
+    menu:
+        "Continue into the lab":
+            jump to_Lab
+        "Go back to the library":
+            jump to_Library
              
 label to_Dungeon:
     $ menu_flag = True
@@ -1173,7 +1173,7 @@ label to_Dungeon:
         "Go into room 2":
             jump to_dungeon_2
         "Go into room 3":
-           jump to_dungeon_3
+            jump to_dungeon_3
         "Go into room 4":
             jump to_dungeon_4
         "Return to the basement landing":
@@ -1214,6 +1214,7 @@ label examine_ribs:
     "All of a sudden a rat leaps from inside the skeleton and bites your arm."
     "You manage to bat it away and suffer no serious injuries, but you are shaken by the experience."
     jump to_dungeon_2#_options
+
 label examine_hands:
     $ menu_flag = True
     "You take a closer look at the hands and notice that they're gripping a piece of bread."
@@ -1243,56 +1244,56 @@ label to_dungeon_3:
     jump to_dungeon_3
              
 label chained_husk:
-     $ menu_flag = True
-     "You step forward slowly and as you get closer you find the source of the rattling chains."
-     "Someone chained a husk up in this cell, and you can see its silhouette as it struggles uselessly against the chains."
-     "You feel badly for the creature but you know that whoever it was lost their mind long ago."
-     "You back out of the cell as the husk continues its struggle to break free."
-     jump to_Dungeon
+    $ menu_flag = True
+    "You step forward slowly and as you get closer you find the source of the rattling chains."
+    "Someone chained a husk up in this cell, and you can see its silhouette as it struggles uselessly against the chains."
+    "You feel badly for the creature but you know that whoever it was lost their mind long ago."
+    "You back out of the cell as the husk continues its struggle to break free."
+    jump to_Dungeon
      
 label to_dungeon_4:
-     $ menu_flag = True
-     "There is a strange golden light emanating from the fourth cell as you approach it."
-     "As you walk into the cell you see a room filled with treasures of gold and silver."
-     "One particular piece catches your eye."
-     menu:
-         "Take a closer look":
-             jump examine_gold_band
-         "Back out of the room":
-             jump to_Dungeon
-     jump to_dungeon_4
+    $ menu_flag = True
+    "There is a strange golden light emanating from the fourth cell as you approach it."
+    "As you walk into the cell you see a room filled with treasures of gold and silver."
+    "One particular piece catches your eye."
+    menu:
+        "Take a closer look":
+            jump examine_gold_band
+        "Back out of the room":
+            jump to_Dungeon
+    jump to_dungeon_4
          
 label examine_gold_band:
-     $ menu_flag = True
-     "The piece that caught you eye is a particularly exquisite golden band."
-     menu:
-         "Take the golden band":
-             jump take_golden_band
-         "Leave the golden band":
-             jump to_dungeon_4#_options
-     jump examine_gold_band
+    $ menu_flag = True
+    "The piece that caught you eye is a particularly exquisite golden band."
+    menu:
+        "Take the golden band":
+            jump take_golden_band
+        "Leave the golden band":
+            jump to_dungeon_4#_options
+    jump examine_gold_band
              
 label take_golden_band:
-     $ menu_flag = True
-     "You pick up the golden band and put it into you bag."
-     $bag.items.append(Crown)
-     "You then back out of the fourth dungeon cell."
-     jump to_Dungeon
+    $ menu_flag = True
+    "You pick up the golden band and put it into you bag."
+    $bag.items.append(Crown)
+    "You then back out of the fourth dungeon cell."
+    jump to_Dungeon
      
 label from_basement:
-     $ menu_flag = True
-     "You walk up the stairs towards the first floor."
-     jump basement_door_to_first_floor
+    $ menu_flag = True
+    "You walk up the stairs towards the first floor."
+    jump basement_door_to_first_floor
 
-     label basement_door_to_first_floor:
-     "You see a closed door in front of you."
-     menu:
+    label basement_door_to_first_floor:
+    "You see a closed door in front of you."
+    menu:
         "Attempt to open the door":
             jump attemptToOpenBasementDoorToFirstFloor
         
         "Turn Back":
             jump to_basement
-     jump from_basement
+    jump from_basement
                   
 #when player doesn't have the basement key in their bag   
 label attemptToOpenBasementDoorToFirstFloor:
@@ -1757,7 +1758,7 @@ label bedroom_closet_3:
 label open_closet_3:
     $ menu_flag = True
     "You open the closet door to see a husk staring back at you."
-    "As you begin to back away it leaps at you weilding a letter opener."
+    "As you begin to back away it leaps at you wielding a letter opener."
     "The husk attempts to stab you several times, he manages to get only one good strike on your side."
     "You push the husk down and sprint for the door, and you manage to escape with only one stab wound."
     call updateLives(1)
@@ -1778,7 +1779,7 @@ label game_room_table:
     "As you approach the table you see a chess board."
     menu:
         "Chess things happen here":#TODO add chess options here  (just add menu options and comment in what they do and I can code it in)   
-            jump to_game_room #change this if neccesarry
+            jump to_game_room #change this if necessary
         
 label to_tv_room:
     $ menu_flag = True
@@ -1890,7 +1891,7 @@ label search_charnel_table:
             
 label take_chainsaw:
     $ menu_flag = True
-    "You take the chainsaw and stuff it into your bag. To your suprise the chainsaw fits inside."
+    "You take the chainsaw and stuff it into your bag. To your surprise the chainsaw fits inside."
     jump inside_charnel_house
 
 label to_burned_room:
@@ -1906,7 +1907,7 @@ label to_burned_room:
             
 label search_ash:
     $ menu_flag = True
-    "After digging through the ash pile you discover an old pacifer."
+    "After digging through the ash pile you discover an old pacifier."
     # jump take_pacifier?
     "You decide it's of no use to you, so you decide to  leave it where you found it and back away from the pile of ash."
     jump to_burned_room

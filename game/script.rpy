@@ -605,7 +605,7 @@ label entrance_hall:
             jump ballroom
 
         "Go down the right hall":
-            $bag.items.append(BasementKey) #For ease of debugging
+            # $bag.items.append(BasementKey) #For ease of debugging
             jump to_basement_door_from_mainhall    
         
 label to_garage:
@@ -1760,7 +1760,7 @@ label open_closet_3:
     "As you begin to back away it leaps at you weilding a letter opener."
     "The husk attempts to stab you several times, he manages to get only one good strike on your side."
     "You push the husk down and sprint for the door, and you manage to escape with only one stab wound."
-    updateLives(1)
+    call updateLives(1)
     jump return_level_3
 # lose 1 health here^^^
 

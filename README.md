@@ -1,4 +1,4 @@
-## Desription
+## Description
 
 Malevolent Mansion is a point and click adventure game where the player is trapped in an abandoned mansion after their car breaks down. The player must solve riddles and quests in order to escape before dying or losing their minds.
 

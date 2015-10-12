@@ -2,8 +2,8 @@
 errors listed below, and try again.
 
 
-File "game/screens.rpy", line 579: u'InventoryScreen' is not a keyword argument or valid child for the screen statement.
-    screen modal InventoryScreen():
-                                ^
+File "game/screens.rpy", line 84: expected a keyword argument or end of line.
+    xalign ..98
+           ^
 
 Ren'Py Version: Ren'Py 6.99.6.739

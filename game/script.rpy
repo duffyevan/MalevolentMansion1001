@@ -196,7 +196,6 @@ init python:
             self.sanity += deltaS
             if self.sanity <= 0:
                 dead = True
-                ##!! TODO: Figure out how to end the game from a py script. Otherwise I can use a renpy helper method to call it and end it from there... Maybe? !!##
 
         def __str__(self): #To string
             ret = ""
@@ -478,7 +477,7 @@ label talkToBasiltine:
     jump to_mech_nest
 
 label giveBasiltineCrown():
-    if Crown in bag: #TODO should this also have if fakecrown not in bag?
+    if Crown in bag and FakeCrown not in bag:
         b "Do you bring me my crown?"
         menu:
             "Yes, here it is":
@@ -503,7 +502,7 @@ label giveBasiltineCrown():
         b "You have two! Which one is the real one? Come back when you've discovered the real one."
     else:
         b "You don't have it! Come back when you have it."
-    jump to_mech_nest #TODO I think this is left over from the Alpha -Jack
+    jump to_mech_nest 
 
 label inventory:
     $showInventory(playerName,bag)
@@ -701,7 +700,7 @@ label instant_death:
 label to_mech_nest:
     $ menu_flag = True
     show mechnest
-    if garageHuskIsAlive: #TODO is there any way to change this if you haven't gone to the garage yet?
+    if garageHuskIsAlive: #is there any way to change this if you haven't gone to the garage yet? The only way to get to the mech nest before 
         "The husk that attacked you earlier is sleeping in the corner, there is a work-bench, toolbox and an old chest in the room. There is also another man in in the back of the room behind a car who seems to be awake" #can kill with certain weapon
     else:
         "The husk no longer needs to be worried about, there is a work-bench, toolbox and an old chest in the room. The other man seems to barely have noticed that you're there"

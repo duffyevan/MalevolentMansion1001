@@ -21,7 +21,6 @@
 #         textbutton _("Return") action Return()
 
 screen say(who, what, side_image=None, two_window=False):
-
     # Decide if we want to use the one-window or two-window variant.
     if not two_window:
 
@@ -64,16 +63,33 @@ screen say(who, what, side_image=None, two_window=False):
     else:
         add SideImage() xalign 0.0 yalign 1.0
     #bar ("Sanity", 100,bag.sanity)
-    # frame:
-    #     style_group "gm_nav"
-    #     xalign .98
-    #     yalign .02
-
-    #     has vbox
-
-        # textbutton _("Inventory") action InventoryScreen()
-    # Use the quick menu.
+    frame:
+        style_group "gm_nav"
+        xalign .98
+        yalign .02
+        has vbox
+        textbutton _("Inventory") action [Hide ("say"),Show("InventoryScreen")]
     use quick_menu
+
+screen InventoryScreen:
+    frame:
+        style_group "gm_nav"
+        xalign .02
+        yalign .02
+        has vbox
+        text (playerName + "'s Inventory:")
+        text ("Sanity:")
+        bar value (bag.sanity)
+        text ("Lives: " + str(bag.lives))
+        text ("Items: " + bag.__str__())
+    frame:
+        style_group "gm_nav"
+        xalign .98
+        yalign .98
+        has vbox
+        textbutton _("Back") action [Hide("InventoryScreen"),Return()]
+
+    
 
 
 ##############################################################################
@@ -576,12 +592,3 @@ init -2:
         selected_idle_color "#cc08"
         selected_hover_color "#cc0"
         insensitive_color "#4448"
-
-screen InventoryScreen():
-    # The various buttons.
-    frame:
-        xalign .98
-        yalign .98
-
-        has vbox
-        textbutton _("Return") action Return()

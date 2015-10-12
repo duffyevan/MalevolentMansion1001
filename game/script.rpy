@@ -151,6 +151,7 @@ init python:
     ballroomLightsOff = True
     attacking = False # TODO This breaks the attacking option for all NPCs, we can deal with that feature later
     firstTimeInGarage = True
+    carFixed = False
     def showInventory(n, b): #Show the inventory in a ui.frame on top of the current frame
         ui.frame()
         c = "'s inventory: "
@@ -174,8 +175,8 @@ init python:
     class Inventory:
         def __init__(self):
             self.items = [Item("Backpack","Your old Backpack that you've had for many years",False,False)] #Adds a backpack to your inventory, you cant toss it. Might get rid of this code tho we don't really need to have the backpack in your inventory its just neat to have
-            self.sanity = 10 #TODO sanity's too low, needs to be reset
-            self.lives = 1 #TODO same w/ lives
+            self.sanity = 100 
+            self.lives = 10
 
         def __contains__(self, item):
             return item in self.items
@@ -439,7 +440,7 @@ label talkToBasiltine:
                     b "However, impostor crowns lurk about. Use this to determine the true crown:"
                     "%(playerName)s got a gold nugget"
                     $bag.items.append(GoldNugget)
-                elif SpareParts not in:
+                elif CarKeys not in bag:
                     b "Have you found my crown yet?"
                     menu:
                         "Yes":
@@ -448,8 +449,7 @@ label talkToBasiltine:
                         "No":
                             b "Well hurry up and find it. The emperor grows impatient!"
                 else:
-                    "You must figure out how to use those spare parts, peasant!"
-                    jump to_mech_nest
+                    "You must figure out how to use those keys, peasant!"
             "What is this place?":
                 b "Why my Empire, of course! I am surprised you are unaware of it."
                 b "Although... perhaps its beauty so dazzled you, you momentarily lost memory of all else? Yes, that must be it!" 
@@ -472,18 +472,17 @@ label talkToBasiltine:
         "Luckily you have your first aid kit. You've recovered, but you had to use some of your supplies."
         call updateLives(1)
 
-    jump to_mech_nest
+    jump purple_room
 
 label giveBasiltineCrown():
     if Crown in bag and FakeCrown not in bag:
         b "Do you bring me my crown?"
         menu:
             "Yes, here it is":
-                b "Ahh yes, my precious. Thank you peasant, for your work you may have this:"
-                $bag.items.append(SpareParts)
-                "Archie hands you a small burlap bag with a few spare parts that seem like they come from an old car in it"
+                b "Ahh yes, my precious. Thank you peasant, for your work you may have this: the keys to my kingdom."
+                "Archie hands you a small ring of car keys."
+                $bag.items.append(CarKeys)
                 b "If you use these well, you just may be able to escape."
-                jump to_mech_nest
             "No":
                 b "Well hurry up, the emperor is growing impatient."
     elif FakeCrown in bag and Crown not in bag:
@@ -500,7 +499,7 @@ label giveBasiltineCrown():
         b "You have two! Which one is the real one? Come back when you've discovered the real one."
     else:
         b "You don't have it! Come back when you have it."
-    jump to_mech_nest 
+    jump purple_room 
 
 label inventory:
     $showInventory(playerName,bag)
@@ -568,6 +567,7 @@ label setupItemSystem:
         Flashlight = Item("Flashlight", "", False, False)
         OrangeKey = Item("Orange Key", "", False, False)
         MythologyBook = Item("Mythology Book","",False,False)
+        CarKeys = Item("Car Keys", "", False, False)
         ###MAKE SURE YOU ALSO ADD A MENU STATEMENT FOR EACH ITEM YOU ADD HERE^^^### 
         #lastPickup = Item("Backpack","Your old Backpack that you've had for many years.",False,False) #Lets define all the items we need for this alpha
     return
@@ -665,20 +665,38 @@ label garageScene:
             if SpareParts not in bag:
                 "Maybe you could fix it with some spare parts, but where could you find them?"
                 jump garageScene
-            else:
+            elif not carFixed and SpareParts in bag:
                 "Upon closer examination, the car seems to be missing a few parts."
                 "The spare parts in your bag could help, would you like to try and fix the car?"
                 menu:
                     "Sure":
                         "You spend a few minutes fiddling with the spare parts that you put in the car."
-                        "Using your special set of skills you hot wire the car and it roars to life."
+                        $carFixed = True
+                        "The car seems like it should work now with the spare parts"
+                        if CarKeys in bag:
+                            "Would you like to try to start the car with the keys that Archie gave you?"
+                            menu:
+                                "Yes":
+                                    "You insert the key and the car roars to life."
+                                    "You back the car up right through the rusted garage door and out into the storm!"
+                                    jump escape
+                                "No":
+                                    "You back away from the car."
+                    "No":
+                        "You back away from the car."
+                        jump garageScene
+            elif CarKeys in bag and carFixed:
+                "Would you like to try to start the car with the keys that Archie gave you?"
+                menu:
+                    "Yes":
+                        "You insert the key and the car roars to life."
                         "You back the car up right through the rusted garage door and out into the storm!"
                         jump escape
                     "No":
                         "You back away from the car."
-                        jump garageScene
         "Go Back":
             jump entrance_hall
+    jump garageScene
              
 #when player doesn't have the basement key in their bag (**this is for the first time entering the mansion on the main floor only**)
 label missing_basement_key:
@@ -699,17 +717,15 @@ label to_mech_nest:
     $ menu_flag = True
     show mechnest
     if garageHuskIsAlive: #is there any way to change this if you haven't gone to the garage yet? The only way to get to the mech nest before 
-        "The husk that attacked you earlier is sleeping in the corner, there is a work-bench, toolbox and an old chest in the room. There is also another man in in the back of the room behind a car who seems to be awake" #can kill with certain weapon
+        "The husk that attacked you earlier is sleeping in the corner, there is a work-bench, toolbox and an old chest in the room." #can kill with certain weapon
     else:
-        "The husk no longer needs to be worried about, there is a work-bench, toolbox and an old chest in the room. The other man seems to barely have noticed that you're there"
+        "The husk no longer needs to be worried about, there is a work-bench, toolbox and an old chest in the room."
     menu:
         "Attack the husk" if garageHuskIsAlive:
             "You attack the husk with desperate force!" #get rid of option if husk is killed
             "After a bit of struggling the husk stops moving. You're safe, for now..."
             $garageHuskIsAlive = False
             call updateSanity(-5)
-        "Talk to other man":
-            jump talkToBasiltine
         "Search the work-bench" if CrowBar not in bag:
             jump search_workbench
         "Search the toolbox" if Hammer not in bag:
@@ -1520,7 +1536,7 @@ label purple_room:
             jump search_purple_closet
         "Talk to the man":
             "You approach the man, who seems to be writing on a pad of paper"
-            #TODO do the things of talking
+            jump talkToBasiltine
         "Leave the room":
             jump return_level_2
 
@@ -1531,6 +1547,11 @@ label search_purple_bed:
      "You back away from the bed."
      jump purple_room
      
+label search_purple_closet:
+     $ menu_flag = True
+     "In the closet you find an fine old room that looks like it's fit for royalty."
+     "You close the closet door and back away."
+     jump purple_room
     
 label master_bedroom:
     $ menu_flag = True

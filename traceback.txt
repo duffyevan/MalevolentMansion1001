@@ -1,67 +1,22 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/script.rpy", line 58, in script
-    "You're driving down the road in your old beat up Chevy. It's raining pretty heavily and you don't recognize your surroundings."
-  File "game/screens.rpy", line 74, in execute
-    screen InventoryScreen:
-  File "game/screens.rpy", line 74, in execute
-    screen InventoryScreen:
-  File "game/screens.rpy", line 75, in execute
-    frame:
-  File "game/screens.rpy", line 79, in execute
-    has vbox
-  File "game/screens.rpy", line 83, in execute
-    text ("Lives:" + bag.lives)
-TypeError: cannot concatenate 'str' and 'int' objects
+  File "game/script.rpy", line 437, in script
+    if GoldNugget not in bag:
+SyntaxError: unexpected EOF while parsing (game/script.rpy, line 443)
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/script.rpy", line 58, in script
-    "You're driving down the road in your old beat up Chevy. It's raining pretty heavily and you don't recognize your surroundings."
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\ast.py", line 594, in execute
-    renpy.exports.say(who, what, interact=self.interact)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\exports.py", line 1032, in say
-    who(what, interact=interact)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\character.py", line 826, in __call__
-    self.do_display(who, what, cb_args=self.cb_args, **display_args)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\character.py", line 688, in do_display
-    **display_args)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\character.py", line 491, in display_say
-    rv = renpy.ui.interact(mouse='say', type=type, roll_forward=roll_forward)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\ui.py", line 277, in interact
-    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\core.py", line 2346, in interact
-    repeat, rv = self.interact_core(preloads=preloads, **kwargs)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\core.py", line 2602, in interact_core
-    root_widget.visit_all(lambda i : i.per_interact())
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\core.py", line 394, in visit_all
-    d.visit_all(callback)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\core.py", line 394, in visit_all
-    d.visit_all(callback)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\core.py", line 394, in visit_all
-    d.visit_all(callback)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\screen.py", line 386, in visit_all
-    callback(self)
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\core.py", line 2602, in <lambda>
-    root_widget.visit_all(lambda i : i.per_interact())
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\screen.py", line 396, in per_interact
-    self.update()
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\display\screen.py", line 565, in update
-    self.screen.function(**self.scope)
-  File "game/screens.rpy", line 74, in execute
-    screen InventoryScreen:
-  File "game/screens.rpy", line 74, in execute
-    screen InventoryScreen:
-  File "game/screens.rpy", line 75, in execute
-    frame:
-  File "game/screens.rpy", line 79, in execute
-    has vbox
-  File "game/screens.rpy", line 83, in execute
-    text ("Lives:" + bag.lives)
-  File "<screen language>", line 83, in <module>
-TypeError: cannot concatenate 'str' and 'int' objects
+  File "game/script.rpy", line 437, in script
+    if GoldNugget not in bag:
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\ast.py", line 1612, in execute
+    if renpy.python.py_eval(condition):
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\python.py", line 1476, in py_eval
+    code = py_compile(code, 'eval')
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\python.py", line 512, in py_compile
+    raise e
+SyntaxError: unexpected EOF while parsing (game/script.rpy, line 443)
 
 Windows-7-6.1.7601-SP1
 Ren'Py 6.99.6.739

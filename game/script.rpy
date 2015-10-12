@@ -557,6 +557,9 @@ label setupItemSystem:
         Matches = Item("Matches", "", False, False)
         SkeletonKey = Item("Matches", "", False, False)
         SecondBasementKey = Item("Basement Key","", False, False)
+        Sword = Item("Queens Saber","", True, True)
+        GlassKey = Item("Glass Key","",False, False)
+
         ###MAKE SURE YOU ALSO ADD A MENU STATEMENT FOR EACH ITEM YOU ADD HERE^^^### 
         #lastPickup = Item("Backpack","Your old Backpack that you've had for many years.",False,False) #Lets define all the items we need for this alpha
     return
@@ -1785,6 +1788,7 @@ label game_room_table:
                         "You black out."
                         "You wake up laying on the floor in front of the chess table"
                         "Maybe you could have defeated the knight if you had a better weapon..."
+                        "Maybe you should look closer at the chess board"
                 "No":
                     jump game_room_table
 

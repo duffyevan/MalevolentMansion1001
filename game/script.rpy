@@ -1175,6 +1175,7 @@ label to_Dungeon:
             jump to_dungeon_4
         "Return to the basement landing":
             jump to_basement
+    jump to_Dungeon
         
 label to_dungeon_1:
     $ menu_flag = True
@@ -1196,6 +1197,7 @@ label to_dungeon_2:
             jump examine_hands
         "Back out of the cell":
             jump to_Dungeon
+    jump to_dungeon_2
              
 label examine_skull:
     $ menu_flag = True
@@ -1217,6 +1219,7 @@ label examine_hands:
             jump eat_bread_dungeon
         "Back away from the skeleton":
             jump to_dungeon_2#_options
+    jump examine_hands
              
 label eat_bread_dungeon:
     $ menu_flag = True
@@ -1234,12 +1237,13 @@ label to_dungeon_3:
             jump chained_husk
         "Back out of the cell":
             jump to_Dungeon
+    jump to_dungeon_3
              
 label chained_husk:
      $ menu_flag = True
      "You step forward slowly and as you get closer you find the source of the rattling chains."
      "Someone chained a husk up in this cell, and you can see its silhouette as it struggles uselessly against the chains."
-     "You feel badly for the creature but you know that whoever it waslost their mind long ago."
+     "You feel badly for the creature but you know that whoever it was lost their mind long ago."
      "You back out of the cell as the husk continues its struggle to break free."
      jump to_Dungeon
      
@@ -1253,6 +1257,7 @@ label to_dungeon_4:
              jump examine_gold_band
          "Back out of the room":
              jump to_Dungeon
+     to_dungeon_4
          
 label examine_gold_band:
      $ menu_flag = True
@@ -1262,6 +1267,7 @@ label examine_gold_band:
              jump take_golden_band
          "Leave the golden band":
              jump to_dungeon_4#_options
+     examine_gold_band
              
 label take_golden_band:
      $ menu_flag = True
@@ -1277,12 +1283,13 @@ label from_basement:
 
      label basement_door_to_first_floor:
      "You see a closed door in front of you."
-menu:
-    "Attempt to open the door":
-        jump attemptToOpenBasementDoorToFirstFloor
-    
-    "Turn Back":
-                  jump to_basement
+     menu:
+        "Attempt to open the door":
+            jump attemptToOpenBasementDoorToFirstFloor
+        
+        "Turn Back":
+            jump to_basement
+    jump from_basement
                   
 #when player doesn't have the basement key in their bag   
 label attemptToOpenBasementDoorToFirstFloor:
@@ -1499,7 +1506,7 @@ label red_husk_attack:
     "You lean in to get a closer look at the husk and it springs from the bed."
     "Before you know it you're being scratched and clawed by the rampaging husk!"
     "He beats you brutally and then runs away."
-    call updateLives(-1)
+    call updateLives(1)
     "Luckily you have your first aid kit. You're alive but you had to use some of your supplies"
     jump red_room
     

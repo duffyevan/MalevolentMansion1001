@@ -151,6 +151,7 @@ init python:
     attacking = False # TODO This breaks the attacking option for all NPCs, we can deal with that feature later
     firstTimeInGarage = True
     carFixed = False
+    knightDead = False
     def showInventory(n, b): #Show the inventory in a ui.frame on top of the current frame
         ui.frame()
         c = "'s inventory: "
@@ -1761,7 +1762,7 @@ label to_game_room:
 
 label game_room_table:
     $ menu_flag = True
-    "As you approach the table you see a chess board, with only one of each black piece set up."
+    "You see a chess board with only one of each black piece set up."
     menu:
         "Move the Pawn":
             "Nothing happens."
@@ -1769,8 +1770,27 @@ label game_room_table:
             "The chess piece won't budge."
         "Move the Knight":
             "As you touch the chess piece, a chilling wind whips through the room."
+            "Do you really want to move it?"
+            menu:
+                "Yes":
+                    "A noise comes from behind you"
+                    "You turn around an a ghostly knight is standing inches from you"
+                    if Sword in bag:
+                        "You pull the sword that you found in the chess table from your bag and swing it before the knight has a chance to attack"
+                        "Suddenly all the armor falls to the ground in a pile, as if the person inside suddenly vanished..."
+                        $knightDead = True
+                    else:
+                        "Before you have time to react the knight slams you with his sword."
+                        $bag.lives -= 15
+                        "You black out."
+                        "You wake up laying on the floor in front of the chess table"
+                        "Maybe you could have defeated the knight if you had a better weapon..."
+                "No":
+                    jump game_room_table
+
+
             #if possible, the player should get a chance to not move the piece. 
-            #otherwise, a spectral knight attacks, which can only be killed by the queen's saber (item from queen)
+            #otherwise, a spectral knight attacks, which can only be killed by the queen's Sword
             #is that doable?
         "Move the Bishop":
             "Moving the chess piece reveals a slip of paper that was hidden underneath. It reads:"
@@ -1780,8 +1800,12 @@ label game_room_table:
             "A hidden drawer, containing something that looks like a sword, slides out of the table."
             $bag.items.append(Sword)
         "Move the King": #if the knight is dead, give glass key, else nothing
-            if kingDead:
+            if knightDead:
+                "The king moves to reveal a small compartment where there is a glass key."
+                "You take it and put it in your bag"
                 $bag.items.append(GlassKey)
+            else:
+                "The king wont budge"
         "Back away":   
             jump to_game_room
     jump game_room_table

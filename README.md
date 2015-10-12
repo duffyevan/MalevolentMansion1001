@@ -11,11 +11,10 @@ Malevolent Mansion is a point and click adventure game where the player is trapp
 
 ## Known Bugs
 
-* There is no way to get the crown
-* There is no way to get to the 3rd floor
-* The user is sporadically given the BasementKey
 * Harold’s and Avidem’s quests are not completable
 * The player can click forward while in the inventory screen, which can cause fatal glitches
+* The Sink in the Kitchen sometimes wont let the player test the crowns, not sure why
+* Many, many, grammar errors...
 
 ## License
 

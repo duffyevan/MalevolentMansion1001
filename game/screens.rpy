@@ -78,9 +78,10 @@ screen InventoryScreen:
         yalign .02
         has vbox
         text (playerName + "'s Inventory:")
-        text ("Sanity:")
+        text ("Sanity: " + str(bag.sanity) + "%")
         bar value (bag.sanity)
-        text ("Lives: " + str(bag.lives))
+        text ("Lives: " + str(bag.lives) + "%")
+        bar value (bag.lives)
         text ("Items: " + bag.__str__())
     frame:
         style_group "gm_nav"

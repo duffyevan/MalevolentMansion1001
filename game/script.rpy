@@ -573,6 +573,10 @@ label setupItemSystem:
 label entrance_hall:
     # hide kitchen
     scene mainhall
+    if bag.sanity > 50:
+        play music "audio/Epic Unease.mp3" fadein 1.0 loop
+    else
+        play music "audio/The Hive.mp3" fadein 1.0 loop
     "You're in the entrance hall of the mansion"
     "Where do you want to go?"
     menu:

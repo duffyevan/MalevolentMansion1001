@@ -1699,7 +1699,7 @@ label office_cabinet_3:
         "Take the key":
             jump take_key_3
         "Leave the key":
-            "you leave the key in the cabinet and back away."
+            "You leave the key in the cabinet and back away."
             jump to_office_3
             
 label take_key_3:
@@ -1730,12 +1730,12 @@ label bedroom_bed_3:
 label bedroom_desk_3:
     $ menu_flag = True
     "In the desk you find a strange looking key."
-    "Upon further examination you realize the key is crafted in the likeness of a skull with several bones protruding from it."
+    "Upon further examination you realize the key is crafted in the likeness of a skull, with several bones protruding from it."
     menu:
         "Take the skeleton key":
             jump take_skeleton_key
         "Leave the skeleton key":
-            "you leave the skeleton in the desk and back away."
+            "You leave the skeleton in the desk and back away."
             jump to_bedroom_3
 
 # add skeleton key
@@ -1757,9 +1757,9 @@ label bedroom_closet_3:
 label open_closet_3:
     $ menu_flag = True
     "You open the closet door to see a husk staring back at you."
-    "As you begin to back away it leaps at you weilding a letter opener."
-    "The husk attempts to stab you several times, he manages to get only one good strike on your side."
-    "You push the husk down and sprint for the door, and you manage to escape with only one stab wound."
+    "As you begin to back away, it leaps at you weilding a letter opener!"
+    "The husk attempts to stab you several times, but he manages to get only one good strike on your side."
+    "You knock the husk down and sprint for the door, managing to escape with only one stab wound."
     call updateLives(1)
     jump return_level_3
 # lose 1 health here^^^
@@ -1775,10 +1775,27 @@ label to_game_room:
 
 label game_room_table:
     $ menu_flag = True
-    "As you approach the table you see a chess board."
+    "As you approach the table you see a chess board, with only one of each black piece set up."
     menu:
-        "Chess things happen here":#TODO add chess options here  (just add menu options and comment in what they do and I can code it in)   
-            jump to_game_room #change this if neccesarry
+        "Move the Pawn":
+            "Nothing happens."
+        "Move the Rook":
+            "The chess piece won't budge."
+        "Move the Knight":
+            "As you touch the chess piece, a chilling wind whips through the room."
+            #if possible, the player should get a chance to not move the piece. 
+            #otherwise, a spectral knight attacks, which can only be killed by the queen's sabre (item from queen)
+            #is that doable?
+        "Move the Bishop":
+            "Moving the chess piece reveals a slip of paper that was hidden underneath. It reads:"
+            "'If you are wise, heed this order; Consort, Chivalry, Checkmate.'"
+        "Move the Queen":
+            "After moving the piece, you hear a soft click."
+            "A hidden drawer, containing something that looks like a sword, slides out of the table."
+            #jump to taking the sword inventory stuff
+        "Move the King": #if the knight is dead, give glass key, else nothing
+        "Back away":   
+            jump to_game_room
         
 label to_tv_room:
     $ menu_flag = True
@@ -1815,13 +1832,13 @@ label search_toy_chest:
         "Take the crown":
             jump take_toy_crown
         "Leave the crown":
-            "You leave the toy crown in the toy chest and back away."
+            "You leave the crown in the toy chest and back away."
             jump to_nursery
             
 label take_toy_crown:
     $ menu_flag = True
     $bag.items.append(FakeCrown)
-    "You take the crown and put it into your bag." # add toy crown to the bag
+    "You take the crown and put it into your bag." # add toy crown to the bag *NOTE* toy crown is the fake crown
     jump to_nursery
     
 label search_toy_pile:
@@ -1862,7 +1879,7 @@ label to_painting:
 label to_charnel_house:
     $ menu_flag = True
     "Upon entering the room you see several large meat hooks swaying back and forth."
-    "You don't know why but you are extremely unsettled by the hooks."
+    "You don't know why, but you are extremely unsettled by the hooks."
     menu:
         "Turn back":
             jump return_level_3
@@ -1907,15 +1924,15 @@ label to_burned_room:
 label search_ash:
     $ menu_flag = True
     "After digging through the ash pile you discover an old pacifer."
-    # jump take_pacifier?
-    "You decide it's of no use to you, so you decide to  leave it where you found it and back away from the pile of ash."
+    # jump take_pacifier? prolly not
+    "You decide it's of no use to you, so you decide to leave it and back away."
     jump to_burned_room
     
 label search_corpse:
-    "As you approach the corpse you notice that the body is charred and it's grasping something in its hands."
+    "As you approach the charred corpse you notice that it's grasping something in its hands."
     "You gingerly grab what looks like a note from the corpse's hands."
-    "You attempt to read the note but the note has been severely burned and you cannot decipher any useful information."
-    jump to_burned_room #note has information?
+    "You attempt to read the note, but it has been severely burned.You cannot decipher any useful information."
+    jump to_burned_room #note has information? nah
 
 label choice_end_game:  
     $renpy.full_restart()

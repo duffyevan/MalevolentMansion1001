@@ -174,7 +174,7 @@ init python:
     class Inventory:
         def __init__(self):
             self.items = [Item("Backpack","Your old Backpack that you've had for many years",False,False)] #Adds a backpack to your inventory, you cant toss it. Might get rid of this code tho we don't really need to have the backpack in your inventory its just neat to have
-            self.sanity = 10
+            self.sanity = 10 #TODO sanity's too low, needs to be reset
             self.lives = 1
 
         def __contains__(self, item):

@@ -568,6 +568,9 @@ label setupItemSystem:
         OrangeKey = Item("Orange Key", "", False, False)
         MythologyBook = Item("Mythology Book","",False,False)
         CarKeys = Item("Car Keys", "", False, False)
+        Matches = Item("Matches", "", False, False)
+        SkeletonKey = Item("Matches", "", False, False)
+        SecondBasementKey = Item("Basement Key","", False, False)
         ###MAKE SURE YOU ALSO ADD A MENU STATEMENT FOR EACH ITEM YOU ADD HERE^^^### 
         #lastPickup = Item("Backpack","Your old Backpack that you've had for many years.",False,False) #Lets define all the items we need for this alpha
     return
@@ -1257,7 +1260,7 @@ label to_dungeon_4:
              jump examine_gold_band
          "Back out of the room":
              jump to_Dungeon
-   #TODO jump  to_dungeon_4
+     jump to_dungeon_4
          
 label examine_gold_band:
      $ menu_flag = True
@@ -1267,7 +1270,7 @@ label examine_gold_band:
              jump take_golden_band
          "Leave the golden band":
              jump to_dungeon_4#_options
-    #TODO examine_gold_band
+     jump examine_gold_band
              
 label take_golden_band:
      $ menu_flag = True
@@ -1289,7 +1292,7 @@ label from_basement:
         
         "Turn Back":
             jump to_basement
-    #TODO jump from_basement
+     jump from_basement
                   
 #when player doesn't have the basement key in their bag   
 label attemptToOpenBasementDoorToFirstFloor:
@@ -1332,8 +1335,8 @@ label up_level_2:
             scene masterBedroom
             with fade
             jump master_bedroom
-        "Go up to the third floor":
-            jump up_level_3 #to the third floor
+        "Go up the stairs in front of you":
+            jump level_3 #to the third floor
         "Go back down the stairs to the main hall":
             jump entrance_hall #to the mainhall on level 1
             
@@ -1363,8 +1366,8 @@ label return_level_2:
             scene masterBedroom
             with fade
             jump master_bedroom
-        "Go up to the third floor":
-            jump up_level_3 #to the third floor
+        "Go up the stairs in front of you":
+            jump level_3 #to the third floor
         "Go back down the stairs to the main hall":
             jump entrance_hall #to the mainhall on level 1
             
@@ -1609,6 +1612,12 @@ label avidem_alive_nightstand:
     call updateSanity(10)
     jump return_level_2
     
+label level_3:
+    $ menu_flag = True
+    "You attempt to go up the stairs but you feel a strong urge of dread as you begin ascending."
+    "You try to ignore it but it's too strong and you turn around and go back down to the second floor."
+    jump return_level_2
+    
 label up_level_3:
     $ menu_flag = True
     "You enter the main hallway of the third floor and you see 8 doors."
@@ -1682,7 +1691,7 @@ label office_table_3:
     "You decide that the map isn't worth taking so you leave the map on the table and back away."
     jump to_office_3
  
-#TODO add second Basement key
+# add second Basement key
 label office_cabinet_3:
     $ menu_flag = True
     "In the cabinet you find a key with a label reading 'Basement'."
@@ -1695,6 +1704,7 @@ label office_cabinet_3:
             
 label take_key_3:
     $ menu_flag = True
+    $bag.items.append(SecondBasementKey)
     "You put the basement key into your bag."
     jump to_office_3
         
@@ -1728,10 +1738,11 @@ label bedroom_desk_3:
             "you leave the skeleton in the desk and back away."
             jump to_bedroom_3
 
-#TODO add skeleton key
+# add skeleton key
 label take_skeleton_key:
     $ menu_flag = True
     "You put the skeleton key into your bag."
+    $bag.items.append(SkeletonKey)
     jump to_bedroom_3
 
 label bedroom_closet_3:
@@ -1749,8 +1760,9 @@ label open_closet_3:
     "As you begin to back away it leaps at you weilding a letter opener."
     "The husk attempts to stab you several times, he manages to get only one good strike on your side."
     "You push the husk down and sprint for the door, and you manage to escape with only one stab wound."
+    updateLives(1)
     jump return_level_3
-#TODO lose 1 health here^^^
+# lose 1 health here^^^
 
 label to_game_room:
     $ menu_flag = True
@@ -1808,7 +1820,8 @@ label search_toy_chest:
             
 label take_toy_crown:
     $ menu_flag = True
-    "You take the crown and put it into your bag." #TODO add toy crown to the bag
+    $bag.items.append(FakeCrown)
+    "You take the crown and put it into your bag." # add toy crown to the bag
     jump to_nursery
     
 label search_toy_pile:
@@ -1823,7 +1836,8 @@ label search_toy_pile:
             
 label take_matches:
     $ menu_flag = True
-    "You take the box of matches and put it into your bag." #TODO add matches to the bag
+    $bag.items.append(Matches)
+    "You take the box of matches and put it into your bag." # add matches to the bag
     jump to_nursery
     
 label search_crib:
@@ -1902,7 +1916,7 @@ label search_corpse:
     "You gingerly grab what looks like a note from the corpse's hands."
     "You attempt to read the note but the note has been severely burned and you cannot decipher any useful information."
     jump to_burned_room #note has information?
-    
+
 label choice_end_game:  
     $renpy.full_restart()
     return

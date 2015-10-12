@@ -175,7 +175,7 @@ init python:
         def __init__(self):
             self.items = [Item("Backpack","Your old Backpack that you've had for many years",False,False)] #Adds a backpack to your inventory, you cant toss it. Might get rid of this code tho we don't really need to have the backpack in your inventory its just neat to have
             self.sanity = 10 #TODO sanity's too low, needs to be reset
-            self.lives = 1
+            self.lives = 1 #TODO same w/ lives
 
         def __contains__(self, item):
             return item in self.items
@@ -280,8 +280,6 @@ label talkToHarold:
                 h "As an avid historian, I feel it is my duty to explore this place and restore the public record! However..."
                 h "I... I-I'm afraid I c-c-cannot delve f-further..."
             "Do you know anything about other people in the mansion?" if metAvidem or metPhoebe or metArchie:
-                h "Y-yeah, I know Avidem, B-Basiltine, a-a-and Phoebe" 
-                h "W-who do you w-want to h-hear about?"
                 menu:
                     "Avidem" if metAvidem:
                         h "Hmm, the lady seems n-nice, but awfully c-calm."
@@ -962,7 +960,7 @@ label laundryRoom:
     menu:
         "Inspect the pile of clothes" if not metHarold:
             "After a bit of digging you feel something solid."
-            "Removing some clothes reveals a small man huddled under the cloths."
+            "Removing some clothes reveals a small man huddled under the pile."
             jump talkToHarold
         "Talk to Harold" if metHarold:
             jump talkToHarold

@@ -1257,7 +1257,7 @@ label to_dungeon_4:
              jump examine_gold_band
          "Back out of the room":
              jump to_Dungeon
-     to_dungeon_4
+   #TODO jump  to_dungeon_4
          
 label examine_gold_band:
      $ menu_flag = True
@@ -1267,7 +1267,7 @@ label examine_gold_band:
              jump take_golden_band
          "Leave the golden band":
              jump to_dungeon_4#_options
-     examine_gold_band
+    #TODO examine_gold_band
              
 label take_golden_band:
      $ menu_flag = True
@@ -1289,7 +1289,7 @@ label from_basement:
         
         "Turn Back":
             jump to_basement
-    jump from_basement
+    #TODO jump from_basement
                   
 #when player doesn't have the basement key in their bag   
 label attemptToOpenBasementDoorToFirstFloor:
@@ -1332,8 +1332,8 @@ label up_level_2:
             scene masterBedroom
             with fade
             jump master_bedroom
-        "Go up the stairs in front of you":
-            jump level_3 #to the third floor
+        "Go up to the third floor":
+            jump up_level_3 #to the third floor
         "Go back down the stairs to the main hall":
             jump entrance_hall #to the mainhall on level 1
             
@@ -1363,8 +1363,8 @@ label return_level_2:
             scene masterBedroom
             with fade
             jump master_bedroom
-        "Go up the stairs in front of you":
-            jump level_3 #to the third floor
+        "Go up to the third floor":
+            jump up_level_3 #to the third floor
         "Go back down the stairs to the main hall":
             jump entrance_hall #to the mainhall on level 1
             
@@ -1609,13 +1609,300 @@ label avidem_alive_nightstand:
     call updateSanity(10)
     jump return_level_2
     
-label level_3:
+label up_level_3:
     $ menu_flag = True
-    "You attempt to go up the stairs but you feel a strong urge of dread as you begin ascending."
-    "You try to ignore it but it's too strong and you turn around and go back down to the second floor."
-    jump return_level_2
+    "You enter the main hallway of the third floor and you see 8 doors."
+    "There is an Office, a Bedroom, Game room, TV room, Nursery, Art studio, Charnel house and a room that looks as if it was the place of a large fire many years ago."
+    menu:
+        "Go to the Office":
+            jump to_office_3
+        "Go to the Bedroom":
+            jump to_bedroom_3
+        "Go to the Game room":
+            jump to_game_room
+        "Go to the TV room":
+            jump to_tv_room
+        "Go to the Nursery":
+            jump to_nursery
+        "Go to the Art studio":
+            jump to_art_studio
+        "Go to the Charnel house":
+            jump to_charnel_house
+        "Go to the Burned room":
+            jump to_burned_room
+        "Go down to the second floor":
+            jump return_level_2
+            
+label return_level_3:
+    $ menu_flag = True
+    "There is an Office, a Bedroom, Game room, TV room, Nursery, Art studio, Charnel house and a room that looks as if it was the place of a large fire many years ago."
+    menu:
+        "Go to the Office":
+            jump to_office_3
+        "Go to the Bedroom":
+            jump to_bedroom_3
+        "Go to the Game room":
+            jump to_game_room
+        "Go to the TV room":
+            jump to_tv_room
+        "Go to the Nursery":
+            jump to_nursery
+        "Go to the Art studio":
+            jump to_art_studio
+        "Go to the Charnel house":
+            jump to_charnel_house
+        "Go to the Burned room":
+            jump to_burned_room
+        "Go down to the second floor":
+            jump return_level_2
+            
+label to_office_3:
+    $ menu_flag = True
+    "In the office you see a desk, a table and a cabinet."
+    menu:
+        "Search the desk":
+            jump office_desk_3
+        "Search the table":
+            jump office_table_3
+        "Search the cabinet":
+            jump office_cabinet_3
+        "Leave the room":
+            jump return_level_3
+            
+label office_desk_3:
+    $ menu_flag = True
+    "In the desk you find several sheets of paper with illegible scribbles on them."
+    "You place the papers back in the desk and back away."
+    jump to_office_3
     
+label office_table_3:
+    $ menu_flag = True
+    "On the table you find a faded map of the mansion."
+    "You take a closer look, but the map is too faded to get a complete image of the map."
+    "You decide that the map isn't worth taking so you leave the map on the table and back away."
+    jump to_office_3
+ 
+#TODO add second Basement key
+label office_cabinet_3:
+    $ menu_flag = True
+    "In the cabinet you find a key with a label reading 'Basement'."
+    menu:
+        "Take the key":
+            jump take_key_3
+        "Leave the key":
+            "you leave the key in the cabinet and back away."
+            jump to_office_3
+            
+label take_key_3:
+    $ menu_flag = True
+    "You put the basement key into your bag."
+    jump to_office_3
+        
+label to_bedroom_3:
+    $ menu_flag = True    
+    "In the bedroom you see a bed, a closet and a desk."
+    menu:
+        "Search the bed":
+            jump bedroom_bed_3
+        "Search the desk":
+            jump bedroom_desk_3
+        "Search the closet":
+            jump bedroom_closet_3
+        "Leave the room":
+            jump return_level_3
+ 
+label bedroom_bed_3:
+    $ menu_flag = True
+    "As you approach the bed you notice that it's covered in blood."
+    "You back away from the blood-stained bed and collect yourself."
+    jump to_bedroom_3
+    
+label bedroom_desk_3:
+    $ menu_flag = True
+    "In the desk you find a strange looking key."
+    "Upon further examination you realize the key is crafted in the likeness of a skull with several bones protruding from it."
+    menu:
+        "Take the skeleton key":
+            jump take_skeleton_key
+        "Leave the skeleton key":
+            "you leave the skeleton in the desk and back away."
+            jump to_bedroom_3
 
+#TODO add skeleton key
+label take_skeleton_key:
+    $ menu_flag = True
+    "You put the skeleton key into your bag."
+    jump to_bedroom_3
+
+label bedroom_closet_3:
+    $ menu_flag = True
+    "As you approach the closet you hear heavy breathing from within..."
+    menu:
+        "Open the closet":
+            jump open_closet_3
+        "Back away from the closet":
+            jump to_bedroom_3
+
+label open_closet_3:
+    $ menu_flag = True
+    "You open the closet door to see a husk staring back at you."
+    "As you begin to back away it leaps at you weilding a letter opener."
+    "The husk attempts to stab you several times, he manages to get only one good strike on your side."
+    "You push the husk down and sprint for the door, and you manage to escape with only one stab wound."
+    jump return_level_3
+#TODO lose 1 health here^^^
+
+label to_game_room:
+    $ menu_flag = True
+    "In the game room you see a lone table."
+    menu:
+        "Approach the table":
+            jump game_room_table
+        "Leave the room":
+            jump return_level_3
+
+label game_room_table:
+    $ menu_flag = True
+    "As you approach the table you see a chess board."
+    menu:
+        "Chess things happen here":#TODO add chess options here  (just add menu options and comment in what they do and I can code it in)   
+            jump to_game_room #change this if neccesarry
+        
+label to_tv_room:
+    $ menu_flag = True
+    "You see a television at the opposite end of the room."
+    menu:
+        "Take a closer look":
+            jump look_tv
+        "Leave the room":
+            jump return_level_3
+
+label look_tv:
+    $ menu_flag = True
+    "As you approach the TV you see..." #TODO add image based on sanity? or just add a default image.
+    jump to_tv_room
+
+label to_nursery:
+    $ menu_flag = True
+    "In the nursery you see a toy chest, a small pile of toys on the ground and a crib."
+    menu:
+        "Search the toy chest":
+            jump search_toy_chest
+        "Search the pile of toys":
+            jump search_toy_pile
+        "Search the crib":
+            jump search_crib
+        "Leave the room":
+            jump return_level_3
+            
+label search_toy_chest:
+    $ menu_flag = True
+    "In the toy chest you see a few wooden blocks, a toy car and what looks like a gold crown."
+    "The blocks and toy car have no use to you, but you have an odd feeling about the crown."
+    menu:
+        "Take the crown":
+            jump take_toy_crown
+        "Leave the crown":
+            "You leave the toy crown in the toy chest and back away."
+            jump to_nursery
+            
+label take_toy_crown:
+    $ menu_flag = True
+    "You take the crown and put it into your bag." #TODO add toy crown to the bag
+    jump to_nursery
+    
+label search_toy_pile:
+    $ menu_flag = True
+    "You search through the small pile of toys and discover a box of matches underneath."
+    menu:
+        "Take the matches":
+            jump take_matches
+        "Leave the matches":
+            "You leave the matches in the pile of toys and back away."
+            jump to_nursery
+            
+label take_matches:
+    $ menu_flag = True
+    "You take the box of matches and put it into your bag." #TODO add matches to the bag
+    jump to_nursery
+    
+label search_crib:
+    $ menu_flag = True
+    "In the crib you see nothing, but you swear you can hear a baby crying..."
+    "You back away from the crib and the crying fades away." #sounds based on sanity, if there's time.
+    jump to_nursery
+
+label to_art_studio:
+    "In the art studio you see a singular painting hanging on the wall."
+    menu:
+        "Approach the painting":
+            jump to_painting
+        "Leave the room":
+            jump to_art_studio
+            
+label to_painting:
+    $ menu_flag = True
+    "As you approach the painting you see..." #TODO add image based on sanity?
+    jump to_art_studio
+    
+label to_charnel_house:
+    $ menu_flag = True
+    "Upon entering the room you see several large meat hooks swaying back and forth."
+    "You don't know why but you are extremely unsettled by the hooks."
+    menu:
+        "Turn back":
+            jump return_level_3
+        "Keep going":
+            jump inside_charnel_house
+            
+label inside_charnel_house:
+    $ menu_flag = True
+    "In the charnel house you see the swaying meat hooks and a metal table."
+    menu:
+        "Search the table":
+            jump search_charnel_table
+        "Leave the room":
+            jump return_level_3
+            
+label search_charnel_table:
+    $ menu_flag = True
+    "On the table you see a chainsaw with old blood-stains on it."
+    menu:
+        "Take the chainsaw":
+            jump take_chainsaw
+        "Leave the chainsaw":
+            "You leave the chainsaw on the table and back away."
+            jump inside_charnel_house
+            
+label take_chainsaw:
+    $ menu_flag = True
+    "You take the chainsaw and stuff it into your bag. To your suprise the chainsaw fits inside."
+    jump inside_charnel_house
+
+label to_burned_room:
+    $ menu_flag = True
+    "In the burned room you see a pile of ash in the corner and what looks to be a corpse."
+    menu:
+        "Search the pile of ash":
+            jump search_ash
+        "Search the corpse":
+            jump search_corpse
+        "Leave the room":
+            jump return_level_3
+            
+label search_ash:
+    $ menu_flag = True
+    "After digging through the ash pile you discover an old pacifer."
+    # jump take_pacifier?
+    "You decide it's of no use to you, so you decide to  leave it where you found it and back away from the pile of ash."
+    jump to_burned_room
+    
+label search_corpse:
+    "As you approach the corpse you notice that the body is charred and it's grasping something in its hands."
+    "You gingerly grab what looks like a note from the corpse's hands."
+    "You attempt to read the note but the note has been severely burned and you cannot decipher any useful information."
+    jump to_burned_room #note has information?
+    
 label choice_end_game:  
     $renpy.full_restart()
     return

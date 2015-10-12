@@ -4,17 +4,18 @@ Malevolent Mansion is a point and click adventure game where the player is trapp
 
 ## Team
 
-Evan Duffy: Programming
-Bailey Schmidt: Programming
-Jack Riley: Story
-Delores Jackson: Art
+* Evan Duffy: Programming
+* Bailey Schmidt: Programming
+* Jack Riley: Story
+* Delores Jackson: Art
 
 ## Known Bugs
 
-There is no way to get the crown
-There is no way to get to the 3rd floor
-The user is sporadically given the BasementKey
-Harold’s and Avidem’s quests are not completable
+* There is no way to get the crown
+* There is no way to get to the 3rd floor
+* The user is sporadically given the BasementKey
+* Harold’s and Avidem’s quests are not completable
+* The player can click forward while in the inventory screen, which can cause fatal glitches
 
 ## License
 

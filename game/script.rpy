@@ -1549,7 +1549,7 @@ label search_purple_bed:
      
 label search_purple_closet:
      $ menu_flag = True
-     "In the closet you find an fine old room that looks like it's fit for royalty."
+     "In the closet you find an fine old robe that looks like it's fit for royalty."
      "You close the closet door and back away."
      jump purple_room
     

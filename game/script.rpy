@@ -42,7 +42,7 @@ image emptybedroom = im.Scale("images/Floor 3/Sane Empty Room.jpg", 900,600)
 image nursery = im.Scale("images/Floor 3/Nursery Sane.jpg", 900,600)
 image TVroom = im.Scale("images/Floor 3/TV room Sane.jpg", 900,600)
 image artroom = im.Scale("images/Floor 3/art studio Sane.jpg", 900,600)
-
+image Bas = im.Scale("images/NPCs/Archie.png", 900,600)
 
 
 define diss = Dissolve(1.0)
@@ -382,7 +382,8 @@ label giveAvidemTheGem():
                     a "If you are still sane..."
                     call updateSanity(-50)
                     "%(playerName)s's sanity fell by 50" #IDK 50 is a lot, we might want to lower this
-                    #kicks out of the room
+                    "You also hear a click from somewhere in the mansion... As if a door unlocked..."
+                    $frontDoorLocked = False
                     #door locks
                 "No":
                     a "WHAT?? HOW DARE YOU DEFY ME! Give me that gem!!!"
@@ -435,6 +436,7 @@ label talkToPhoebe:
     return
 
 label talkToBasiltine:
+    show Bas
     $attacking = False
     if not attacking:
         if not metArchie:
@@ -484,7 +486,7 @@ label talkToBasiltine:
         "You black out..."
         "Luckily you have your first aid kit. You've recovered, but you had to use some of your supplies."
         call updateLives(1)
-
+        hide Bas
     jump purple_room
 
 label giveBasiltineCrown():
@@ -574,7 +576,6 @@ label setupItemSystem:
         CarKeys = Item("Car Keys", "", False, False)
         Matches = Item("Matches", "", False, False)
         SkeletonKey = Item("Matches", "", False, False)
-        SecondBasementKey = Item("Basement Key","", False, False)
         Sword = Item("Queens Saber","", True, True)
         GlassKey = Item("Glass Key","",False, False)
 
@@ -605,6 +606,11 @@ label entrance_hall:
 
         "Go down the right hall":
             jump to_basement_door_from_mainhall
+        "Go out the front door":
+            "You try the front door and its open!"
+            "Giving Avidem her gem must have triggered the supernatural lock!"
+            "You walk out the front door of the mansion"
+            jump escape
     jump entrance_hall
 
 label mainHallway:
@@ -620,16 +626,19 @@ label mainHallway:
             jump laundryRoom
 
         "Go to the garden":
-            "You go out the back door to find a fenced off garden"
-            if Flashlight in bag:
-                "It's very dark. You take out your flashlight and turn it on."
-                "It easily illuminates the garden"
-                "There's a small flower bed with a dingy cement statue next to it."
-                scene litGarden
-            else:
-                "Its too dark to see..."
-                scene darkGarden
-            jump garden
+            if GlassKey in bag:
+                "You go out the back door to find a fenced off garden"
+                if Flashlight in bag:
+                    "It's very dark. You take out your flashlight and turn it on."
+                    "It easily illuminates the garden"
+                    "There's a small flower bed with a dingy cement statue next to it."
+                    scene litGarden
+                else:
+                    "Its too dark to see..."
+                    scene darkGarden
+                jump garden
+            else: 
+                "The glass door to the garden is locked..."
 
         "Go into the ballroom":
             "You enter a large ballroom"
@@ -637,7 +646,8 @@ label mainHallway:
 
         "Go to the main entryway":
             jump entrance_hall
-        
+    jump mainHallway
+
 label to_garage:
     $ menu_flag = True
     "You're at the garage door."
@@ -1823,7 +1833,7 @@ label to_office_3:
             jump office_desk_3
         "Search the table":
             jump office_table_3
-        "Search the cabinet":
+        "Search the cabinet" if BasementKey not in bag:
             jump office_cabinet_3
         "Leave the room":
             jump return_level_3
@@ -1854,7 +1864,7 @@ label office_cabinet_3:
             
 label take_key_3:
     $ menu_flag = True
-    $bag.items.append(SecondBasementKey)
+    $bag.items.append(BasementKey)
     "You put the basement key into your bag."
     jump to_office_3
         

@@ -681,7 +681,7 @@ label garageScene:
                                     jump escape
                                 "No":
                                     "You back away from the car."
-                        else
+                        else:
                             "Looks like you'll need to find the keys to the car."
                     "No":
                         "You back away from the car."
@@ -962,7 +962,7 @@ label ballroom:
             $ballroomLightsOff = False
             "You turn on the lights to the sight of many bodies hung from the ceiling, some of them still kicking."
             "The grisly sight disturbs you."
-            call updateSanity(-15)
+            call updateSanity(-20)
             jump back2
 
         "Leave":
@@ -1183,7 +1183,7 @@ label to_dungeon_1:
     "You walk into the first dungeon cell to see a nest of sniveling, squeaking rats."
     "As you step into the room all the rats rush by you in a frenzy."
     "Physically, you suffer only minor scratches, but mentally you are wounded by the sight."
-    call updateSanity(-10)
+    call updateSanity(-20)
     jump to_Dungeon
      
 label to_dungeon_2:
@@ -1533,7 +1533,7 @@ label search_red_closet:
     "You open the door and see a rotting corpse inside."
     "The stench is horrible and the sight disturbs you."
     "You close the closet door and back away shaking."
-    call updateSanity(-10)
+    call updateSanity(-20)
     jump red_room
      
 label purple_room:
@@ -1609,7 +1609,7 @@ label avidem_alive_nightstand:
     "You turn your head to look at the woman and her gaze bring you to your knees."
     "She gets up and approaches you, then leans over and whispers into your ear 'Get out'."
     "You scramble to your feet and sprint out of the room, terrified."
-    call updateSanity(-10)
+    call updateSanity(-20)
     jump return_level_2
     
 label up_level_3:
@@ -1790,16 +1790,12 @@ label game_room_table:
                         "Before you have time to react the knight slams you with his sword."
                         $bag.lives -= 15
                         "You black out."
-                        "You wake up laying on the floor in front of the chess table"
+                        "You wake up laying on the floor in front of the chess table."
                         "Maybe you could have defeated the knight if you had a better weapon..."
-                        "Maybe you should look closer at the chess board"
+                        "Perhaps you should look closer at the chess board?"
                 "No":
                     jump game_room_table
-
-
-            #if possible, the player should get a chance to not move the piece. 
-            #otherwise, a spectral knight attacks, which can only be killed by the queen's Sword
-            #is that doable?
+           
         "Move the Bishop":
             "Moving the chess piece reveals a slip of paper that was hidden underneath. It reads:"
             "'If you are wise, heed this order; Consort, Chivalry, Checkmate.'"
@@ -1809,8 +1805,8 @@ label game_room_table:
             $bag.items.append(Sword)
         "Move the King": #if the knight is dead, give glass key, else nothing
             if knightDead:
-                "The king moves to reveal a small compartment where there is a glass key."
-                "You take it and put it in your bag"
+                "The king moves to reveal a small compartment containing a glass key."
+                "You take it and put it in your bag."
                 $bag.items.append(GlassKey)
             else:
                 "The king wont budge"

@@ -2,8 +2,8 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 1034: expected statement.
-    %bag.items.append(Gem)
-                          ^
+File "game/screens.rpy", line 74: expected a keyword argument or end of line.
+    modal = True
+          ^
 
 Ren'Py Version: Ren'Py 6.99.6.739

@@ -71,6 +71,7 @@ screen say(who, what, side_image=None, two_window=False):
         textbutton _("Inventory") action [Hide ("say"),Show("InventoryScreen")]
 
 screen InventoryScreen:
+    modal True
     frame:
         style_group "gm_nav"
         xalign .02

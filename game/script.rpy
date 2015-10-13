@@ -574,13 +574,13 @@ label setupItemSystem:
 #BAILEY'S STUFF#
 
 label entrance_hall:
-    # hide kitchen
+    hide kitchen
     scene mainhall
-    # if bag.sanity > 50:
-    #     play music "audio/Epic Unease.mp3" fadein 1.0 loop
-    # else:
-    #     play music "audio/The Hive.mp3" fadein 1.0 loop
-    "You're in the entrance hall of the mansion"
+    if bag.sanity > 50:
+        play music "audio/Epic Unease (Edited).mp3" fadein 1.0 loop
+    else:
+         play music "audio/The Hive.mp3" fadein 1.0 loop
+    "You're in the entrance hall of the mansion."
     "Where do you want to go?"
     menu:
         "Go down the left hall":
@@ -602,7 +602,7 @@ label entrance_hall:
 
         "Go down the right hall":
             # $bag.items.append(BasementKey) #For ease of debugging
-            jump to_basement_door_from_mainhall    
+            jump to_basement_door_from_mainhall
         
 label to_garage:
     $ menu_flag = True
@@ -718,6 +718,11 @@ label to_mech_nest:
     $ menu_flag = True
     show mechnest
     if garageHuskIsAlive: #is there any way to change this if you haven't gone to the garage yet? The only way to get to the mech_nest before 
+        if bag.sanity > 50:
+            play music "audio/Dragon and Toast.mp3" fadein 1.0 loop
+        else:
+            play music "audio/Heart of the Beast.mp3" fadein 1.0 loop
+        
         "The husk that attacked you earlier is sleeping in the corner, there is a work-bench, toolbox and an old chest in the room." #can kill with certain weapon
     else:
         "The husk no longer needs to be worried about, there is a work-bench, toolbox and an old chest in the room."
@@ -813,6 +818,11 @@ label to_basement:
     $ menu_flag = True
     show hallway
     with fade
+    if bag.sanity > 50:
+        play music "audio/Dragon and Toast.mp3" fadein 1.0 loop
+    else:
+        play music "audio/Heart of the Beast.mp3" fadein 1.0 loop
+        
     "At the bottom of the stairway you see three doorways."
     menu:
         "Go to the dungeon":
@@ -1310,7 +1320,11 @@ label attemptToOpenBasementDoorToFirstFloor:
 
 #***NEEDS TO BE IMPLEMENTED***#
 label up_level_2:
-    $ menu_flag = True
+    with fade
+    if bag.sanity > 50:
+       play music "audio/Awkward Meeting.mp3" fadein 1.0 loop
+   else:
+       play music "audio/One of Them (Edited).mp3" fadein 1.0 loop
 
     "You go up the stairs to find yourself on the second floor."
     "Before you there is a stairway going up and  several labeled doors: 'Green Room', 'Orange Room', 'Red Room', 'Purple Room' and 'Master Bedroom'."
@@ -1343,7 +1357,10 @@ label up_level_2:
 label return_level_2:
     scene mainhall
     with fade
-    $ menu_flag = True
+    if bag.sanity > 50:
+       play music "audio/Awkward Meeting.mp3" fadein 1.0 loop
+   else:
+       play music "audio/One of Them (Edited).mp3" fadein 1.0 loop
     "Before you there is a stairway going up and  several labeled doors: 'Green Room', 'Orange Room', 'Red Room', 'Purple Room' and 'Master Bedroom'."
     menu:
         "Go to the Green Room":
@@ -1613,31 +1630,38 @@ label avidem_alive_nightstand:
     jump return_level_2
     
 label up_level_3:
-    $ menu_flag = True
-    "You enter the main hallway of the third floor and you see 8 doors."
-    "There is an Office, a Bedroom, Game room, TV room, Nursery, Art studio, Charnel house and a room that looks as if it was the place of a large fire many years ago."
-    menu:
-        "Go to the Office":
-            jump to_office_3
-        "Go to the Bedroom":
-            jump to_bedroom_3
-        "Go to the Game room":
-            jump to_game_room
-        "Go to the TV room":
-            jump to_tv_room
-        "Go to the Nursery":
-            jump to_nursery
-        "Go to the Art studio":
-            jump to_art_studio
-        "Go to the Charnel house":
-            jump to_charnel_house
-        "Go to the Burned room":
-            jump to_burned_room
-        "Go down to the second floor":
-            jump return_level_2
+     if bag.sanity > 50:
+        play music "audio/The Dread.mp3" fadein 1.0 loop
+     else:
+         play music "audio/Decay.mp3" fadein 1.0 loop
+         "You enter the main hallway of the third floor and you see 8 doors."
+         "There is an Office, a Bedroom, Game room, TV room, Nursery, Art studio, Charnel house and a room that looks as if it was the place of a large fire many years ago."
+         menu:
+             "Go to the Office":
+                 jump to_office_3
+             "Go to the Bedroom":
+                 jump to_bedroom_3
+             "Go to the Game room":
+                 jump to_game_room
+             "Go to the TV room":
+                 jump to_tv_room
+             "Go to the Nursery":
+                 jump to_nursery
+             "Go to the Art studio":
+                 jump to_art_studio
+             "Go to the Charnel house":
+                 jump to_charnel_house
+             "Go to the Burned room":
+                 jump to_burned_room
+             "Go down to the second floor":
+                 jump return_level_2
             
 label return_level_3:
-    $ menu_flag = True
+    if bag.sanity > 50:
+        play music "audio/The Dread.mp3" fadein 1.0 loop
+    else:
+        play music "audio/Decay.mp3" fadein 1.0 loop
+    "You enter the main hallway of the third floor and you see 8 doors."
     "There is an Office, a Bedroom, Game room, TV room, Nursery, Art studio, Charnel house and a room that looks as if it was the place of a large fire many years ago."
     menu:
         "Go to the Office":

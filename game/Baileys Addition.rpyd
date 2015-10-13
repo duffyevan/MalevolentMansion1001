@@ -40,7 +40,6 @@ define diss = Dissolve(1.0)
 
 # The game starts here.
 label start:
-    screen keybindings()
     play sound "audio/rain.mp3" fadeout 1.0 fadein 1.0 loop
     scene road
     with fade
@@ -109,6 +108,8 @@ label start:
                             stop music
                             play sound "audio/doorslam.mp3" 
                             queue sound "audio/evillaugh.mp3" 
+                            play music "audio/Epic Unease.mp3" fadein 1.0 loop
+
                     
                             "You have now entered the Malevolent Mansion."
                             
@@ -152,6 +153,7 @@ init python:
     attacking = False # TODO This breaks the attacking option for all NPCs, we can deal with that feature later
     firstTimeInGarage = True
     carFixed = False
+    knightDead = False
     def showInventory(n, b): #Show the inventory in a ui.frame on top of the current frame
         ui.frame()
         c = "'s inventory: "
@@ -176,7 +178,7 @@ init python:
         def __init__(self):
             self.items = [Item("Backpack","Your old Backpack that you've had for many years",False,False)] #Adds a backpack to your inventory, you cant toss it. Might get rid of this code tho we don't really need to have the backpack in your inventory its just neat to have
             self.sanity = 100 
-            self.lives = 10
+            self.lives = 100
 
         def __contains__(self, item):
             return item in self.items
@@ -290,7 +292,7 @@ label talkToHarold:
                         h "That young w-woman didn't h-have much to say to m-me. She just muttered about s-secrets."
             "Can you tell me about this Mythology Book?" if MythologyBook in bag:
                 h "Hmmm... Th-These symbols... They resemble a dialect of ancient Sumerian."
-                h "Now that I think of if, Lord Cupido did entertain a fascination with Sumerian artifacts a little while before his disappearence."
+                h "Now that I think of if, Lord Cupido did entertain a fascination with Sumerian artifacts a little while before his disappearance."
                 h "It's been a while, but I think... I... can...."
                 h "Got it! I've deciphered the text. There's one passage in particular that might aid your escape, titled 'Riddle for Passage of Bone.'"
                 h "It reads: 'Swim through the clouds, crawl along the ocean depths, fly silently through the grass.'"
@@ -515,37 +517,24 @@ label updateSanity(num):
     return
 
 label updateLives(num):
-    $bag.lives -= num
+    python:
+        holdingLightWeapon = False
+        holdingHeavyWeapon = False
+        for i in bag.items:
+            if i.isWeapon:
+                if i.isHeavy:
+                    holdingHeavyWeapon = True
+                else:
+                    holdingLightWeapon = True
+        if Chainsaw in bag:
+            num = 0
+        elif (holdingHeavyWeapon == True):
+            num = num * 0.25
+        elif holdingLightWeapon == True:
+            num = num * 0.75
+        bag.lives -= num
     if bag.lives <= 0:
         jump die
-    return
-
-label pickItems (roomItems = []): #BOOM Modular code
-    python:
-        roomItemsLength = len(roomItems) #Tell the script what items are in the room
-    if roomItemsLength > 0:
-        "There are %(roomItemsLength)d items in this room. Which would you like?"
-        menu:
-            "Chainsaw" if Chainsaw in roomItems:
-                $justPickedUpAnItem = bag.pickUpWeapon(Chainsaw)
-                $if justPickedUpAnItem: lastPickup = Chainsaw
-            "Knife" if Knife in roomItems:
-                $justPickedUpAnItem = bag.pickUpWeapon(Knife)
-                $if justPickedUpAnItem: lastPickup = Knife
-            "Crow Bar" if CrowBar in roomItems:
-                $justPickedUpAnItem = bag.pickUpWeapon(CrowBar)         #We Will need extra if statements for weapons regarding their weight so I will do that later
-                $if justPickedUpAnItem: lastPickup = CrowBar
-            "Idol" if Idol in roomItems:
-                $justPickedUpAnItem = bag.pickUpWeapon(Idol)
-                $if justPickedUpAnItem: lastPickup = Idol
-        python:
-            desc = lastPickup.getDescription()
-        if justPickedUpAnItem:
-            "%(playerName)s picked up a %(lastPickup)s: %(desc)s"
-        else: 
-            "%(playerName)s couldn't pick that up..."
-    else:
-        "There are no items in this room..."
     return
 
 label setupItemSystem:
@@ -568,6 +557,12 @@ label setupItemSystem:
         OrangeKey = Item("Orange Key", "", False, False)
         MythologyBook = Item("Mythology Book","",False,False)
         CarKeys = Item("Car Keys", "", False, False)
+        Matches = Item("Matches", "", False, False)
+        SkeletonKey = Item("Matches", "", False, False)
+        SecondBasementKey = Item("Basement Key","", False, False)
+        Sword = Item("Queens Saber","", True, True)
+        GlassKey = Item("Glass Key","",False, False)
+
         ###MAKE SURE YOU ALSO ADD A MENU STATEMENT FOR EACH ITEM YOU ADD HERE^^^### 
         #lastPickup = Item("Backpack","Your old Backpack that you've had for many years.",False,False) #Lets define all the items we need for this alpha
     return
@@ -579,9 +574,13 @@ label setupItemSystem:
 #BAILEY'S STUFF#
 
 label entrance_hall:
-    # hide kitchen
+    hide kitchen
     scene mainhall
-    "You're in the entrance hall of the mansion"
+    if bag.sanity > 50:
+        play music "audio/Epic Unease (Edited).mp3" fadein 1.0 loop
+    else:
+         play music "audio/The Hive.mp3" fadein 1.0 loop
+    "You're in the entrance hall of the mansion."
     "Where do you want to go?"
     menu:
         "Go down the left hall":
@@ -602,8 +601,8 @@ label entrance_hall:
             jump ballroom
 
         "Go down the right hall":
-            $bag.items.append(BasementKey) #For ease of debugging
-            jump to_basement_door_from_mainhall    
+            # $bag.items.append(BasementKey) #For ease of debugging
+            jump to_basement_door_from_mainhall
         
 label to_garage:
     $ menu_flag = True
@@ -672,7 +671,7 @@ label garageScene:
                     "Sure":
                         "You spend a few minutes fiddling with the spare parts that you put in the car."
                         $carFixed = True
-                        "The car seems like it should work now with the spare parts"
+                        "The car seems like it should work now with the spare parts, but you still need to turn it on."
                         if CarKeys in bag:
                             "Would you like to try to start the car with the keys that Archie gave you?"
                             menu:
@@ -682,6 +681,8 @@ label garageScene:
                                     jump escape
                                 "No":
                                     "You back away from the car."
+                        else:
+                            "Looks like you'll need to find the keys to the car."
                     "No":
                         "You back away from the car."
                         jump garageScene
@@ -716,7 +717,12 @@ label instant_death:
 label to_mech_nest:
     $ menu_flag = True
     show mechnest
-    if garageHuskIsAlive: #is there any way to change this if you haven't gone to the garage yet? The only way to get to the mech nest before 
+    if garageHuskIsAlive: #is there any way to change this if you haven't gone to the garage yet? The only way to get to the mech_nest before 
+        if bag.sanity > 50:
+            play music "audio/Dragon and Toast.mp3" fadein 1.0 loop
+        else:
+            play music "audio/Heart of the Beast.mp3" fadein 1.0 loop
+        
         "The husk that attacked you earlier is sleeping in the corner, there is a work-bench, toolbox and an old chest in the room." #can kill with certain weapon
     else:
         "The husk no longer needs to be worried about, there is a work-bench, toolbox and an old chest in the room."
@@ -812,6 +818,11 @@ label to_basement:
     $ menu_flag = True
     show hallway
     with fade
+    if bag.sanity > 50:
+        play music "audio/Dragon and Toast.mp3" fadein 1.0 loop
+    else:
+        play music "audio/Heart of the Beast.mp3" fadein 1.0 loop
+        
     "At the bottom of the stairway you see three doorways."
     menu:
         "Go to the dungeon":
@@ -871,7 +882,7 @@ label search_table:
     "You see a flask on the table with a mysterious glowing liquid inside."
     menu:
         "Chug the liquid":
-            call updateLives(1)
+            call updateLives(10)
             "Turns out the liquid is poisonous. Good thing you have your first aid kit."
             "You are still alive but you had to use some of your medical supplies."
         "Take the flask":
@@ -961,7 +972,7 @@ label ballroom:
             $ballroomLightsOff = False
             "You turn on the lights to the sight of many bodies hung from the ceiling, some of them still kicking."
             "The grisly sight disturbs you."
-            call updateSanity(-15)
+            call updateSanity(-20)
             jump back2
 
         "Leave":
@@ -1117,7 +1128,7 @@ label read_selfhelp:
     menu:
         "Dive for cover":
             "Sadly you don't get to cover in time. The man shoots you square in the chest."
-            call updateLives(1) #attempt to dive for cover but the crazed man shoots you before you can (self_help_death)
+            call updateLives(10) #attempt to dive for cover but the crazed man shoots you before you can (self_help_death)
             "Thankfully you have your first aid kit. You save yourself using some of your medical supplies."
             "In an adrenaline fueled rage you run to the man as hes reloading his shotgun, grab the gun and beat him upside the head with it."
             "He's dead, so you're safe again, for now..."
@@ -1139,24 +1150,24 @@ label read_cooking:
     $ menu_flag = True
     "You pick up the book, and flip through all the images of delicious looking foods."
     "You feel more relaxed and refreshed after viewing the book." # if sanity < 100 +20 sanity, else no change
-    call updateSanity(20)
+    call updateSanity(-20)
     "You put the book back into place and step away from the bookcase."
     jump bookChoices
 
 #this goes to the lab        
 label secret_pass_to_lab:
-     $ menu_flag = True
-     hide Library
-     show tunnel with fade
-     "You walk down the small cavern path and see a light at the end."
-     #maybe add a switch
-     "As you get closer to the light you see an opening at the end of the tunnel."
-     "The opening leads into what looks like a laboratory."
-     menu:
-         "Continue into the lab":
-             jump to_Lab
-         "Go back to the library":
-             jump to_Library
+    $ menu_flag = True
+    hide Library
+    show tunnel with fade
+    "You walk down the small cavern path and see a light at the end."
+    #maybe add a switch
+    "As you get closer to the light you see an opening at the end of the tunnel."
+    "The opening leads into what looks like a laboratory."
+    menu:
+        "Continue into the lab":
+            jump to_Lab
+        "Go back to the library":
+            jump to_Library
              
 label to_Dungeon:
     $ menu_flag = True
@@ -1170,7 +1181,7 @@ label to_Dungeon:
         "Go into room 2":
             jump to_dungeon_2
         "Go into room 3":
-           jump to_dungeon_3
+            jump to_dungeon_3
         "Go into room 4":
             jump to_dungeon_4
         "Return to the basement landing":
@@ -1182,7 +1193,7 @@ label to_dungeon_1:
     "You walk into the first dungeon cell to see a nest of sniveling, squeaking rats."
     "As you step into the room all the rats rush by you in a frenzy."
     "Physically, you suffer only minor scratches, but mentally you are wounded by the sight."
-    call updateSanity(-10)
+    call updateSanity(-20)
     jump to_Dungeon
      
 label to_dungeon_2:
@@ -1203,6 +1214,7 @@ label examine_skull:
     $ menu_flag = True
     "You take a closer look at the skull and notice that it has become merged with the stone floor."
     "You also notice that there is a strange gaping hole that looks vaguely key-shaped in the center of the skull."
+    #TODO if skeleton key in bag, reveal ancient door.
     jump to_dungeon_2#_options
     
 label examine_ribs:
@@ -1211,6 +1223,7 @@ label examine_ribs:
     "All of a sudden a rat leaps from inside the skeleton and bites your arm."
     "You manage to bat it away and suffer no serious injuries, but you are shaken by the experience."
     jump to_dungeon_2#_options
+
 label examine_hands:
     $ menu_flag = True
     "You take a closer look at the hands and notice that they're gripping a piece of bread."
@@ -1225,7 +1238,7 @@ label eat_bread_dungeon:
     $ menu_flag = True
     "You take the bread from the skeleton's hands and eat it."
     "It's a bit dusty and stale but it helps settle your stomach, and calm your nerves."
-    call updateSanity(20)
+    call updateSanity(-20)
     jump to_dungeon_2#_options
     #restore sanity +10 if sanity < 100, else no change
      
@@ -1240,56 +1253,56 @@ label to_dungeon_3:
     jump to_dungeon_3
              
 label chained_husk:
-     $ menu_flag = True
-     "You step forward slowly and as you get closer you find the source of the rattling chains."
-     "Someone chained a husk up in this cell, and you can see its silhouette as it struggles uselessly against the chains."
-     "You feel badly for the creature but you know that whoever it was lost their mind long ago."
-     "You back out of the cell as the husk continues its struggle to break free."
-     jump to_Dungeon
+    $ menu_flag = True
+    "You step forward slowly and as you get closer you find the source of the rattling chains."
+    "Someone chained a husk up in this cell, and you can see its silhouette as it struggles uselessly against the chains."
+    "You feel badly for the creature but you know that whoever it was lost their mind long ago."
+    "You back out of the cell as the husk continues its struggle to break free."
+    jump to_Dungeon
      
 label to_dungeon_4:
-     $ menu_flag = True
-     "There is a strange golden light emanating from the fourth cell as you approach it."
-     "As you walk into the cell you see a room filled with treasures of gold and silver."
-     "One particular piece catches your eye."
-     menu:
-         "Take a closer look":
-             jump examine_gold_band
-         "Back out of the room":
-             jump to_Dungeon
-   #TODO jump  to_dungeon_4
+    $ menu_flag = True
+    "There is a strange golden light emanating from the fourth cell as you approach it."
+    "As you walk into the cell you see a room filled with treasures of gold and silver."
+    "One particular piece catches your eye."
+    menu:
+        "Take a closer look":
+            jump examine_gold_band
+        "Back out of the room":
+            jump to_Dungeon
+    jump to_dungeon_4
          
 label examine_gold_band:
-     $ menu_flag = True
-     "The piece that caught you eye is a particularly exquisite golden band."
-     menu:
-         "Take the golden band":
-             jump take_golden_band
-         "Leave the golden band":
-             jump to_dungeon_4#_options
-    #TODO examine_gold_band
+    $ menu_flag = True
+    "The piece that caught you eye is a particularly exquisite golden band."
+    menu:
+        "Take the golden band":
+            jump take_golden_band
+        "Leave the golden band":
+            jump to_dungeon_4#_options
+    jump examine_gold_band
              
 label take_golden_band:
-     $ menu_flag = True
-     "You pick up the golden band and put it into you bag."
-     $bag.items.append(Crown)
-     "You then back out of the fourth dungeon cell."
-     jump to_Dungeon
+    $ menu_flag = True
+    "You pick up the golden band and put it into you bag."
+    $bag.items.append(Crown)
+    "You then back out of the fourth dungeon cell."
+    jump to_Dungeon
      
 label from_basement:
-     $ menu_flag = True
-     "You walk up the stairs towards the first floor."
-     jump basement_door_to_first_floor
+    $ menu_flag = True
+    "You walk up the stairs towards the first floor."
+    jump basement_door_to_first_floor
 
-     label basement_door_to_first_floor:
-     "You see a closed door in front of you."
-     menu:
+    label basement_door_to_first_floor:
+    "You see a closed door in front of you."
+    menu:
         "Attempt to open the door":
             jump attemptToOpenBasementDoorToFirstFloor
         
         "Turn Back":
             jump to_basement
-    #TODO jump from_basement
+    jump from_basement
                   
 #when player doesn't have the basement key in their bag   
 label attemptToOpenBasementDoorToFirstFloor:
@@ -1307,79 +1320,67 @@ label attemptToOpenBasementDoorToFirstFloor:
 
 #***NEEDS TO BE IMPLEMENTED***#
 label up_level_2:
-    $ menu_flag = True
+    $ menu_flag=True
+    if bag.sanity > 50:
+        play music "audio/Awkward Meeting.mp3" fadein 1.0 loop
+    else:
+        play music "audio/One of Them (Edited).mp3" fadein 1.0 loop
+        "You go up the stairs to find yourself on the second floor."
+        "Before you there is a stairway going up and  several labeled doors: 'Green Room', 'Orange Room', 'Red Room', 'Purple Room' and 'Master Bedroom'.""There is an Office, a Bedroom, Game room, TV room, Nursery, Art studio, Charnel house and a room that looks as if it was the place of a large fire many years ago."
+        menu:
+            "Go to the Green Room":
+                jump green_room
+            "Go to the Orange Room":
+                jump orange_room
+            "Go to the Red Room":
+                jump red_room
+            "Go to the Purple Room":
+                jump purple_room
+            "Go to the Master Bedroom":
+                jump master_bedroom
+            "Go up the stairs in front of you":
+                jump up_level_3
+            "Go back down to the first floor":
+                jump entrance_hall
+        
+        
+ #***DO NOT PUT IMAGES IN THE HALLWAY JUMP CALLS, PUT THE IMAGES IN THE ROOM CALLS THEMSELVES***#          
+label back_level_2:
+    if bag.sanity > 50:
+        play music "audio/Awkward Meeting.mp3" fadein 1.0 loop
+    else:
+        play music "audio/One of Them (Edited).mp3" fadein 1.0 loop
+    "Before you there is a stairway going up and  several labeled doors: 'Green Room', 'Orange Room', 'Red Room', 'Purple Room' and 'Master Bedroom'."
+    menu:
+        "Go to the Green room":
+            jump green_room
+        "Go to the Orange Room":
+            jump orange_room  
+        "Go to the Red Room":
+            jump red_room
+        "Go to the Purple Room":
+            jump purple_room
+        "Go to the Master Bedroom":
+            jump master_bedroom
+        "Go up the stairs in front of you":
+            jump up_level_3
+        "Go back down to the first floor":
+            jump entrance_hall
 
-    "You go up the stairs to find yourself on the second floor."
-    "Before you there is a stairway going up and  several labeled doors: 'Green Room', 'Orange Room', 'Red Room', 'Purple Room' and 'Master Bedroom'."
-    menu:
-        "Go to the Green Room":
-            scene greenRoom
-            with fade
-            jump green_room
-        "Go to the Orange Room":
-            scene orangeRoom
-            with fade
-            jump orange_room
-        "Go to the Red Room":
-            scene redRoom
-            with fade
-            jump red_room
-        "Go to the Purple Room":
-            scene purpleRoom
-            with fade
-            jump purple_room
-        "Go to the Master Bedroom":
-            scene masterBedroom
-            with fade
-            jump master_bedroom
-        "Go up to the third floor":
-            jump up_level_3 #to the third floor
-        "Go back down the stairs to the main hall":
-            jump entrance_hall #to the mainhall on level 1
-            
-label return_level_2:
-    scene mainhall
-    with fade
-    $ menu_flag = True
-    "Before you there is a stairway going up and  several labeled doors: 'Green Room', 'Orange Room', 'Red Room', 'Purple Room' and 'Master Bedroom'."
-    menu:
-        "Go to the Green Room":
-            scene greenRoom
-            with fade
-            jump green_room
-        "Go to the Orange Room":
-            scene orangeRoom
-            with fade
-            jump orange_room
-        "Go to the Red Room":
-            scene redRoom
-            with fade
-            jump red_room
-        "Go to the Purple Room":
-            scene purpleRoom
-            with fade
-            jump purple_room
-        "Go to the Master Bedroom":
-            scene masterBedroom
-            with fade
-            jump master_bedroom
-        "Go up to the third floor":
-            jump up_level_3 #to the third floor
-        "Go back down the stairs to the main hall":
-            jump entrance_hall #to the mainhall on level 1
+
             
 label green_room:
     $ menu_flag = True
     "In the Green Room you see a bed, a desk and a closet."
     menu:
         "Search the bed":
-            jump search_green_bed
+           jump search_green_bed
         "Search the desk":
             jump search_green_desk
         "Search the closet":
             jump search_green_closet
         "Leave the room":
-            jump return_level_2
+            jump back_level_2
             
 label search_green_bed:
      $ menu_flag = True
@@ -1419,7 +1420,7 @@ label orange_room:
         "Search the closet":
             jump search_orange_closet
         "Leave the room":
-            jump return_level_2
+            jump back_level_2
             
 label search_orange_bed:
      $ menu_flag = True
@@ -1488,7 +1489,7 @@ label red_room:
         "Search the closet":
             jump search_red_closet
         "Leave the room":
-            jump return_level_2
+            jump back_level_2
 
 label search_red_bed:
      $ menu_flag = True
@@ -1506,7 +1507,7 @@ label red_husk_attack:
     "You lean in to get a closer look at the husk and it springs from the bed."
     "Before you know it you're being scratched and clawed by the rampaging husk!"
     "He beats you brutally and then runs away."
-    call updateLives(1)
+    call updateLives(10)
     "Luckily you have your first aid kit. You're alive but you had to use some of your supplies"
     jump red_room
     
@@ -1530,7 +1531,7 @@ label search_red_closet:
     "You open the door and see a rotting corpse inside."
     "The stench is horrible and the sight disturbs you."
     "You close the closet door and back away shaking."
-    call updateSanity(10)
+    call updateSanity(-20)
     jump red_room
      
 label purple_room:
@@ -1545,7 +1546,7 @@ label purple_room:
             "You approach the man, who seems to be writing on a pad of paper"
             jump talkToBasiltine
         "Leave the room":
-            jump return_level_2
+            jump back_level_2
 
 label search_purple_bed:
      $ menu_flag = True
@@ -1572,7 +1573,7 @@ label master_bedroom:
             call talkToAvidem
             jump master_bedroom
         "Leave the room":
-            jump return_level_2
+            jump back_level_2
             
 label bedroom_laundry_chute:
     $ menu_flag = True
@@ -1606,11 +1607,41 @@ label avidem_alive_nightstand:
     "You turn your head to look at the woman and her gaze bring you to your knees."
     "She gets up and approaches you, then leans over and whispers into your ear 'Get out'."
     "You scramble to your feet and sprint out of the room, terrified."
-    call updateSanity(10)
-    jump return_level_2
+    call updateSanity(-20)
+    jump back_level_2
     
 label up_level_3:
-    $ menu_flag = True
+     if bag.sanity > 50:
+        play music "audio/The Dread.mp3" fadein 1.0 loop
+     else:
+         play music "audio/Decay.mp3" fadein 1.0 loop
+         "You enter the main hallway of the third floor and you see 8 doors."
+         "There is an Office, a Bedroom, Game room, TV room, Nursery, Art studio, Charnel house and a room that looks as if it was the place of a large fire many years ago."
+         menu:
+             "Go to the Office":
+                 jump to_office_3
+             "Go to the Bedroom":
+                 jump to_bedroom_3
+             "Go to the Game room":
+                 jump to_game_room
+             "Go to the TV room":
+                 jump to_tv_room
+             "Go to the Nursery":
+                 jump to_nursery
+             "Go to the Art studio":
+                 jump to_art_studio
+             "Go to the Charnel house":
+                 jump to_charnel_house
+             "Go to the Burned room":
+                 jump to_burned_room
+             "Go down to the second floor":
+                 jump back_level_2
+            
+label back_level_3:
+    if bag.sanity > 50:
+        play music "audio/The Dread.mp3" fadein 1.0 loop
+    else:
+        play music "audio/Decay.mp3" fadein 1.0 loop
     "You enter the main hallway of the third floor and you see 8 doors."
     "There is an Office, a Bedroom, Game room, TV room, Nursery, Art studio, Charnel house and a room that looks as if it was the place of a large fire many years ago."
     menu:
@@ -1631,30 +1662,7 @@ label up_level_3:
         "Go to the Burned room":
             jump to_burned_room
         "Go down to the second floor":
-            jump return_level_2
-            
-label return_level_3:
-    $ menu_flag = True
-    "There is an Office, a Bedroom, Game room, TV room, Nursery, Art studio, Charnel house and a room that looks as if it was the place of a large fire many years ago."
-    menu:
-        "Go to the Office":
-            jump to_office_3
-        "Go to the Bedroom":
-            jump to_bedroom_3
-        "Go to the Game room":
-            jump to_game_room
-        "Go to the TV room":
-            jump to_tv_room
-        "Go to the Nursery":
-            jump to_nursery
-        "Go to the Art studio":
-            jump to_art_studio
-        "Go to the Charnel house":
-            jump to_charnel_house
-        "Go to the Burned room":
-            jump to_burned_room
-        "Go down to the second floor":
-            jump return_level_2
+            jump back_level_2
             
 label to_office_3:
     $ menu_flag = True
@@ -1667,7 +1675,7 @@ label to_office_3:
         "Search the cabinet":
             jump office_cabinet_3
         "Leave the room":
-            jump return_level_3
+            jump back_level_3
             
 label office_desk_3:
     $ menu_flag = True
@@ -1682,7 +1690,7 @@ label office_table_3:
     "You decide that the map isn't worth taking so you leave the map on the table and back away."
     jump to_office_3
  
-#TODO add second Basement key
+# add second Basement key
 label office_cabinet_3:
     $ menu_flag = True
     "In the cabinet you find a key with a label reading 'Basement'."
@@ -1690,11 +1698,12 @@ label office_cabinet_3:
         "Take the key":
             jump take_key_3
         "Leave the key":
-            "you leave the key in the cabinet and back away."
+            "You leave the key in the cabinet and back away."
             jump to_office_3
             
 label take_key_3:
     $ menu_flag = True
+    $bag.items.append(SecondBasementKey)
     "You put the basement key into your bag."
     jump to_office_3
         
@@ -1709,7 +1718,7 @@ label to_bedroom_3:
         "Search the closet":
             jump bedroom_closet_3
         "Leave the room":
-            jump return_level_3
+            jump back_level_3
  
 label bedroom_bed_3:
     $ menu_flag = True
@@ -1720,18 +1729,19 @@ label bedroom_bed_3:
 label bedroom_desk_3:
     $ menu_flag = True
     "In the desk you find a strange looking key."
-    "Upon further examination you realize the key is crafted in the likeness of a skull with several bones protruding from it."
+    "Upon further examination you realize the key is crafted in the likeness of a skull, with several bones protruding from it."
     menu:
         "Take the skeleton key":
             jump take_skeleton_key
         "Leave the skeleton key":
-            "you leave the skeleton in the desk and back away."
+            "You leave the skeleton in the desk and back away."
             jump to_bedroom_3
 
-#TODO add skeleton key
+# add skeleton key
 label take_skeleton_key:
     $ menu_flag = True
     "You put the skeleton key into your bag."
+    $bag.items.append(SkeletonKey)
     jump to_bedroom_3
 
 label bedroom_closet_3:
@@ -1746,11 +1756,12 @@ label bedroom_closet_3:
 label open_closet_3:
     $ menu_flag = True
     "You open the closet door to see a husk staring back at you."
-    "As you begin to back away it leaps at you weilding a letter opener."
-    "The husk attempts to stab you several times, he manages to get only one good strike on your side."
-    "You push the husk down and sprint for the door, and you manage to escape with only one stab wound."
-    jump return_level_3
-#TODO lose 1 health here^^^
+    "As you begin to back away it leaps at you wielding a letter opener!"
+    "The husk attempts to stab you several times, but he manages to get only one good strike on your side."
+    "You knock the husk down and sprint for the door, managing to escape with only one stab wound."
+    call updateLives(10)
+    jump back_level_3
+# lose 1 health here^^^
 
 label to_game_room:
     $ menu_flag = True
@@ -1759,14 +1770,54 @@ label to_game_room:
         "Approach the table":
             jump game_room_table
         "Leave the room":
-            jump return_level_3
+            jump back_level_3
 
 label game_room_table:
     $ menu_flag = True
-    "As you approach the table you see a chess board."
+    "You see a chess board with only one of each black piece set up."
     menu:
-        "Chess things happen here":#TODO add chess options here  (just add menu options and comment in what they do and I can code it in)   
-            jump to_game_room #change this if neccesarry
+        "Move the Pawn":
+            "Nothing happens."
+        "Move the Rook":
+            "The chess piece won't budge."
+        "Move the Knight":
+            "As you touch the chess piece, a chilling wind whips through the room."
+            "Do you really want to move it?"
+            menu:
+                "Yes":
+                    "A noise comes from behind you"
+                    "You turn around an a ghostly knight is standing inches from you"
+                    if Sword in bag:
+                        "You pull the sword that you found in the chess table from your bag and swing it before the knight has a chance to attack"
+                        "Suddenly all the armor falls to the ground in a pile, as if the person inside suddenly vanished..."
+                        $knightDead = True
+                    else:
+                        "Before you have time to react the knight slams you with his sword."
+                        $bag.lives -= 15
+                        "You black out."
+                        "You wake up laying on the floor in front of the chess table."
+                        "Maybe you could have defeated the knight if you had a better weapon..."
+                        "Perhaps you should look closer at the chess board?"
+                "No":
+                    jump game_room_table
+           
+        "Move the Bishop":
+            "Moving the chess piece reveals a slip of paper that was hidden underneath. It reads:"
+            "'If you are wise, heed this order; Consort, Chivalry, Checkmate.'"
+        "Move the Queen":
+            "After moving the piece, you hear a soft click."
+            "A hidden drawer, containing something that looks like a sword, slides out of the table."
+            $bag.items.append(Sword)
+        "Move the King": #if the knight is dead, give glass key, else nothing
+            if knightDead:
+                "The king moves to reveal a small compartment containing a glass key."
+                "You take it and put it in your bag."
+                $bag.items.append(GlassKey)
+            else:
+                "The king wont budge"
+        "Back away":   
+            jump to_game_room
+    jump game_room_table
         
 label to_tv_room:
     $ menu_flag = True
@@ -1775,7 +1826,7 @@ label to_tv_room:
         "Take a closer look":
             jump look_tv
         "Leave the room":
-            jump return_level_3
+            jump back_level_3
 
 label look_tv:
     $ menu_flag = True
@@ -1793,7 +1844,7 @@ label to_nursery:
         "Search the crib":
             jump search_crib
         "Leave the room":
-            jump return_level_3
+            jump back_level_3
             
 label search_toy_chest:
     $ menu_flag = True
@@ -1803,12 +1854,13 @@ label search_toy_chest:
         "Take the crown":
             jump take_toy_crown
         "Leave the crown":
-            "You leave the toy crown in the toy chest and back away."
+            "You leave the crown in the toy chest and back away."
             jump to_nursery
             
 label take_toy_crown:
     $ menu_flag = True
-    "You take the crown and put it into your bag." #TODO add toy crown to the bag
+    $bag.items.append(FakeCrown)
+    "You take the crown and put it into your bag." # add toy crown to the bag *NOTE* toy crown is the fake crown
     jump to_nursery
     
 label search_toy_pile:
@@ -1823,7 +1875,8 @@ label search_toy_pile:
             
 label take_matches:
     $ menu_flag = True
-    "You take the box of matches and put it into your bag." #TODO add matches to the bag
+    $bag.items.append(Matches)
+    "You take the box of matches and put it into your bag." # add matches to the bag
     jump to_nursery
     
 label search_crib:
@@ -1848,10 +1901,10 @@ label to_painting:
 label to_charnel_house:
     $ menu_flag = True
     "Upon entering the room you see several large meat hooks swaying back and forth."
-    "You don't know why but you are extremely unsettled by the hooks."
+    "You don't know why, but you are extremely unsettled by the hooks."
     menu:
         "Turn back":
-            jump return_level_3
+            jump back_level_3
         "Keep going":
             jump inside_charnel_house
             
@@ -1862,7 +1915,7 @@ label inside_charnel_house:
         "Search the table":
             jump search_charnel_table
         "Leave the room":
-            jump return_level_3
+            jump back_level_3
             
 label search_charnel_table:
     $ menu_flag = True
@@ -1876,7 +1929,7 @@ label search_charnel_table:
             
 label take_chainsaw:
     $ menu_flag = True
-    "You take the chainsaw and stuff it into your bag. To your suprise the chainsaw fits inside."
+    "You take the chainsaw and stuff it into your bag. To your surprise the chainsaw fits inside."
     jump inside_charnel_house
 
 label to_burned_room:
@@ -1888,21 +1941,20 @@ label to_burned_room:
         "Search the corpse":
             jump search_corpse
         "Leave the room":
-            jump return_level_3
+            jump back_level_3
             
 label search_ash:
     $ menu_flag = True
-    "After digging through the ash pile you discover an old pacifer."
-    # jump take_pacifier?
-    "You decide it's of no use to you, so you decide to  leave it where you found it and back away from the pile of ash."
+    "After digging through the ash pile you discover an old pacifier."
+    "You decide it's of no use to you, so you leave it and back away."
     jump to_burned_room
     
 label search_corpse:
-    "As you approach the corpse you notice that the body is charred and it's grasping something in its hands."
+    "As you approach the charred corpse you notice that it's grasping something in its hands."
     "You gingerly grab what looks like a note from the corpse's hands."
-    "You attempt to read the note but the note has been severely burned and you cannot decipher any useful information."
+    "You attempt to read the note, but it has been severely burned.You cannot decipher any useful information."
     jump to_burned_room #note has information?
-    
+
 label choice_end_game:  
     $renpy.full_restart()
     return

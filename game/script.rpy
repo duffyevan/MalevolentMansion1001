@@ -39,7 +39,8 @@ image burnedroom = im.Scale("images/Floor 3/burned-bedroom.jpg", 900,600)
 image office = im.Scale("images/Floor 3/office sane.jpg", 900,600)
 image emptybedroom = im.Scale("images/Floor 3/Sane Empty Room.jpg", 900,600)
 image nursery = im.Scale("images/Floor 3/Nursery Sane.jpg", 900,600)
-image TVroom = im.Scale("imags/Floor 3/TV room Sane.jpg", 900,600)
+image TVroom = im.Scale("images/Floor 3/TV room Sane.jpg", 900,600)
+image artroom = im.Scale("images/Floor 3/art studio Sane.jpg", 900,600)
 
 
 
@@ -557,8 +558,8 @@ label setupItemSystem:
         Knife = Item("Knife", "An old bloody kitchen knife.", True,False)
         Gem = Item("Gem", "A glittering red gem, it must be expensive. It has a mysterious aura about it...",False,False)
         GoldNugget = Item("Gold Nugget", "A small lump of shiny gold, it weighs about as much as you would expect the crown to weigh.",False,False)
-        Crown = Item("Crown (Real)", "A shiny gold band, I wonder if its real?",False,False)
-        FakeCrown = Item("Crown (FakeCrown)", "A glittering gold crown, I wonder if its real?",False,False)
+        Crown = Item("Gold Band", "A shiny gold band, I wonder if its real?",False,False)
+        FakeCrown = Item("Toy Crown", "A glittering gold crown, I wonder if its real?",False,False)
         PlainKey1 = Item("Plain Key", "A plain old key.",False, False)
         Hammer = Item("Hammer", "A lightly rusted hammer with a wooden handle. It looks like it's seen years of use.",False,False)
         SpareParts = Item("Spare Parts", "Some old parts that look like they go to an engine.", False,False)
@@ -1693,20 +1694,34 @@ label up_level_3:
          "There is an Office, a Bedroom, Game room, TV room, Nursery, Art studio, Charnel house and a room that looks as if it was the place of a large fire many years ago."
          menu:
              "Go to the Office":
+                 scene office
+                 with fade
                  jump to_office_3
              "Go to the Bedroom":
+                 scene emptybedroom
+                 with fade
                  jump to_bedroom_3
              "Go to the Game room":
+                 scene gameroom
+                 with fade
                  jump to_game_room
              "Go to the TV room":
+                 scene TVroom
+                 with fade
                  jump to_tv_room
              "Go to the Nursery":
+                 scene nursery
+                 with fade
                  jump to_nursery
              "Go to the Art studio":
+                 scene artstudio
+                 with fade
                  jump to_art_studio
              "Go to the Charnel house":
                  jump to_charnel_house
              "Go to the Burned room":
+                 scene burnedroom
+                 with fade
                  jump to_burned_room
              "Go down to the second floor":
                  jump return_level_2
@@ -1720,20 +1735,34 @@ label return_level_3:
     "There is an Office, a Bedroom, Game room, TV room, Nursery, Art studio, Charnel house and a room that looks as if it was the place of a large fire many years ago."
     menu:
         "Go to the Office":
+            scene office
+            with fade
             jump to_office_3
         "Go to the Bedroom":
+            scene emptybedroom
+            with fade
             jump to_bedroom_3
         "Go to the Game room":
+            scene gameroom
+            with fade
             jump to_game_room
         "Go to the TV room":
+            scene TVroom
+            with fade
             jump to_tv_room
         "Go to the Nursery":
+            scene nursery
+            with fade
             jump to_nursery
         "Go to the Art studio":
+            scene artroom
+            with fade
             jump to_art_studio
         "Go to the Charnel house":
             jump to_charnel_house
         "Go to the Burned room":
+            scene burnedroom
+            with fade
             jump to_burned_room
         "Go down to the second floor":
             jump return_level_2

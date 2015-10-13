@@ -671,7 +671,7 @@ label garageScene:
                     "Sure":
                         "You spend a few minutes fiddling with the spare parts that you put in the car."
                         $carFixed = True
-                        "The car seems like it should work now with the spare parts"
+                        "The car seems like it should work now with the spare parts, but you still need to turn it on."
                         if CarKeys in bag:
                             "Would you like to try to start the car with the keys that Archie gave you?"
                             menu:
@@ -681,6 +681,8 @@ label garageScene:
                                     jump escape
                                 "No":
                                     "You back away from the car."
+                        else
+                            "Looks like you'll need to find the keys to the car."
                     "No":
                         "You back away from the car."
                         jump garageScene
@@ -1202,6 +1204,7 @@ label examine_skull:
     $ menu_flag = True
     "You take a closer look at the skull and notice that it has become merged with the stone floor."
     "You also notice that there is a strange gaping hole that looks vaguely key-shaped in the center of the skull."
+    #TODO if skeleton key in bag, reveal ancient door.
     jump to_dungeon_2#_options
     
 label examine_ribs:
@@ -1363,9 +1366,9 @@ label return_level_2:
             scene masterBedroom
             with fade
             jump master_bedroom
-        "Go up the stairs in front of you":
+        "Go up the stairs in front of you": #TODO door is locked if you don't have Plain key
             jump up_level_3 #to the third floor
-        "Go back down the stairs to the main hall":
+        "Go back to the main hall":
             jump entrance_hall #to the mainhall on level 1
             
 label green_room:

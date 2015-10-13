@@ -1766,6 +1766,8 @@ label up_level_3:
                  jump return_level_2
             
 label return_level_3:
+    scene mainhall
+    with fade
     if bag.sanity > 50:
         play music "audio/The Dread.mp3" fadein 1.0 loop
     else:
@@ -2033,7 +2035,7 @@ label to_art_studio:
         "Approach the painting":
             jump to_painting
         "Leave the room":
-            jump to_art_studio
+            jump return_level_3
             
 label to_painting:
     $ menu_flag = True

@@ -515,21 +515,22 @@ label updateSanity(num):
     return
 
 label updateLives(num):
-    if Chainsaw in bag:
-        $num = 0
-    holdingLightWeapon = False
-    holdingHeavyWeapon = True
-    for i in bag:
-        if i.isWeapon:
-            if i.isHeavy:
-                holdingHeavyWeapon = True
-            else:
-                holdingLightWeapon = True
-    elif holdingHeavyWeapon:
-        $num = num * 0.25
-    elif holdingLightWeapon:
-        $num = num * 0.75
-    $bag.lives -= num
+    python:
+        holdingLightWeapon = False
+        holdingHeavyWeapon = False
+        for i in bag:
+            if i.isWeapon:
+                if i.isHeavy:
+                    holdingHeavyWeapon = True
+                else:
+                    holdingLightWeapon = True
+        if Chainsaw in bag:
+            num = 0
+        elif (holdingHeavyWeapon == True):
+            num = num * 0.25
+        elif holdingLightWeapon == True:
+            num = num * 0.75
+        bag.lives -= num
     if bag.lives <= 0:
         jump die
     return
@@ -575,7 +576,7 @@ label entrance_hall:
     scene mainhall
     if bag.sanity > 50:
         play music "audio/Epic Unease.mp3" fadein 1.0 loop
-    else
+    else:
         play music "audio/The Hive.mp3" fadein 1.0 loop
     "You're in the entrance hall of the mansion"
     "Where do you want to go?"

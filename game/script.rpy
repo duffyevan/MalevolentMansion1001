@@ -162,6 +162,8 @@ init python:
     firstTimeInGarage = True
     carFixed = False
     knightDead = False
+    eatenBread = False
+    ratsAttacked = False
     def showInventory(n, b): #Show the inventory in a ui.frame on top of the current frame
         ui.frame()
         c = "'s inventory: "
@@ -601,7 +603,6 @@ label entrance_hall:
             jump mainHallway
 
         "Go down the right hall":
-            # $bag.items.append(BasementKey) #For ease of debugging
             jump to_basement_door_from_mainhall
     jump entrance_hall
 
@@ -1246,10 +1247,13 @@ label to_Dungeon:
         
 label to_dungeon_1:
     $ menu_flag = True
-    "You walk into the first dungeon cell to see a nest of sniveling, squeaking rats."
-    "As you step into the room all the rats rush by you in a frenzy."
-    "Physically, you suffer only minor scratches, but mentally you are wounded by the sight."
-    call updateSanity(-20)
+    if not ratsAttacked:
+        ratsAttacked = True
+        "You walk into the first dungeon cell to see a nest of sniveling, squeaking rats."
+        "As you step into the room all the rats rush by you in a frenzy."
+        "Physically, you suffer only minor scratches, but mentally you are wounded by the sight."
+        call updateSanity(-20)
+    "Its just an empty cell..."
     jump to_Dungeon
      
 label to_dungeon_2:
@@ -1260,7 +1264,7 @@ label to_dungeon_2:
             jump examine_skull
         "Examine the ribs":
              jump examine_ribs
-        "Examine the hands":
+        "Examine the hands"if not eatenBread:
             jump examine_hands
         "Back out of the cell":
             jump to_Dungeon
@@ -1285,6 +1289,7 @@ label examine_hands:
     "You take a closer look at the hands and notice that they're gripping a piece of bread."
     menu:
         "Eat the bread":
+            $eatenBread = True
             jump eat_bread_dungeon
         "Back away from the skeleton":
             jump to_dungeon_2#_options

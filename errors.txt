@@ -2,9 +2,8 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 529: invalid syntax
-    elif (holdingHeavyWeapon == True):
-        ^
-    
+File "game/script.rpy", line 940: expected statement.
+    updateSanity(100)
+                     ^
 
 Ren'Py Version: Ren'Py 6.99.6.739

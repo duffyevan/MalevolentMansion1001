@@ -509,6 +509,10 @@ label inventory:
     return
 
 label updateSanity(num):
+    if bag.sanity > 50 and bag.sanity + num < 50:
+        play music "audio/The Hive.mp3" fadein 1.0 loop
+    elif  bag.sanity < 50 and bag.sanity + num > 50:
+        play music "audio/Epic Unease.mp3" fadein 1.0 loop
     $bag.updateSanity(num)
     if bag.sanity <= 0:
         jump goInsane
@@ -576,10 +580,6 @@ label setupItemSystem:
 label entrance_hall:
     hide kitchen
     scene mainhall
-    if bag.sanity > 50:
-        play music "audio/Epic Unease (Edited).mp3" fadein 1.0 loop
-    else:
-         play music "audio/The Hive.mp3" fadein 1.0 loop
     "You're in the entrance hall of the mansion."
     "Where do you want to go?"
     menu:
@@ -603,6 +603,10 @@ label entrance_hall:
         "Go down the right hall":
             # $bag.items.append(BasementKey) #For ease of debugging
             jump to_basement_door_from_mainhall
+
+        "Take sanity for debugging (20)":
+            call updateSanity(-20)
+    jump entrance_hall
         
 label to_garage:
     $ menu_flag = True
@@ -933,7 +937,7 @@ label kitchen:
                     "Eat it":
                         "The pie is delicious! It makes you feel a lot better."
                         "Your sanity was completely restored"
-                        $bag.sanity = 100
+                        call updateSanity(100)
                         $atePie = True
                         jump back
                     "Leave it":
@@ -1323,7 +1327,7 @@ label up_level_2:
     with fade
     if bag.sanity > 50:
        play music "audio/Awkward Meeting.mp3" fadein 1.0 loop
-   else:
+    else:
        play music "audio/One of Them (Edited).mp3" fadein 1.0 loop
 
     "You go up the stairs to find yourself on the second floor."
@@ -1359,7 +1363,7 @@ label return_level_2:
     with fade
     if bag.sanity > 50:
        play music "audio/Awkward Meeting.mp3" fadein 1.0 loop
-   else:
+    else:
        play music "audio/One of Them (Edited).mp3" fadein 1.0 loop
     "Before you there is a stairway going up and  several labeled doors: 'Green Room', 'Orange Room', 'Red Room', 'Purple Room' and 'Master Bedroom'."
     menu:

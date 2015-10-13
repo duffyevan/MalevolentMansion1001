@@ -1609,7 +1609,6 @@ label avidem_alive_nightstand:
     call updateSanity(-10)
     jump return_level_2
     
-    
 label up_level_3:
     $ menu_flag = True
     "You enter the main hallway of the third floor and you see 8 doors."

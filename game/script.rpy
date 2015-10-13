@@ -1284,19 +1284,19 @@ label examine_skull:
                     "Snake":
                         "The buttons reset..."
                     "Bird":
-                        "The button stayed pressed. What next"
+                        "The button stayed pressed. What next?"
                         menu:
                             "Snake":
                                     "The buttons reset..."
                             "Bird":
                                     "The buttons reset..."
                             "Fish":
-                                    "The buttons stayed pressed, what next"
+                                    "The buttons stayed pressed, what next?"
                                     menu:
                                         "Snake":
                                             "CLICK!"
-                                            "A part of the wall behind the skeleton just shifted back"
-                                            "Upon pushing the door you see the road where you entered the mansion"
+                                            "A part of the wall behind the skeleton just shifted back, revealing a hidden door."
+                                            "Upon pushing open the door you see a path leading away from the mansion!"
                                             "You run out to freedom..."
                                             jump escape
                                         "Bird":

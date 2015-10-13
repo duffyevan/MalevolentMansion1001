@@ -13,7 +13,8 @@ image road = im.Scale("images/road1.jpg",900,600)
 image car = im.Scale("images/car2.png",150,80)
 image hallway = im.Scale("images/hallway2.png",900,600)
 image garageBackground = im.Scale("images/garage.jpg",900,600)
-image ballroom = im.Scale("images/ballroom_reg.bmp",900,600)
+image litBallroom = im.Scale("images/ballroom_reg.bmp",900,600)
+image darkBallroom = im.Scale("images/Ballroom (Dim).png",900,600)
 image mainhall = im.Scale("images/mainhall.png",900,600)
 image mansion = im.Scale("images/Mansion.jpg",900,600)
 image mechnest = im.Scale("images/mechNest.jpg",900,600)
@@ -994,8 +995,11 @@ label kitchen:
             jump mainHallway
 
 label ballroom:
-    scene ballroom
-    with fade
+    if not ballroomLightsOff:
+        scene darkBallroom
+        with fade
+    else:
+        scene 
     label back2:
     if ballroomLightsOff:
         "The room is dark, too dark to see."
@@ -1005,6 +1009,8 @@ label ballroom:
     menu:
         "Flip the switch" if ballroomLightsOff:
             $ballroomLightsOff = False
+            scene litBallroom
+            with fade
             "You turn on the lights to the sight of many bodies hung from the ceiling, some of them still kicking."
             "The grisly sight disturbs you."
             call updateSanity(-20)
@@ -1039,7 +1045,7 @@ label garden:
     "What do you want to do?"
     menu:
         "Inspect the statue" if Flashlight in bag:
-            if gem not in bag:
+            if Gem not in bag:
                 "There's a notch in the statue next to its foot, do you want to investigate further?"
                 menu:
                     "Yes":
@@ -1248,7 +1254,7 @@ label to_Dungeon:
 label to_dungeon_1:
     $ menu_flag = True
     if not ratsAttacked:
-        ratsAttacked = True
+        $ratsAttacked = True
         "You walk into the first dungeon cell to see a nest of sniveling, squeaking rats."
         "As you step into the room all the rats rush by you in a frenzy."
         "Physically, you suffer only minor scratches, but mentally you are wounded by the sight."
@@ -1308,6 +1314,7 @@ label examine_skull:
 
                 #Bird fish snake
             "No":
+                "You back away from the skeleton"
 
     jump to_dungeon_2#_options
     

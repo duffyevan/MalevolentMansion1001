@@ -520,7 +520,7 @@ label updateLives(num):
     python:
         holdingLightWeapon = False
         holdingHeavyWeapon = False
-        for i in bag:
+        for i in bag.items:
             if i.isWeapon:
                 if i.isHeavy:
                     holdingHeavyWeapon = True
@@ -1138,7 +1138,7 @@ label read_cooking:
     $ menu_flag = True
     "You pick up the book, and flip through all the images of delicious looking foods."
     "You feel more relaxed and refreshed after viewing the book." # if sanity < 100 +20 sanity, else no change
-    call updateSanity(20)
+    call updateSanity(-20)
     "You put the book back into place and step away from the bookcase."
     jump bookChoices
 
@@ -1225,7 +1225,7 @@ label eat_bread_dungeon:
     $ menu_flag = True
     "You take the bread from the skeleton's hands and eat it."
     "It's a bit dusty and stale but it helps settle your stomach, and calm your nerves."
-    call updateSanity(20)
+    call updateSanity(-20)
     jump to_dungeon_2#_options
     #restore sanity +10 if sanity < 100, else no change
      
@@ -1530,7 +1530,7 @@ label search_red_closet:
     "You open the door and see a rotting corpse inside."
     "The stench is horrible and the sight disturbs you."
     "You close the closet door and back away shaking."
-    call updateSanity(10)
+    call updateSanity(-10)
     jump red_room
      
 label purple_room:
@@ -1606,7 +1606,7 @@ label avidem_alive_nightstand:
     "You turn your head to look at the woman and her gaze bring you to your knees."
     "She gets up and approaches you, then leans over and whispers into your ear 'Get out'."
     "You scramble to your feet and sprint out of the room, terrified."
-    call updateSanity(10)
+    call updateSanity(-10)
     jump return_level_2
     
 label level_3:

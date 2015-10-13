@@ -1333,7 +1333,7 @@ label up_level_2:
             with fade
             jump master_bedroom
         "Go up the stairs in front of you":
-            jump level_3 #to the third floor
+            jump up_level_3 #to the third floor
         "Go back down the stairs to the main hall":
             jump entrance_hall #to the mainhall on level 1
             
@@ -1364,7 +1364,7 @@ label return_level_2:
             with fade
             jump master_bedroom
         "Go up the stairs in front of you":
-            jump level_3 #to the third floor
+            jump up_level_3 #to the third floor
         "Go back down the stairs to the main hall":
             jump entrance_hall #to the mainhall on level 1
             

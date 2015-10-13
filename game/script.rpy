@@ -1333,7 +1333,7 @@ label up_level_2:
             with fade
             jump master_bedroom
         "Go up the stairs in front of you":
-            jump level_3 #to the third floor
+            jump up_level_3 #to the third floor
         "Go back down the stairs to the main hall":
             jump entrance_hall #to the mainhall on level 1
             
@@ -1364,7 +1364,7 @@ label return_level_2:
             with fade
             jump master_bedroom
         "Go up the stairs in front of you":
-            jump level_3 #to the third floor
+            jump up_level_3 #to the third floor
         "Go back down the stairs to the main hall":
             jump entrance_hall #to the mainhall on level 1
             
@@ -1609,11 +1609,6 @@ label avidem_alive_nightstand:
     call updateSanity(-10)
     jump return_level_2
     
-label level_3:
-    $ menu_flag = True
-    "You attempt to go up the stairs but you feel a strong urge of dread as you begin ascending."
-    "You try to ignore it but it's too strong and you turn around and go back down to the second floor."
-    jump return_level_2
     
 label up_level_3:
     $ menu_flag = True

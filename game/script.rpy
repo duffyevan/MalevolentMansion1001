@@ -1274,7 +1274,41 @@ label examine_skull:
     $ menu_flag = True
     "You take a closer look at the skull and notice that it has become merged with the stone floor."
     "You also notice that there is a strange gaping hole that looks vaguely key-shaped in the center of the skull."
-    #TODO if skeleton key in bag, reveal ancient door.
+    if SkeletonKey in bag:
+        "Would you like to insert you skeleton key?"
+        menu:
+            "Yes":
+                "You now realize that there are three small buttons on the skull. You assume that you need to press them in a certain order. "
+                "The three buttons are Snake Bird and Fish, which do you want to start with?"
+                menu:
+                    "Snake":
+                        "The buttons reset..."
+                    "Bird":
+                        "The button stayed pressed. What next"
+                        menu:
+                            "Snake":
+                                    "The buttons reset..."
+                            "Bird":
+                                    "The buttons reset..."
+                            "Fish":
+                                    "The buttons stayed pressed, what next"
+                                    menu:
+                                        "Snake":
+                                            "CLICK!"
+                                            "A part of the wall behind the skeleton just shifted back"
+                                            "Upon pushing the door you see the road where you entered the mansion"
+                                            "You run out to freedom..."
+                                            jump escape
+                                        "Bird":
+                                            "The buttons reset..."
+                                        "Fish":
+                                            "The buttons reset..."
+                    "Fish":
+                        "The buttons reset..."
+
+                #Bird fish snake
+            "No":
+
     jump to_dungeon_2#_options
     
 label examine_ribs:

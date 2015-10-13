@@ -602,9 +602,6 @@ label entrance_hall:
         "Go down the right hall":
             # $bag.items.append(BasementKey) #For ease of debugging
             jump to_basement_door_from_mainhall
-
-        "Take sanity for debugging (20)":
-            call updateSanity(-20)
     jump entrance_hall
 
 label mainHallway:

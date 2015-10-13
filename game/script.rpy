@@ -34,6 +34,12 @@ image Phoebe = im.Scale("images/NPCs/Phoebe.png", 900,600)
 image Harold = im.Scale("images/NPCs/Harold.png", 900,600)
 image litGarden = im.Scale("images/garden Sane.png", 900,600)
 image darkGarden = im.Scale("images/garden (Dim).png", 900,600)
+image gameroom = im.Scale("images/Floor 3/Game Room Sane.jpg", 900,600)
+image burnedroom = im.Scale("images/Floor 3/burned-bedroom.jpg", 900,600)
+image office = im.Scale("images/Floor 3/office sane.jpg", 900,600)
+image emptybedroom = im.Scale("images/Floor 3/Sane Empty Room.jpg", 900,600)
+image nursery = im.Scale("images/Floor 3/Nursery Sane.jpg", 900,600)
+image TVroom = im.Scale("imags/Floor 3/TV room Sane.jpg", 900,600)
 
 
 

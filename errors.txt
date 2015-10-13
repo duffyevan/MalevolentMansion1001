@@ -2,8 +2,8 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 940: expected statement.
-    updateSanity(100)
-                     ^
+File "game/script.rpy", line 1034: expected statement.
+    %bag.items.append(Gem)
+                          ^
 
 Ren'Py Version: Ren'Py 6.99.6.739

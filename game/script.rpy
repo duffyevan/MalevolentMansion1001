@@ -12,11 +12,11 @@ define j = Character('John Doe', color="#c8ffc8")
 image road = im.Scale("images/road1.jpg",900,600)
 image car = im.Scale("images/car2.png",150,80)
 image hallway = im.Scale("images/hallway2.png",900,600)
-image garage = im.Scale("images/garage.png",900,600)
+image garageBackground = im.Scale("images/garage.jpg",900,600)
 image ballroom = im.Scale("images/ballroom_reg.bmp",900,600)
 image mainhall = im.Scale("images/mainhall.png",900,600)
 image mansion = im.Scale("images/Mansion.jpg",900,600)
-image mechnest = im.Scale("images/garage.jpg",900,600)
+image mechnest = im.Scale("images/mechNest.jpg",900,600)
 image Lab = im.Scale("images/lab-filler.jpg",900,600)
 image Dungeon = im.Scale("images/dungeon.png",900,600)
 image Library = im.Scale("images/library.png",900,600)
@@ -32,7 +32,8 @@ image masterBedroom = im.Scale("images/Floor 2/2nd Floor Master Bedroom.png", 90
 image Avidem = im.Scale("images/NPCs/Avidem.png", 900,600)
 image Phoebe = im.Scale("images/NPCs/Phoebe.png", 900,600)
 image Harold = im.Scale("images/NPCs/Harold.png", 900,600)
-
+image litGarden = im.Scale("images/garden Sane.png", 900,600)
+image darkGarden = im.Scale("images/garden (Dim).png", 900,600)
 
 
 
@@ -586,19 +587,11 @@ label entrance_hall:
         "Go down the left hall":
             jump to_garage
 
-        "Go into the kitchen":
-            "You enter a small, dark kitchen"
-            jump kitchen
-            
-        "Go into the laundry room":
-            jump laundryRoom
-
         "Go up the stairs":
             jump up_level_2
 
-        "Go into the ballroom":
-            "You enter a large ballroom"
-            jump ballroom
+        "Go straight into the main hallway":
+            jump mainHallway
 
         "Go down the right hall":
             # $bag.items.append(BasementKey) #For ease of debugging
@@ -607,6 +600,37 @@ label entrance_hall:
         "Take sanity for debugging (20)":
             call updateSanity(-20)
     jump entrance_hall
+
+label mainHallway:
+    scene hallway
+    "You're in the first floor hallway, where do you want to go?"
+    menu:
+        "Go into the kitchen":
+            "You enter a small, dark kitchen"
+            jump kitchen
+        
+        "Go into the laundry room":
+            "You enter a small room with cloths strewn about"
+            jump laundryRoom
+
+        "Go to the garden":
+            "You go out the back door to find a fenced off garden"
+            if Flashlight in bag:
+                "It's very dark. You take out your flashlight and turn it on."
+                "It easily illuminates the garden"
+                "There's a small flower bed with a dingy cement statue next to it."
+                scene litGarden
+            else:
+                "Its too dark to see..."
+                scene darkGarden
+            jump garden
+
+        "Go into the ballroom":
+            "You enter a large ballroom"
+            jump ballroom
+
+        "Go to the main entryway":
+            jump entrance_hall
         
 label to_garage:
     $ menu_flag = True
@@ -699,6 +723,8 @@ label garageScene:
                         jump escape
                     "No":
                         "You back away from the car."
+            elif CarKeys not in bag and carFixed:
+                "The car is fixed, all you need are the keys now..."
         "Go Back":
             jump entrance_hall
     jump garageScene
@@ -960,7 +986,7 @@ label kitchen:
                     jump back
 
         "Leave":
-            jump entrance_hall
+            jump mainHallway
 
 label ballroom:
     scene ballroom
@@ -980,7 +1006,7 @@ label ballroom:
             jump back2
 
         "Leave":
-            jump entrance_hall
+            jump mainHallway
     jump back2
 
 label laundryRoom:
@@ -1001,8 +1027,30 @@ label laundryRoom:
             jump back1
         "Leave":
             "You back out into the main hall."
-            jump entrance_hall
-    jump back1
+            jump mainHallway
+    jump laundryRoom
+
+label garden:
+    "What do you want to do?"
+    menu:
+        "Inspect the statue" if Flashlight in bag:
+            if gem not in bag:
+                "There's a notch in the statue next to its foot, do you want to investigate further?"
+                menu:
+                    "Yes":
+                        "You slide the foot to the side and a click comes from inside the statue."
+                        "A hole has opened up in the side of a statue. Inside is a beautiful red gem."
+                        "It must be important so you put it in your bag and take it with you."
+                        $bag.items.append(Gem)
+                    "No":
+                        "You back away from the statue"
+            else:
+                "The statue looks the same as when you left it"
+        "Leave":
+            jump mainHallway
+    jump garden 
+    #Avidem's key and stuff
+
 
 
 #this goes to the library        

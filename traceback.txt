@@ -1,22 +1,26 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/script.rpy", line 437, in script
-    if GoldNugget not in bag:
-SyntaxError: unexpected EOF while parsing (game/script.rpy, line 443)
+  File "game/script.rpy", line 617, in script
+    if flashlight in bag:
+  File "game/script.rpy", line 617, in <module>
+    if flashlight in bag:
+NameError: name 'flashlight' is not defined
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/script.rpy", line 437, in script
-    if GoldNugget not in bag:
+  File "game/script.rpy", line 617, in script
+    if flashlight in bag:
   File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\ast.py", line 1612, in execute
     if renpy.python.py_eval(condition):
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\python.py", line 1476, in py_eval
-    code = py_compile(code, 'eval')
-  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\python.py", line 512, in py_compile
-    raise e
-SyntaxError: unexpected EOF while parsing (game/script.rpy, line 443)
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\python.py", line 1477, in py_eval
+    return py_eval_bytecode(code, globals, locals)
+  File "C:\Users\Evan\Documents\Programming\RenPy\renpy-6.99.5-sdk\renpy\python.py", line 1472, in py_eval_bytecode
+    return eval(bytecode, globals, locals)
+  File "game/script.rpy", line 617, in <module>
+    if flashlight in bag:
+NameError: name 'flashlight' is not defined
 
 Windows-7-6.1.7601-SP1
 Ren'Py 6.99.6.739

@@ -69,7 +69,6 @@ screen say(who, what, side_image=None, two_window=False):
         yalign .02
         has vbox
         textbutton _("Inventory") action [Hide ("say"),Show("InventoryScreen")]
-    use quick_menu
 
 screen InventoryScreen:
     frame:
@@ -150,7 +149,6 @@ screen input(prompt):
         text prompt style "input_prompt"
         input id "input" style "input_text"
 
-    use quick_menu
 
 ##############################################################################
 # Nvl
@@ -201,7 +199,6 @@ screen nvl(dialogue, items=None):
 
     add SideImage() xalign 0.0 yalign 1.0
 
-    use quick_menu
 
 ##############################################################################
 # Main Menu

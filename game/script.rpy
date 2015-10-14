@@ -1502,9 +1502,16 @@ label up_level_2:
             with fade
             jump master_bedroom
         "Go up the stairs in front of you":
+            if PlainKey1 in bag:
+                "You unlocked the door with you plain key!"
+                jump up_level_3
+            else:
+                "There is a locked, plain door..."
+
             jump up_level_3 #to the third floor
         "Go back down the stairs to the main hall":
             jump entrance_hall #to the mainhall on level 1
+    jump up_level_2
             
 label return_level_2:
     scene mainhall
@@ -1535,10 +1542,17 @@ label return_level_2:
             scene masterBedroom
             with fade
             jump master_bedroom
-        "Go up the stairs in front of you": #TODO door is locked if you don't have Plain key
+        "Go up the stairs in front of you":
+            if PlainKey1 in bag:
+                "You unlocked the door with you plain key!"
+                jump up_level_3
+            else:
+                "There is a locked, plain door..."
+
             jump up_level_3 #to the third floor
         "Go back to the main hall":
             jump entrance_hall #to the mainhall on level 1
+    jump return_level_2
             
 label green_room:
     $ menu_flag = True

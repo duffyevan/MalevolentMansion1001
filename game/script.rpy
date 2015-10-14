@@ -606,7 +606,7 @@ label entrance_hall:
     if bag.sanity < 50: # The number here is percent, this can be changed to whatever you want under 100
         scene mainhall
         with fade
-     else:
+    else:
         scene mainhallInsane
         with fade
     "You're in the entrance hall of the mansion."
@@ -631,7 +631,7 @@ label entrance_hall:
     jump entrance_hall
 
 label mainHallway:
-   scene hallway
+    scene hallway
     "You're in the first floor hallway, where do you want to go?"
     menu:
         "Go into the kitchen":
@@ -978,7 +978,7 @@ label kitchen:
     if bag.sanity < 50: # The number here is percent, this can be changed to whatever you want under 100
         scene kitchen
         with fade
- else:
+    else:
         scene kitchenInsane
         with fade
     with fade
@@ -1046,10 +1046,10 @@ label ballroom:
     menu:
         "Flip the switch" if ballroomLightsOff:
             $ballroomLightsOff = False
-             if bag.sanity < 50: # The number here is percent, this can be changed to whatever you want under 100
+            if bag.sanity < 50: # The number here is percent, this can be changed to whatever you want under 100
                 scene litBallroom
                 with fade
-             else:
+            else:
                 scene ballroomInsane
                 with fade
             "You turn on the lights to the sight of many bodies hung from the ceiling, some of them still kicking."

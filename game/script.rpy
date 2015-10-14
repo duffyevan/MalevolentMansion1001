@@ -5,7 +5,7 @@
 ## CODE: Bailey Schmidt and Evan Duffy
 ## ART: Delores Jackson
 ## Beta as of 10/6/15
-## Warning: Many froot loops were consumed in the making of this game
+## Warning: Many froot loops and Ramen were consumed in the making of this game
 
 #get rid of menu options??? after weapon pickup, event happens, objective complete, enemy is killed, etc.
 define j = Character('John Doe', color="#c8ffc8")
@@ -44,6 +44,18 @@ image TVroom = im.Scale("images/Floor 3/TV room Sane.jpg", 900,600)
 image artroom = im.Scale("images/Floor 3/art studio Sane.jpg", 900,600)
 image Bas = im.Scale("images/NPCs/Archie.png", 900,600)
 
+image ballroomInsane = im.Scale("images/Ballroom Insane.png",900,600)
+image mainhallInsane = im.Scale("images/Main Hall- Insane.png",900,600)
+image LibraryInsane = im.Scale("images/library insane.png",900,600)
+image kitchenInsane = im.Scale("images/Kitchen Insane.png", 900, 600)
+image laundryRoomInsane = im.Scale("images/laundry insane.png", 900, 600)
+image gardenInsane = im.Scale("images/garden Insane.png", 900,600)
+image gameroomInsane = im.Scale("images/Floor 3/Game Room Insane.jpg", 900,600)
+image officeInsane = im.Scale("images/Floor 3/Office Insane.jpg", 900,600)
+image emptybedroomInsane = im.Scale("images/Floor 3/Insane Empty Room.jpg", 900,600)
+image nurseryInsane = im.Scale("images/Floor 3/Nursery Insane.jpg", 900,600)
+image TVroomInsane = im.Scale("images/Floor 3/TV room Insane.jpg", 900,600)
+image artroomInsane = im.Scale("images/Floor 3/art studio Insane.jpg", 900,600)
 
 define diss = Dissolve(1.0)
 
@@ -591,7 +603,12 @@ label setupItemSystem:
 
 label entrance_hall:
     hide kitchen
-    scene mainhall
+    if bag.sanity < 50: # The number here is percent, this can be changed to whatever you want under 100
+        scene mainhall
+        with fade
+     else:
+        scene mainhallInsane
+        with fade
     "You're in the entrance hall of the mansion."
     "Where do you want to go?"
     menu:
@@ -614,7 +631,7 @@ label entrance_hall:
     jump entrance_hall
 
 label mainHallway:
-    scene hallway
+   scene hallway
     "You're in the first floor hallway, where do you want to go?"
     menu:
         "Go into the kitchen":
@@ -632,7 +649,12 @@ label mainHallway:
                     "It's very dark. You take out your flashlight and turn it on."
                     "It easily illuminates the garden"
                     "There's a small flower bed with a dingy cement statue next to it."
-                    scene litGarden
+                    if bag.sanity < 50: # The number here is percent, this can be changed to whatever you want under 100
+                        scene gardenlit
+                        with fade
+                    else:
+                        scene gardenInsane
+                        with fade
                 else:
                     "Its too dark to see..."
                     scene darkGarden
@@ -953,7 +975,12 @@ label take_flask:
 label kitchen:
     #show kitchen but i don't have the assets for kitchen yet...
     # hide mainhall
-    scene kitchen
+    if bag.sanity < 50: # The number here is percent, this can be changed to whatever you want under 100
+        scene kitchen
+        with fade
+ else:
+        scene kitchenInsane
+        with fade
     with fade
     label back:
     "What do you want to do?"
@@ -1019,8 +1046,12 @@ label ballroom:
     menu:
         "Flip the switch" if ballroomLightsOff:
             $ballroomLightsOff = False
-            scene litBallroom
-            with fade
+             if bag.sanity < 50: # The number here is percent, this can be changed to whatever you want under 100
+                scene litBallroom
+                with fade
+             else:
+                scene ballroomInsane
+                with fade
             "You turn on the lights to the sight of many bodies hung from the ceiling, some of them still kicking."
             "The grisly sight disturbs you."
             call updateSanity(-20)
@@ -1031,7 +1062,12 @@ label ballroom:
     jump back2
 
 label laundryRoom:
-    scene laundryRoom
+    if bag.sanity < 50: # The number here is percent, this can be changed to whatever you want under 100
+        scene laundryRoom
+        with fade
+    else:
+        scene laundryRoomInsane
+        with fade
     with fade
     label back1:
     "What would you like to do?"
@@ -1094,8 +1130,12 @@ label to_Library:
     $menu_flag = True
     hide tunnel
     hide hallway
-    show Library
-    with fade
+    if bag.sanity < 50: # The number here is percent, this can be changed to whatever you want under 100
+        show Library
+        with fade
+    else:
+        scene LibraryInsane
+        with fade
     "You enter the library and see five bookcases."
     "The shelves  are labeled as follows: 'Mythology', 'Riddles', 'Self-Help', 'Medical' and 'Cooking'."
     label bookChoices:
@@ -1793,28 +1833,52 @@ label return_level_3:
     "There is an Office, a Bedroom, Game room, TV room, Nursery, Art studio, Charnel house and a room that looks as if it was the place of a large fire many years ago."
     menu:
         "Go to the Office":
-            scene office
-            with fade
+            if bag.sanity < 50: # The number here is percent, this can be changed to whatever you want under 100
+                scene office
+                with fade
+            else:
+                scene officeInsane
+                with fade
             jump to_office_3
         "Go to the Bedroom":
-            scene emptybedroom
-            with fade
+            if bag.sanity < 50: # The number here is percent, this can be changed to whatever you want under 100
+                scene emptybedroom
+                with fade
+            else:
+                scene emptybedroomInsane
+                with fade
             jump to_bedroom_3
         "Go to the Game room":
-            scene gameroom
-            with fade
+            if bag.sanity < 50: # The number here is percent, this can be changed to whatever you want under 100
+                scene gameroom
+                with fade
+            else:
+                scene gameroomInsane
+                with fade
             jump to_game_room
         "Go to the TV room":
-            scene TVroom
-            with fade
+            if bag.sanity < 50: # The number here is percent, this can be changed to whatever you want under 100
+                scene TVroom
+                with fade
+            else:
+                scene TVroomInsane
+                with fade
             jump to_tv_room
         "Go to the Nursery":
-            scene nursery
-            with fade
+            if bag.sanity < 50: # The number here is percent, this can be changed to whatever you want under 100
+                scene nursery
+                with fade
+            else:
+                scene nurseryInsane
+                with fade
             jump to_nursery
         "Go to the Art studio":
-            scene artroom
-            with fade
+            if bag.sanity < 50: # The number here is percent, this can be changed to whatever you want under 100
+                scene artroom
+                with fade
+            else:
+                scene artroomInsane
+                with fade
             jump to_art_studio
         "Go to the Charnel house":
             jump to_charnel_house
